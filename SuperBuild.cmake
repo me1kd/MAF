@@ -83,6 +83,9 @@ if(MAF_EVENT_BUS)
   
   set(MAF_DEPENDENCIES ${MAF_DEPENDENCIES} QtSOAP)
   include(CMakeExternals/External_QtSOAP.cmake)
+  
+  set(MAF_DEPENDENCIES ${MAF_DEPENDENCIES} KDSoap)
+  include(CMakeExternals/External_KDSoap.cmake)
 endif(MAF_EVENT_BUS)
 
 if(MAF_RESOURCES)

@@ -15,6 +15,7 @@
 
 include(${MAF_SOURCE_DIR}/CMakeExternals/Find_qxmlrpc.cmake)
 include(${MAF_SOURCE_DIR}/CMakeExternals/Find_QtSOAP.cmake)
+include(${MAF_SOURCE_DIR}/CMakeExternals/Find_KDSoap.cmake)
 
 ## #################################################################
 ## Init Project
@@ -41,7 +42,7 @@ mafMacroWrapTargetFiles()
  
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${PROJECT_LIBS})
-LINK_DIRECTORIES(${qxmlrpc_LIBRARY_DIRS})
+LINK_DIRECTORIES(${qxmlrpc_LIBRARY_DIRS} ${KDSoap_LIBRARY_DIRS})
 
 ## #################################################################
 ## Wrapping Build rules
