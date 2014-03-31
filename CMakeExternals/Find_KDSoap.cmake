@@ -3,7 +3,7 @@
 # Kewei Duan 31/03/2014
   
   SET(KDSoap_DIR "${MAF_EXTERNAL_BUILD_DIR}/Build/KDSoap")
-  FIND_PACKAGE(KDSoap REQUIRED)
+  #FIND_PACKAGE(KDSoap REQUIRED)
   #additional include directory
   INCLUDE_DIRECTORIES("${MAF_EXTERNAL_BUILD_DIR}/Build/KDSoap/include/" "${MAF_EXTERNAL_BUILD_DIR}/Build/KDSoap/include/KDSoapClient/" "${MAF_EXTERNAL_BUILD_DIR}/Build/KDSoap/include/KDSoapServer/")
   
