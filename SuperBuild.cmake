@@ -86,6 +86,9 @@ if(MAF_EVENT_BUS)
   
   set(MAF_DEPENDENCIES ${MAF_DEPENDENCIES} KDSoap)
   include(CMakeExternals/External_KDSoap.cmake)
+  
+  set(MAF_DEPENDENCIES ${MAF_DEPENDENCIES} WSF_CPP)
+  include(CMakeExternals/External_WSF_CPP.cmake)
 endif(MAF_EVENT_BUS)
 
 if(MAF_RESOURCES)
