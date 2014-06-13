@@ -74,7 +74,7 @@ Q_SIGNALS:
     mafCore::mafObject *rootSignal() const;
     
     /// Signal for calculating absolute pose matrix of a VME
-    mafResources::mafMatrixPointer absolutePoseMatrixSignal(mafCore::mafObjectBase *vme);
+    mafResources::mafMatrix4x4Pointer absolutePoseMatrixSignal(mafCore::mafObjectBase *vme);
 
 private Q_SLOTS:
     /// Return the current selected vme.
@@ -105,7 +105,7 @@ private Q_SLOTS:
     mafCore::mafObject *root() const;
     
     /// Return absolute pose matrix of a VME.
-    mafResources::mafMatrixPointer absolutePoseMatrix(mafCore::mafObjectBase *vme);
+    mafResources::mafMatrix4x4Pointer absolutePoseMatrix(mafCore::mafObjectBase *vme);
 
 protected:
     /// Object destructor

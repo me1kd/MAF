@@ -24,7 +24,6 @@
 
 #include <mafObjectBase.h>
 
-#include <fvupdater.h>
 
 #ifdef __APPLE__
 #define UI_PATH QString(QCoreApplication::instance()->applicationName()).append("/Contents/MacOS/")
@@ -1143,7 +1142,7 @@ void mafGUIManager::hideTooltip() {
 }
 
 void mafGUIManager::update() {
-    FvUpdater::sharedUpdater()->CheckForUpdatesNotSilent();
+    
 }
 
 void mafGUI::mafGUIManager::registerCallbacks()

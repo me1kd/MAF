@@ -209,11 +209,11 @@ mafCore::mafHierarchyPointer mafVMEManager::newVMEHierarchy() {
     return requestVMEHierarchy();
 }
 
-mafMatrixPointer mafVMEManager::absolutePoseMatrix(mafCore::mafObjectBase *vme) {
+mafMatrix4x4Pointer mafVMEManager::absolutePoseMatrix(mafCore::mafObjectBase *vme) {
     //calculate absolute matrix navigating hierarchy from leaf to root and compose the absolute pose matrix 
     //for vme.
-    mafMatrix *matrix = qobject_cast<mafVME *>(vme)->dataSetCollection()->itemAtCurrentTime()->poseMatrix();
-    mafMatrix *result = matrix->clone();
+    mafMatrix4x4 *matrix = qobject_cast<mafVME *>(vme)->dataSetCollection()->itemAtCurrentTime()->poseMatrix();
+    mafMatrix4x4 *result = new mafMatrix4x4(*matrix);
     
     if(m_VMEHierarchy == NULL) {
         return NULL;
@@ -224,7 +224,7 @@ mafMatrixPointer mafVMEManager::absolutePoseMatrix(mafCore::mafObjectBase *vme) 
     while(m_VMEHierarchy->hasParent()) {
         m_VMEHierarchy->moveTreeIteratorToParent();
         mafVME *parentVME = qobject_cast<mafVME *>(m_VMEHierarchy->currentData());
-        mafMatrix *matrixParentVME = parentVME->dataSetCollection()->poseMatrix();
+        mafMatrix4x4 *matrixParentVME = parentVME->dataSetCollection()->poseMatrix();
         *result = (*matrixParentVME) * (*result);
     }
         

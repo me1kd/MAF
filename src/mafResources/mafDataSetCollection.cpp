@@ -75,7 +75,7 @@ void mafDataSetCollection::setInterpolator(const QString &interpolator_type) {
 
 void mafDataSetCollection::setPose(double rx, double ry, double rz, double x, double y, double z, double t) {
     // Find the matrix at the given timestamp
-    mafMatrix *m = poseMatrix(t);
+    mafMatrix4x4 *m = poseMatrix(t);
     if(m == NULL) {
         return;
     }
@@ -89,7 +89,7 @@ void mafDataSetCollection::setPose(double rx, double ry, double rz, double x, do
 
 void mafDataSetCollection::setOrientation(double rx, double ry, double rz, double t) {
     // Find the matrix at the given timestamp
-    mafMatrix *m = poseMatrix(t);
+    mafMatrix4x4 *m = poseMatrix(t);
     if(m == NULL) {
         return;
     }
@@ -100,7 +100,7 @@ void mafDataSetCollection::setOrientation(double rx, double ry, double rz, doubl
 
 void mafDataSetCollection::orientations(double ori[3], double t) {
     // Find the matrix at the given timestamp
-    mafMatrix *m = poseMatrix(t);
+    mafMatrix4x4 *m = poseMatrix(t);
     if(m == NULL) {
         return;
     }
@@ -110,13 +110,13 @@ void mafDataSetCollection::orientations(double ori[3], double t) {
     double sx, sy;
 
     // Extract the rotation sub-matrix and calculate the angles considering the Yaw-Pitch-Roll convention.
-    nx = m->element(0,0);
-    ny = m->element(1,0);
-    nz = m->element(2,0);
-    ax = m->element(0,2);
-    ay = m->element(1,2);
-    sx = m->element(0,1);
-    sy = m->element(1,1);
+    nx = m->m[0][0];
+    ny = m->m[1][0];
+    nz = m->m[2][0];
+    ax = m->m[0][2];
+    ay = m->m[1][2];
+    sx = m->m[0][1];
+    sy = m->m[1][1];
 
     ori[Z_AXIS] = atan2(ny, nx);
     ori[Y_AXIS] = atan2(-nz, cos(ori[Z_AXIS])*nx + sin(ori[Z_AXIS])*ny);
@@ -133,7 +133,7 @@ void mafDataSetCollection::setPosition(double pos[3], double t) {
 
 void mafDataSetCollection::setPosition(double x, double y, double z, double t) {
     // Find the matrix at the given timestamp
-    mafMatrix *m = poseMatrix(t);
+    mafMatrix4x4 *m = poseMatrix(t);
     if(m == NULL) {
         return;
     }
@@ -144,20 +144,20 @@ void mafDataSetCollection::setPosition(double x, double y, double z, double t) {
 
 void mafDataSetCollection::position(double pos[3], double t) {
     // Find the matrix at the given timestamp
-    mafMatrix *m = poseMatrix(t);
+    mafMatrix4x4 *m = poseMatrix(t);
     if(m == NULL) {
         return;
     }
 
     // Extract the position vector from the matrix and write it into the array.
     for(int i = 0; i < 3; ++i) {
-        pos[i] = m->element(i, 3);
+        pos[i] = m->m[i][3];
     }
 }
 
-void mafDataSetCollection::setPose(const mafMatrix &matrix, double t) {
+void mafDataSetCollection::setPose(const mafMatrix4x4 &matrix, double t) {
     // Find the matrix at the given timestamp
-    mafMatrix *m = poseMatrix(t);
+    mafMatrix4x4 *m = poseMatrix(t);
     if(m == NULL) {
         return;
     }
@@ -166,9 +166,9 @@ void mafDataSetCollection::setPose(const mafMatrix &matrix, double t) {
     setModified();
 }
 
-void mafDataSetCollection::synchronizeItemWithPose(const mafMatrix &matrix, double t) {
+void mafDataSetCollection::synchronizeItemWithPose(const mafMatrix4x4 &matrix, double t) {
     // Find the matrix at the given timestamp
-    mafMatrix *m = poseMatrix(t);
+    mafMatrix4x4 *m = poseMatrix(t);
     if(m == NULL) {
         return;
     }
@@ -176,9 +176,9 @@ void mafDataSetCollection::synchronizeItemWithPose(const mafMatrix &matrix, doub
     setModified();
 }
 
-mafMatrix *mafDataSetCollection::poseMatrix(double t) {
+mafMatrix4x4 *mafDataSetCollection::poseMatrix(double t) {
     // Find the matrix at the given timestamp
-    mafMatrix *m = NULL;
+    mafMatrix4x4 *m = NULL;
     mafDataSet *item = itemAt(t);
     if(item != NULL) {
         m = item->poseMatrix();
@@ -189,46 +189,46 @@ mafMatrix *mafDataSetCollection::poseMatrix(double t) {
     return m;
 }
 
-void mafDataSetCollection::writePosition(double x, double y, double z, mafMatrix *m) {
+void mafDataSetCollection::writePosition(double x, double y, double z, mafMatrix4x4 *m) {
     // Write the position vector into the given matrix.
-    m->setElement(0,3,x);
-    m->setElement(1,3,y);
-    m->setElement(2,3,z);
+    m->m[0][3] = x;
+    m->m[1][3] = y;
+    m->m[2][3] = z;
 }
 
-void mafDataSetCollection::writeOrientation(double rx, double ry, double rz, mafMatrix *m) {
+void mafDataSetCollection::writeOrientation(double rx, double ry, double rz, mafMatrix4x4 *m) {
     // calculate the rotation sub-matrix considering the Yaw-Pitch-Roll convention.    
-    mafMatrix Rz;
-    Rz.setIdentity();
-    mafMatrix Ry;
-    Ry.setIdentity();
-    mafMatrix Rx;
-    Rx.setIdentity();
+    mafMatrix4x4 Rz;
+    Rz.setToIdentity();
+    mafMatrix4x4 Ry;
+    Ry.setToIdentity();
+    mafMatrix4x4 Rx;
+    Rx.setToIdentity();
 
     double rx_rad, ry_rad, rz_rad;
     rx_rad = degreesToRadiant(rx);
     ry_rad = degreesToRadiant(ry);
     rz_rad = degreesToRadiant(rz);
 
-    Rz.setElement(0,0,cos(rz_rad));
-    Rz.setElement(1,1,cos(rz_rad));
-    Rz.setElement(0,1,-sin(rz_rad));
-    Rz.setElement(1,0,sin(rz_rad));
+    Rz.m[0][0] = cos(rz_rad);
+    Rz.m[1][1] = cos(rz_rad);
+    Rz.m[0][1] = -sin(rz_rad);
+    Rz.m[1][0] = sin(rz_rad);
 
-    Ry.setElement(0,0,cos(ry_rad));
-    Ry.setElement(2,2,cos(ry_rad));
-    Ry.setElement(0,2,sin(ry_rad));
-    Ry.setElement(2,0,-sin(ry_rad));
+    Ry.m[0][0] = cos(ry_rad);
+    Ry.m[2][2] = cos(ry_rad);
+    Ry.m[0][2] = sin(ry_rad);
+    Ry.m[2][0] = -sin(ry_rad);
 
-    Rx.setElement(1,1,cos(rx_rad));
-    Rx.setElement(2,2,cos(rx_rad));
-    Rx.setElement(1,2,-sin(rx_rad));
-    Rx.setElement(2,1,sin(rx_rad));
+    Rx.m[1][1] = cos(rx_rad);
+    Rx.m[2][2] = cos(rx_rad);
+    Rx.m[1][2] = -sin(rx_rad);
+    Rx.m[2][1] = sin(rx_rad);
 
     // Store the old position for the matrix m
     double pos[3];
     for(int i = 0; i < 3; ++i) {
-        pos[i] = m->element(i, 3);
+        pos[i] = m->m[i][3];
     }
 
     // Copy into 'm' the result of the matrix multiplication.
@@ -330,8 +330,8 @@ mafDataSet *mafDataSetCollection::itemAt(double t) {
         // The collection is empty; this is the first item and can be added a default one.
         item = mafNEW(mafResources::mafDataSet);
         item->setParent(this);
-        mafMatrix *m = new mafMatrix();
-        m->setIdentity();
+        mafMatrix4x4 *m = new mafMatrix4x4();
+        m->setToIdentity();
         item->setPoseMatrix(m);
         insertItem(item, ts);
         item->release();

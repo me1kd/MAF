@@ -77,19 +77,6 @@ set(sep "^^")
 #DEPENDENCIES
 set(MAF_DEPENDENCIES)
 
-if(MAF_EVENT_BUS)
-  set(MAF_DEPENDENCIES ${MAF_DEPENDENCIES} qxmlrpc)
-  include(CMakeExternals/External_qxmlrpc.cmake)
-  
-  set(MAF_DEPENDENCIES ${MAF_DEPENDENCIES} QtSOAP)
-  include(CMakeExternals/External_QtSOAP.cmake)
-endif(MAF_EVENT_BUS)
-
-if(MAF_RESOURCES)
-  set(MAF_DEPENDENCIES ${MAF_DEPENDENCIES} OpenCV)
-  include(CMakeExternals/External_OpenCV.cmake)
-endif(MAF_RESOURCES)
-
 if(VTK_MAF)
     set(MAF_DEPENDENCIES ${MAF_DEPENDENCIES} VTK)
     include(CMakeExternals/External_VTK.cmake)
@@ -109,11 +96,6 @@ if(MAF_PLUGIN_ZIP)
   include(CMakeExternals/External_QuaZIP.cmake)
 endif(MAF_PLUGIN_ZIP)
 
-if(MAF_QTGUI)
-  set(MAF_DEPENDENCIES ${MAF_DEPENDENCIES} fervor)
-  include(CMakeExternals/External_fervor.cmake)
-endif(MAF_QTGUI)
-
 if(BUILD_WRAP)
   set(MAF_DEPENDENCIES ${MAF_DEPENDENCIES} PythonQt)
   include(CMakeExternals/External_PythonQt.cmake)
@@ -124,8 +106,9 @@ if(BUILD_QA)
 endif(BUILD_QA)
 
 #remove duplicates
-list(REMOVE_DUPLICATES MAF_DEPENDENCIES)
-
+if(${MAF_DEPENDENCIES})
+    list(REMOVE_DUPLICATES MAF_DEPENDENCIES)
+endif(${MAF_DEPENDENCIES})
 
 #############################################################################################
 ### Conditionnaly include ExternalProject Target

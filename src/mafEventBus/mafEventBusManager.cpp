@@ -11,8 +11,10 @@
 
 #include "mafEventBusManager.h"
 #include "mafTopicRegistry.h"
-#include "mafNetworkConnectorQtSoap.h"
-#include "mafNetworkConnectorQXMLRPC.h"
+#include "mafNetworkConnector.h"
+
+#include <QMutex>
+#include <QMutexLocker>
 
 using namespace mafEventBus;
 
@@ -29,7 +31,6 @@ mafEventBusManager::mafEventBusManager() : m_EnableEventLogging(false), m_LogEve
     qRegisterMetaType<mafEventBus::mafEventArgumentsListPointer>("mafEventBus::mafEventArgumentsListPointer");
     qRegisterMetaType<mafEventBus::mafRegisterMethodsMap>("mafEventBus::mafRegisterMethodsMap");
     qRegisterMetaType<QVariantList>("QVariantList");
-    qRegisterMetaType<xmlrpc::Variant>("xmlrpc::Variant");
 }
 
 mafEventBusManager::~mafEventBusManager() {
@@ -74,8 +75,7 @@ void mafEventBusManager::shutdown() {
 }
 
 void mafEventBusManager::initializeNetworkConnectors() {
-    plugNetworkConnector("SOAP", new mafNetworkConnectorQtSoap());
-    plugNetworkConnector("XMLRPC", new mafNetworkConnectorQXMLRPC());
+
 }
 
 bool mafEventBusManager::addEventProperty(const mafEvent &props) const {
