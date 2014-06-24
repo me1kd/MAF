@@ -20,7 +20,7 @@
 #include <mafExternalDataCodecVolume.h>
 #include <mafResourcesRegistration.h>
 
-#ifdef WIN32
+#if defined(_WIN32) || defined(WIN32)
     #define SERIALIZATION_LIBRARY_NAME "mafSerialization.dll"
 #else
     #ifdef __APPLE__

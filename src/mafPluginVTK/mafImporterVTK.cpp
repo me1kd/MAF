@@ -39,7 +39,7 @@ void mafImporterVTK::execute() {
         return;
     }
     
-    QByteArray ba = filename().toAscii();
+    QByteArray ba = filename().toLatin1();
     m_Reader->SetFileName(ba.constData());
     m_Reader->Update();
     

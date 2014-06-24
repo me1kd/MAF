@@ -10,6 +10,17 @@
 #
 
 MACRO(mafMacroInstallProject executable)
+
+set(IS_TEST 0)
+
+string(REGEX MATCH "(^mafQA$)|(.*Test$) | " IS_TEST ${PROJECT_NAME})
+
+if(IS_TEST)
+    qt5_use_modules(${PROJECT_NAME} Widgets Sql Concurrent Test)
+else(IS_TEST)
+    qt5_use_modules(${PROJECT_NAME} Widgets Sql Concurrent)
+endif(IS_TEST)
+
 SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}" )
 
 if(${executable})

@@ -54,7 +54,7 @@ private Q_SLOTS:
         // Import a VTK volume.
         m_Reader = vtkDataSetReader::New();
         fname = QDir::toNativeSeparators(fname);
-        QByteArray ba = fname.toAscii();
+        QByteArray ba = fname.toLatin1();
         m_Reader->SetFileName(ba.data());
         m_Reader->Update();
 

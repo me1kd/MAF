@@ -110,7 +110,7 @@ void mafVMEManager::initializeConnections() {
 void mafVMEManager::vmeSelect(mafObjectBase *vme) {
     mafVME *vme_to_select = qobject_cast<mafResources::mafVME *>(vme);
     if(NULL == vme_to_select) {
-        QByteArray ba = mafTr("Trying to select an object that not represent a mafVME.").toAscii();
+        QByteArray ba = mafTr("Trying to select an object that not represent a mafVME.").toLatin1();
         qWarning("%s", ba.data());
         return;
     }
@@ -120,7 +120,7 @@ void mafVMEManager::vmeSelect(mafObjectBase *vme) {
 
 void mafVMEManager::vmeAdd(mafObjectBase *vme) {
     if(NULL == vme) {
-        QByteArray ba = mafTr("Trying to add an object that not represent a mafVME.").toAscii();
+        QByteArray ba = mafTr("Trying to add an object that not represent a mafVME.").toLatin1();
         qWarning("%s", ba.data());
         return;
     }
@@ -135,7 +135,7 @@ void mafVMEManager::vmeAdd(mafObjectBase *vme) {
 void mafVMEManager::vmeRemove(mafObjectBase *vme) {
     mafVME *vme_to_remove = qobject_cast<mafResources::mafVME *>(vme);
     if(NULL == vme_to_remove) {
-        QByteArray ba = mafTr("Trying to remove an object that not represent a mafVME.").toAscii();
+        QByteArray ba = mafTr("Trying to remove an object that not represent a mafVME.").toLatin1();
         qWarning("%s", ba.data());
         return;
     }

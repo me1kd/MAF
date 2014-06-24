@@ -37,7 +37,7 @@
 #include <vtkRenderWindow.h>
 #include <QMainWindow>
 
-#ifdef WIN32
+#if defined(_WIN32) || defined(WIN32)
     #define TEST_LIBRARY_NAME "mafPluginVTK.dll"
 #else
   #ifdef __APPLE__
@@ -85,7 +85,7 @@ private Q_SLOTS:
         
         // Import a vtk volume.
         m_Reader = vtkDataSetReader::New();
-        QByteArray ba = m_VTKFile.toAscii();
+        QByteArray ba = m_VTKFile.toLatin1();
         m_Reader->SetFileName(ba.constData());
         m_Reader->Update();
         

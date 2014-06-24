@@ -57,7 +57,7 @@ void vtkMAFVolumeSlicerTest::TestVolumeSlicerSP() {
    QString fname(MAF_DATA_DIR);
    fname.append("/VTK/RectGrid2.vtk");
    fname = QDir::toNativeSeparators(fname);
-   QByteArray ba = fname.toAscii();
+   QByteArray ba = fname.toLatin1();
 
    VTK_CREATE(vtkDataSetReader, reader);
    VTK_CREATE(vtkMAFVolumeSlicer, slicer);

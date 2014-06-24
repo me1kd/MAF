@@ -31,17 +31,17 @@ char *mafExternalDataCodecBrickedVolume::encode(bool binary) {
     QFile bpiFile(url + ".bpi"), bevFile(url + ".bev"), bvFile(url + ".bv");
     QByteArray ba;
     if (!bpiFile.open(QIODevice::WriteOnly)) {
-        ba = mafTr("Not able to open file '%1'.bpi").arg(url).toAscii();
+        ba = mafTr("Not able to open file '%1'.bpi").arg(url).toLatin1();
         qCritical("%s", ba.data());
         return "";
     }
     if (!bevFile.open(QIODevice::WriteOnly)) {
-        ba = mafTr("Not able to open file '%1'.bev").arg(url).toAscii();
+        ba = mafTr("Not able to open file '%1'.bev").arg(url).toLatin1();
         qCritical("%s", ba.data());
         return "";
     }
     if (!bvFile.open(QIODevice::WriteOnly)) {
-        ba = mafTr("Not able to open file '%1'.bv").arg(url).toAscii();
+        ba = mafTr("Not able to open file '%1'.bv").arg(url).toLatin1();
         qCritical("%s", ba.data());
         return "";
     }
@@ -253,17 +253,17 @@ void * mafExternalDataCodecBrickedVolume::decode(int startPos[3], int dimensions
     QFile bpiFile(url + ".bpi"), bevFile(url + ".bev"), bvFile(url + ".bv");
     QByteArray ba;
     if (!bpiFile.open(QIODevice::ReadOnly)) {
-        ba = mafTr("Not able to open file '%1'.bpi").arg(url).toAscii();
+        ba = mafTr("Not able to open file '%1'.bpi").arg(url).toLatin1();
         qCritical("%s", ba.data());
         return 0;
     }
     if (!bevFile.open(QIODevice::ReadOnly)) {
-        ba = mafTr("Not able to open file '%1'.bev").arg(url).toAscii();
+        ba = mafTr("Not able to open file '%1'.bev").arg(url).toLatin1();
         qCritical("%s", ba.data());
         return 0;
     }
     if (!bvFile.open(QIODevice::ReadOnly)) {
-        ba = mafTr("Not able to open file '%1'.bv").arg(url).toAscii();
+        ba = mafTr("Not able to open file '%1'.bv").arg(url).toLatin1();
         qCritical("%s", ba.data());
         return 0;
     }

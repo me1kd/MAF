@@ -11,7 +11,7 @@
 
 #include <mafTestSuite.h>
 
-#ifdef WIN32
+#if defined(_WIN32) || defined(WIN32)
     #define TEST_LIBRARY_NAME "mafModuleTest.dll"
 #else
     #ifdef __APPLE__

@@ -135,7 +135,7 @@ void mafExporterVTKTest::exportVMEinVTKFile() {
     }
 
     vtkSmartPointer<vtkDataSetReader> reader = vtkSmartPointer<vtkDataSetReader>::New();
-    QByteArray ba = m_VTKFile.toAscii();
+    QByteArray ba = m_VTKFile.toLatin1();
     reader->SetFileName(ba.constData());
     reader->Update();
     

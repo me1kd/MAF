@@ -126,7 +126,7 @@ void mafImporterVTKTest::initializeTestData() {
     
     vtkSmartPointer<vtkPolyDataWriter> writer = vtkPolyDataWriter::New();
     writer->SetInputConnection(surfSphere->GetOutputPort());
-    QByteArray ba = m_VTKFile.toAscii();
+    QByteArray ba = m_VTKFile.toLatin1();
     writer->SetFileName(ba.constData());
     writer->SetFileTypeToBinary();
     bool written = writer->Write() != 0;

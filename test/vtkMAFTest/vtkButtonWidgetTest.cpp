@@ -102,7 +102,7 @@ void vtkButtonWidgetTest::TestButtonWidget() {
    QString fname(MAF_DATA_DIR);
    fname.append("/Images/beach.tif");
    fname = QDir::toNativeSeparators(fname);
-   QByteArray ba = fname.toAscii();
+   QByteArray ba = fname.toLatin1();
 
    VTK_CREATE(vtkTIFFReader, image1);
    image1->SetFileName(ba.data());
@@ -113,7 +113,7 @@ void vtkButtonWidgetTest::TestButtonWidget() {
    QString fname2(MAF_DATA_DIR);
    fname2.append("/Images/fran_cut.png");
    fname2 = QDir::toNativeSeparators(fname2);
-   ba = fname2.toAscii();
+   ba = fname2.toLatin1();
    
    VTK_CREATE(vtkPNGReader, image2);
    image2->SetFileName(ba.data());
@@ -336,7 +336,7 @@ void vtkButtonWidgetTest::TestButtonWidget() {
    QString fname3(MAF_DATA_DIR);
    fname3.append("/VTK/ironProt.vtk");
    fname3 = QDir::toNativeSeparators(fname3);
-   ba = fname3.toAscii();
+   ba = fname3.toLatin1();
    
    VTK_CREATE(vtkStructuredPointsReader, reader);
    reader->SetFileName(ba.data());

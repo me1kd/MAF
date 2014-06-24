@@ -96,6 +96,6 @@ QString mafScriptEditorECMAScript::interpret(const QString& command, const QStri
 }
 
 char *mafScriptEditorECMAScript::prompt(void) {
-    QByteArray ba = QString("\033[01;35mECMAScript\033[00m:\033[01;34m~\033[00m$ ").toAscii();
+    QByteArray ba = QString("\033[01;35mECMAScript\033[00m:\033[01;34m~\033[00m$ ").toLatin1();
     return ba.data();
 }

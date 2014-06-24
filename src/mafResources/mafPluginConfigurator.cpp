@@ -17,7 +17,7 @@ using namespace mafResources;
 void mafPluginConfigurator::parseDocument(QDomNode current) {
     mafEventBus::mafEventArgumentsList argList;
     mafCore::mafPluggedObjectsHash pluginHash;
-    QByteArray ba = current.nodeName().toAscii();
+    QByteArray ba = current.nodeName().toLatin1();
     char *name = ba.data();
     QDomNodeList dnl = current.childNodes();
     for (int n=0; n < dnl.count(); ++n) {

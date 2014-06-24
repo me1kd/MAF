@@ -42,6 +42,7 @@ private Q_SLOTS:
 
     /// Cleanup tes variables memory allocation.
     void cleanupTestCase() {
+		mafMessageHandler::instance()->shutdown();
     }
 
     /// Test the ID generation

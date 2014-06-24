@@ -95,7 +95,7 @@ void mafGUIManager::createToolbar(QDomElement node) {
     QString title = attributes.namedItem("title").nodeValue();
     QString actions = attributes.namedItem("actionList").nodeValue();
 
-    QByteArray ba = title.toAscii();
+    QByteArray ba = title.toLatin1();
     QToolBar *toolBar = m_MainWindow->addToolBar(tr(ba.constData()));
 
     QStringList actionList = actions.split(",");
@@ -118,18 +118,18 @@ void mafGUIManager::createAction(QDomElement node) {
 
     qDebug() << title << slot;
 
-    QByteArray ba = title.toAscii();
+    QByteArray ba = title.toLatin1();
     QAction *action = new QAction(QIcon(icon), mafTr(ba.constData()), this);
     action->setIconText(mafTr(ba.constData()));
     action->setObjectName(title);
 //    action->setShortcuts(QKeySequence::New);
-    ba = tip.toAscii();
+    ba = tip.toLatin1();
     action->setStatusTip(mafTr(ba.constData()));
     action->setCheckable(checkable.toInt() != 0);
     action->setChecked(checked.toInt() != 0);
     if (!slot.isEmpty()) {
         slot.prepend(CALLBACK_SIGNATURE);
-        ba = slot.toAscii();
+        ba = slot.toLatin1();
         connect(action, SIGNAL(triggered()), this, ba.constData());
     }
     if (!topic.isEmpty()) {
@@ -150,7 +150,7 @@ void mafGUIManager::createMenuItem(QDomElement node) {
     QString title = attributes.namedItem("title").nodeValue();
     QString parentName = attributes.namedItem("parent").nodeValue();
 
-    QByteArray ba = title.toAscii();
+    QByteArray ba = title.toLatin1();
     if (parentName.isEmpty()) {
         // Create a new menu item.
         QMenuBar *menuBar = m_MainWindow->menuBar();
@@ -196,7 +196,7 @@ void mafGUIManager::parseMenuAttributes(QDomNode current) {
 
 QDomNode mafGUIManager::parseMenuTree(QDomNode current) {
     // Get the menu items...
-    QByteArray ba = current.nodeName().toAscii();
+    QByteArray ba = current.nodeName().toLatin1();
     char *name = ba.data();
     QDomNodeList dnl = current.childNodes();
     for (int n=0; n < dnl.count(); ++n) {
@@ -355,11 +355,11 @@ void mafGUIManager::fillMenuWithPluggedObjects(mafCore::mafPluggedObjectsHash pl
         base_class = iter.key();
         if(base_class == "mafResources::mafOperation" || base_class == "mafResources::mafImporter" || 
            base_class == "mafResources::mafExporter" || base_class == "mafResources::mafView") {
-            QAction *action = new QAction(mafTr(objInfo.m_Label.toAscii()), NULL);
+            QAction *action = new QAction(mafTr(objInfo.m_Label.toLatin1()), NULL);
             QVariant data_type(objInfo.m_ClassType);
             action->setData(data_type);
             QMenu *menu;
-            QByteArray ba = base_class.toAscii();
+            QByteArray ba = base_class.toLatin1();
             char *bc = ba.data();
             if(base_class == "mafResources::mafOperation") {
                 // Add a new item to the operation's menu.

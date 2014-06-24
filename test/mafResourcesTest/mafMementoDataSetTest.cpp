@@ -18,7 +18,7 @@
 #include <mafProxy.h>
 #include <mafProxyInterface.h>
 
-#ifdef WIN32
+#if defined(_WIN32) || defined(WIN32)
 #define SERIALIZATION_LIBRARY_NAME "mafSerialization.dll"
 #else
 #ifdef __APPLE__
@@ -101,9 +101,9 @@ void testExternalDataCodecCustom::decode(const char *input_string, bool binary) 
 char *testExternalDataCodecCustom::encode(bool binary) {
     Q_UNUSED(binary);
     mafProxy<QString> *dataSet = mafProxyPointerTypeCast(QString, this->externalData());
-    QString dataString = dataSet->externalData()->toAscii();
+    QString dataString = dataSet->externalData()->toLatin1();
     char *output_string = new char[dataString.size()+1];
-    QByteArray ba = dataString.toAscii();
+    QByteArray ba = dataString.toLatin1();
     memcpy(output_string, ba.data(), dataString.size()+1);
     return output_string;
 

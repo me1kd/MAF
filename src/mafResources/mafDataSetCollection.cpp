@@ -68,7 +68,7 @@ void mafDataSetCollection::setInterpolator(const QString &interpolator_type) {
     if(new_interpolator) {
         setInterpolator(new_interpolator);
     } else {
-        QByteArray ba = mafTr("%1 does not represent a type of mafInterpolator.").arg(interpolator_type).toAscii();
+        QByteArray ba = mafTr("%1 does not represent a type of mafInterpolator.").arg(interpolator_type).toLatin1();
         qWarning("%s", ba.data());
     }
 }
@@ -183,7 +183,7 @@ mafMatrix4x4 *mafDataSetCollection::poseMatrix(double t) {
     if(item != NULL) {
         m = item->poseMatrix();
     } else {
-        QByteArray ba = mafTr("Item at timestamp %1 does not exist! Try 'insertItem' before.").arg(t).toAscii();
+        QByteArray ba = mafTr("Item at timestamp %1 does not exist! Try 'insertItem' before.").arg(t).toLatin1();
         qWarning("%s", ba.data());
     }
     return m;
@@ -289,12 +289,12 @@ bool mafDataSetCollection::setDataSet(mafDataSet *data, double t) {
 
             return true;
         } else {
-            ba = mafTr("Item at timestamp %1 can not be modified, because it doesn't exist! Try 'insertItem' before").arg(t).toAscii();
+            ba = mafTr("Item at timestamp %1 can not be modified, because it doesn't exist! Try 'insertItem' before").arg(t).toLatin1();
             qWarning("%s", ba.data());
             return false;
         }
     }
-    ba = mafTr("Item at timestamp %1 can not be accepted! Acceptable type is %2").arg(QString::number(t), m_DataTypeAccepted).toAscii();
+    ba = mafTr("Item at timestamp %1 can not be accepted! Acceptable type is %2").arg(QString::number(t), m_DataTypeAccepted).toLatin1();
     qWarning("%s", ba.data());
     return false;
 }

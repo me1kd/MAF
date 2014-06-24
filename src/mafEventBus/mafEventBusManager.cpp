@@ -306,7 +306,7 @@ void mafEventBusManager::startListen() {
     if(connector) {
         connector->startListen();
     } else {
-        QByteArray ba = mafTr("Server can not start. Create it first, then call startListen again!!").toAscii();
+        QByteArray ba = mafTr("Server can not start. Create it first, then call startListen again!!").toLatin1();
         qWarning("%s", ba.data());
     }
 }

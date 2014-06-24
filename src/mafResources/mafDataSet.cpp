@@ -136,7 +136,7 @@ void mafDataSet::setPoseMatrixString(const QString matrixString) {
     for ( ; i < numElement; i++ ) {
         list[i].toDouble(&ok);
         if (!ok || numElement != 16) {
-            QByteArray ba = mafTr("Trying to assign an invalid string to pose Matrix.").toAscii();
+            QByteArray ba = mafTr("Trying to assign an invalid string to pose Matrix.").toLatin1();
             qWarning("%s", ba.data());
             return;
         }

@@ -62,7 +62,7 @@ public:
         short xy[2];
         bool operator ==(const Point& operand) const 
         {
-#ifdef WIN32
+#if defined(_WIN32) || defined(WIN32)
             return *((int*)xy) == *((int*)operand.xy);
 #else
             return xy[0] == operand.xy[0] && xy[1] == operand.xy[1];

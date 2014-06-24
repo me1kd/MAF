@@ -28,10 +28,11 @@ typedef QList<QGenericArgument> mafArgumentList;
 
 namespace mafCore {
 
-#define mafCodeLocation __FILE__":"QTOSTRING(__LINE__)
+# define mafCodeLocation "\0" __FILE__ ":" QT_STRINGIFY(__LINE__)
+
 
 typedef long mafId;
-typedef QtMsgHandler mafMsgHandlingFunction;
+typedef QtMessageHandler mafMsgHandlingFunction;
 
 #define mafDateTimeLogFormat "dd-MMM-yyyy hh:mm:ss"
 

@@ -56,7 +56,7 @@ char * testExternalDataCodecCustom::encode(bool binary) {
     Q_UNUSED(binary);
     m_CodecString.clear();
     m_CodecString.append("Coded data");
-    m_ByteArray = m_CodecString.toAscii();
+    m_ByteArray = m_CodecString.toLatin1();
     return m_ByteArray.data();
 }
 //------------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ void mafExternalDataCodecTest::mafCodecAllocationTest() {
 
 void mafExternalDataCodecTest::encodeTest() {
     char * outputString = m_ExternalDataCodec->encode();
-    QByteArray ba = m_ExternalDataCodec->codecString().toAscii();
+    QByteArray ba = m_ExternalDataCodec->codecString().toLatin1();
     bool compare = strcmp(outputString, ba.data()) == 0;
     QVERIFY(compare);
 }
@@ -107,7 +107,7 @@ void mafExternalDataCodecTest::decodeTest() {
     QString res = "Coded data";
 
     // Call the encode function by passing the string as argument.
-    QByteArray ba = res.toAscii();
+    QByteArray ba = res.toLatin1();
     m_ExternalDataCodec->decode(ba.data());
 
     QString stringReturned(m_ExternalDataCodec->codecString());

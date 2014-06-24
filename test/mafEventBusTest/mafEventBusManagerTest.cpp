@@ -329,7 +329,7 @@ void mafEventBusManagerTest::eventNotificationBenchmarkTest() {
 }
 
 void mafEventBusManagerTest::remoteConnectionTest() {
-    m_EventBus->createServer("XMLRPC", 8000);
+    /*m_EventBus->createServer("XMLRPC", 8000);
     m_EventBus->startListen();
 
     m_EventBus->createClient("XMLRPC", "localhost", 8000);
@@ -355,7 +355,7 @@ void mafEventBusManagerTest::remoteConnectionTest() {
     QTime dieTime = QTime::currentTime().addSecs(3);
     while(QTime::currentTime() < dieTime) {
        QCoreApplication::processEvents(QEventLoop::AllEvents, 3);
-    }
+    }*/
 }
 
 void mafEventBusManagerTest::plugNetworkConnectorTest() {

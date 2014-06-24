@@ -83,22 +83,9 @@ MACRO(mafMacroInitProject test)
   ## Add the project binary dir as include dir for the .moc files.
   INCLUDE_DIRECTORIES("${PROJECT_BINARY_DIR}")
 
-  set(MY_MOC_CXX)
-  set(MY_UI_CXX)
-  set(QtApp_RCC_SRCS)
+  
   if(${test})
-    ## Moc the tests:
-    foreach(FILE_NAME_ABS ${implementation_file_list})
-      ## extract the base file name.
-      get_filename_component(FILE_NAME ${FILE_NAME_ABS} NAME_WE)
-      ## Exclude the main.cpp file (it doesn't ned to be 'mocced')
-      if(NOT ${FILE_NAME} STREQUAL "main")
-        ## Assign the moc custom filename
-        set(MOC_FILE "${FILE_NAME}.moc")
-        QT4_GENERATE_MOC(${FILE_NAME_ABS} ${MOC_FILE})
-        LIST(APPEND MY_MOC_CXX "${PROJECT_BINARY_DIR}/${MOC_FILE}")
-      endif(NOT ${FILE_NAME} STREQUAL "main")
-    endforeach()
+    
   else(${test})
     if(BUILD_QA)
     if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
@@ -114,20 +101,13 @@ MACRO(mafMacroInitProject test)
     ENDIF(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     endif(BUILD_QA)
   
-    QT4_WRAP_UI(MY_UI_CXX ${ui_file_list})
-    # generate rules for building source files from the resources
-    QT4_ADD_RESOURCES(QtApp_RCC_SRCS ${resource_file_list})
-    ## Moc the library's .h files
-
-    QT4_WRAP_CPP(MY_MOC_CXX ${include_file_list})
+    
     
   endif(${test})
   SET(PROJECT_SRCS 
     ${PROJECT_SRCS}
-    ${MY_MOC_CXX}
-    ${MY_UI_CXX}
-    ${QtApp_RCC_SRCS}
     )
+ 
 
   if(UNIX)
     if(BUILD_QA AND valgrind_FOUND)
@@ -148,8 +128,6 @@ MACRO(mafMacroInitProject test)
   
   # List libraries that are needed by this project.
   mafMacroGetTargetLibraries(dependency_libraries)
-  
-  
   
   SET(PROJECT_LIBS ${dependency_libraries})
 

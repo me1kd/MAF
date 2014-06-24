@@ -29,13 +29,13 @@ option(MAF_USE_GIT_PROTOCOL "If behind a firewall turn this off to use http inst
 ### Qt - Let's check if a valid version of Qt is available
 #############################################################################################
 
-FIND_PACKAGE(Qt4)
-IF(QT_FOUND)
+FIND_PACKAGE(Qt5 COMPONENTS core)
+IF(Qt5_FOUND)
   IF("${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}" VERSION_LESS "${minimum_required_qt_version}")
     MESSAGE(FATAL_ERROR "error: MAF requires Qt >= ${minimum_required_qt_version} -- you cannot use Qt ${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}.")
   ENDIF()
 ELSE()
-  MESSAGE(FATAL_ERROR "error: Qt4 was not found on your system. You probably need to set the QT_QMAKE_EXECUTABLE variable")
+  MESSAGE(FATAL_ERROR "error: Qt5 was not found on your system. You probably need to set the QT_QMAKE_EXECUTABLE variable")
 ENDIF()
 
 #############################################################################################
@@ -237,16 +237,10 @@ ExternalProject_Add(${proj}
     -DPYTHON_INCLUDE_DIR:PATH=${PYTHON_INCLUDE_DIR}
     -DPYTHON_LIBRARY:FILEPATH=${PYTHON_LIBRARY}
     # Qt
-    -DQT_QMAKE_EXECUTABLE:PATH=${QT_QMAKE_EXECUTABLE}
+    -DQt5_DIR:PATH=${Qt5_DIR}
     # VTK
     -DVTK_DIR:PATH=${VTK_DIR}
     #-DVTK_DEBUG_LEAKS:BOOL=${MAF_USE_VTK_DEBUG_LEAKS}
-    # qxmlrpc
-    -Dqxmlrpc_DIR:PATH=${qxmlrpc_DIR} # Findqxmlrpc expects qxmlrpc_DIR variable to be defined
-    # QtSOAP
-    -DQtSOAP_DIR:PATH=${QtSOAP_DIR} # FindQtSOAP expects QtSOAP_DIR variable to be defined
-    # OpenCV
-    -DOpenCV_DIR:PATH=${OpenCV_DIR} # FindOpenCV expects OpenCV_DIR variable to be defined
     # CTK
     -DCTK_DIR:PATH=${CTK_DIR}
     # MSVTK

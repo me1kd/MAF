@@ -20,7 +20,7 @@
 
 #define interval 500
 
-#ifdef WIN32
+#if defined(_WIN32) || defined(WIN32)
     #ifdef QT_DEBUG
         #define TIME_SPACE_LIBRARY_NAME "mafTimeSpace.dll"
     #else

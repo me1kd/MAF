@@ -30,7 +30,7 @@ char *mafExternalDataCodecVolume::encode(bool binary) {
     QString url = volume->fileName();
     QFile file(url);
     if (!file.open(QIODevice::WriteOnly)) {
-        QByteArray ba = mafTr("Not able to open file '%1'").arg(url).toAscii();
+        QByteArray ba = mafTr("Not able to open file '%1'").arg(url).toLatin1();
         qCritical("%s", ba.data());
         return "";
     }
@@ -110,7 +110,7 @@ void * mafExternalDataCodecVolume::decode(int startPos[3], int dimensions[3], in
     QString url = volume->fileName();
     QFile file(url);
     if (!file.open(QIODevice::ReadOnly)) {
-        QByteArray ba = mafTr("Not able to open file '%1'").arg(url).toAscii();
+        QByteArray ba = mafTr("Not able to open file '%1'").arg(url).toLatin1();
         qCritical("%s", ba.data());
         return 0;
     } 

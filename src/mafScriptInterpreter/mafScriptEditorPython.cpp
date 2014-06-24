@@ -119,7 +119,7 @@ QString mafScriptEditorPython::interpret(const QString& command, int *stat) {
     PyObject* empty = PyString_FromString("");
     PyObject_SetAttrString(catcher,"value", empty);
     
-    QByteArray ba = command.toAscii();
+    QByteArray ba = command.toLatin1();
     switch(PyRun_SimpleString(ba.constData())) {
         case  0:
             *stat = Status_Ok;
@@ -156,7 +156,7 @@ QString mafScriptEditorPython::interpret(const QString& command, const QStringLi
     PyObject *mod = PyImport_Import(modname);
     if (mod) {
 	    PyObject *mdict = PyModule_GetDict(mod);
-        QByteArray ba = command.toAscii();
+        QByteArray ba = command.toLatin1();
 	    PyObject *func = PyDict_GetItemString(mdict, ba.constData());
 	    if (func) {
 	        if (PyCallable_Check(func)) {
@@ -179,7 +179,7 @@ QString mafScriptEditorPython::interpret(const QString& command, const QStringLi
 }
 
 char *mafScriptEditorPython::prompt(void) {
-    QByteArray ba = QString("\033[01;35mpython\033[00m:\033[01;34m~\033[00m$ ").toAscii();
+    QByteArray ba = QString("\033[01;35mpython\033[00m:\033[01;34m~\033[00m$ ").toLatin1();
     return ba.data();
 }
 

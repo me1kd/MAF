@@ -154,7 +154,7 @@ void mafView::vmeSelect(mafObjectBase *node) {
     }
     if(NULL == node_to_select) {
         // Something wrong happened, generate a warning...
-        QByteArray ba = mafTr("Trying to select an object that is not present in tree.").toAscii();
+        QByteArray ba = mafTr("Trying to select an object that is not present in tree.").toLatin1();
         qWarning("%s", ba.data());
         return;
     }
@@ -225,7 +225,7 @@ void mafView::showSceneNode(mafSceneNode *node, bool show) {
         //if originally in visual pipe hash, is not present that binding data-pipe visual,
         // request to the PluginManager possible visual pipe accepting vme object.
         mafPluggedObjectInformationList *vpsHash = mafPluginManager::instance()->queryPluggedObjects("mafResources::mafPipeVisual");
-        QByteArray ba = mafTr("Visual pipe not found for '%1'!").arg(dataType).toAscii();
+        QByteArray ba = mafTr("Visual pipe not found for '%1'!").arg(dataType).toLatin1();
         qWarning("%s", ba.data());
     }
 

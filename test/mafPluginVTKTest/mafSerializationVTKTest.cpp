@@ -21,7 +21,7 @@
 #include <vtkPolyDataMapper.h>
 #include <vtkAlgorithmOutput.h>
 
-#ifdef WIN32
+#if defined(_WIN32) || defined(WIN32)
     #define SERIALIZATION_LIBRARY_NAME "mafSerialization.dll"
 #else
     #ifdef __APPLE__
@@ -61,7 +61,7 @@ testCustomManager::testCustomManager(QString code_location) : mafObjectBase(code
 }
 
 void testCustomManager::createdExtData(mafCore::mafProxyInterface *data) {
-    QByteArray ba = mafTr("External data loaded!!").toAscii();
+    QByteArray ba = mafTr("External data loaded!!").toLatin1();
     qDebug("%s", ba.data());
     QVERIFY(data != NULL);
 

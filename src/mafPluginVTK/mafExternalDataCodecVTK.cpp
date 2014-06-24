@@ -53,7 +53,7 @@ char *mafExternalDataCodecVTK::encode(bool binary) {
         //vtkDataSetWriter write some junk character at the end of the string,
         // so i must truncate the string..
         output.truncate(this->m_StringSize);
-        memcpy(output_string,output.toAscii(),this->m_StringSize+1);
+        memcpy(output_string,output.toLatin1(),this->m_StringSize+1);
     }
     return output_string;
 }

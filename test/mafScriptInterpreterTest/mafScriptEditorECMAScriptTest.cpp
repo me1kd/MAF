@@ -87,7 +87,7 @@ void mafScriptEditorECMAScriptTest::mafScriptEngineRegistrationTest() {
     double resDouble = m_ScriptEngine->variable("varDouble").toVariant().toDouble();
     QVERIFY(mafEquals(resDouble, varDouble));
 
-    QByteArray ba = obj->objectName().toAscii();
+    QByteArray ba = obj->objectName().toLatin1();
     char *varChar = ba.data();
     m_ScriptEngine->registerVariable(varChar, "varChar", "char variable");
     QString resChar = m_ScriptEngine->variable("varChar").toString();

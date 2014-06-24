@@ -14,7 +14,7 @@
 #include <mafEventBusManager.h>
 #include <mafCoreSingletons.h>
 
-#ifdef WIN32
+#if defined(_WIN32) || defined(WIN32)
     #define SERIALIZATION_LIBRARY_NAME "mafSerialization.dll"
 #else
     #ifdef __APPLE__
@@ -61,7 +61,7 @@ testCustomManager::testCustomManager(QString code_location) : mafObjectBase(code
 }
 
 void testCustomManager::createdMemento(mafCore::mafMemento *m) {
-    QByteArray ba = mafTr("Memento loaded!!").toAscii();
+    QByteArray ba = mafTr("Memento loaded!!").toLatin1();
     qDebug("%s", ba.data());
     QVERIFY(m != NULL);
     mafDEL(m);
