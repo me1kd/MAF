@@ -22,27 +22,27 @@ mafLoggerConsole::~mafLoggerConsole() {
 
 void mafLoggerConsole::loggedMessage(const QtMsgType type, const QString &msg) {
 	QString dt(QDateTime::currentDateTime().toString(mafDateTimeLogFormat));
-    printf("%s ---> " , dt.toLatin1());
+    printf("%s ---> " , dt.toStdString());
     switch (type) {
     case QtDebugMsg:
         if(logMode() == mafLogModeTestSuite) {
 			printf("%s %s\n", TEST_SUITE_LOG_PREFIX, msg.toLatin1());
         } else {
-			printf("Debug: %s\n", msg.toLatin1());
+			printf("Debug: %s\n", msg.toStdString());
         }
         break;
     case QtWarningMsg:
         if(logMode() == mafLogModeTestSuite) {
 			printf("%s %s\n", TEST_SUITE_LOG_PREFIX, msg.toLatin1());
         } else {
-			printf("Warning: %s\n", msg.toLatin1());
+			printf("Warning: %s\n", msg.toStdString());
         }
         break;
     case QtCriticalMsg:
-		printf("Critical: %s\n", msg.toLatin1());
+		printf("Critical: %s\n", msg.toStdString());
         break;
     case QtFatalMsg:
-		printf("Fatal: %s\n", msg.toLatin1());
+		printf("Fatal: %s\n", msg.toStdString());
         //abort();
         break;
     }

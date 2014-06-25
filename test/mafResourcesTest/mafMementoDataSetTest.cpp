@@ -161,9 +161,9 @@ void mafMementoDataSetTest::mafMementoDataSetCustomAllocationTest() {
     container.setExternalCodecType("CUSTOM");
     m_DataSet->setDataValue(&container);
 
-    mafMatrix *matrix = new mafMatrix();
-    matrix->setIdentity();
-    matrix->setElement(0,0,3);
+    mafMatrix4x4 *matrix = new mafMatrix4x4();
+    matrix->setToIdentity();
+    matrix->m[0][0] = 3;
 
     m_DataSet->setPoseMatrix(matrix);
 

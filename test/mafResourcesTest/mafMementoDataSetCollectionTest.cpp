@@ -93,9 +93,9 @@ void mafMementoDataSetCollectionTest::mafMementoDataSetCollectionAllocationTest(
     //Create dataset for the collection
     mafDataSet *firstData = mafNEW(mafResources::mafDataSet);
     mafDataSet *secondData = mafNEW(mafResources::mafDataSet);
-    mafMatrix *matrix = new mafMatrix();
-    matrix->setIdentity();
-    matrix->setElement(0,0,3);
+    mafMatrix4x4 *matrix = new mafMatrix4x4();
+    matrix->setToIdentity();
+    matrix->m[0][0] = 3;
     firstData->setPoseMatrix(matrix);
 
     //Fill the mafDataSetCollection

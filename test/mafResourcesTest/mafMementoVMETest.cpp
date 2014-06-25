@@ -199,9 +199,9 @@ void mafMementoVMETest::mafMementoVMECustomAllocationTest() {
     mafDataSet *dataSet = mafNEW(mafResources::mafDataSet);
     dataSet->setDataValue(&container);
 
-    mafMatrix *matrix = new mafMatrix();
-    matrix->setIdentity();
-    matrix->setElement(0,0,3);
+    mafMatrix4x4 *matrix = new mafMatrix4x4();
+    matrix->setToIdentity();
+    matrix->m[0][0] = 3.;
 
     dataSet->setPoseMatrix(matrix);
 
@@ -213,9 +213,9 @@ void mafMementoVMETest::mafMementoVMECustomAllocationTest() {
     mafDataSet *dataSet2 = mafNEW(mafResources::mafDataSet);
     dataSet2->setDataValue(&container2);
 
-    mafMatrix *matrix2 = new mafMatrix();
-    matrix2->setIdentity();
-    matrix2->setElement(1,0,5);
+    mafMatrix4x4 *matrix2 = new mafMatrix4x4();
+    matrix2->setToIdentity();
+    matrix2->m[1][0] = 5;
 
     dataSet2->setPoseMatrix(matrix2);
     

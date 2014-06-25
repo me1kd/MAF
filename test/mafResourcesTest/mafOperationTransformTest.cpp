@@ -49,8 +49,8 @@ private Q_SLOTS:
         
         m_VME = mafNEW(mafResources::mafVME);
         
-        mafMatrix *newMatrix = new mafMatrix();
-        newMatrix->setIdentity();
+        mafMatrix4x4 *newMatrix = new mafMatrix4x4();
+        newMatrix->setToIdentity();
 
         m_DataSet = mafNEW(mafResources::mafDataSet);
         m_DataSet->setPoseMatrix(newMatrix);
