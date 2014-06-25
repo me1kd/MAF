@@ -131,7 +131,7 @@ private Q_SLOTS:
     /// timer start test case.
     void startTimerTest();
     /// timer start on different thread test case.
-    void startTimerOnThreadTest();
+    //void startTimerOnThreadTest();
 
 private:
     mafEventBusManager *m_EventBus; ///< Event Bus manager instance.
@@ -194,7 +194,7 @@ void mafTimeManagerTest::startTimerTest() {
 
     qDebug() << "var value = " << m_ObjectTest->var();
 }
-void mafTimeManagerTest::startTimerOnThreadTest() {
+/*void mafTimeManagerTest::startTimerOnThreadTest() {
     m_ObjectTest->resetVar();
 
     // Start the timer in a separate thread.
@@ -208,7 +208,7 @@ void mafTimeManagerTest::startTimerOnThreadTest() {
     QTest::qWait(2000);
 
     qDebug() << "var value = " << m_ObjectTest->var();
-}
+}*/
 
 MAF_REGISTER_TEST(mafTimeManagerTest);
 #include "mafTimeManagerTest.moc"
