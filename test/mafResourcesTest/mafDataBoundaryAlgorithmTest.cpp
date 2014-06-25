@@ -32,10 +32,10 @@ public:
     testDataBoundaryAlgorithmCustom(const QString code_location = "");
 
     /// Algorithm that will be used to extract the boundary from the given data value and pose matrix.
-    /*virtual*/ mafProxyInterface *calculateBoundary(mafProxyInterface *data, mafMatrix *matrix);
+    /*virtual*/ mafProxyInterface *calculateBoundary(mafProxyInterface *data, mafMatrix4x4 *matrix);
 
     /// Algorithm that will be used to extract the boundary from the given bounds and pose matrix.
-    /*virtual*/ mafCore::mafProxyInterface *calculateBoundary(double bounds[6], mafMatrix *matrix = NULL);
+    /*virtual*/ mafCore::mafProxyInterface *calculateBoundary(double bounds[6], mafMatrix4x4 *matrix = NULL);
 
     /// Return bounds of the bounding box.
     /*virtual*/ void bounds(double bounds[6]);
@@ -54,7 +54,7 @@ QString testDataBoundaryAlgorithmCustom::boundaryItem() {
     return m_BoundaryItem;
 }
 
-mafProxyInterface *testDataBoundaryAlgorithmCustom::calculateBoundary(mafProxyInterface *data, mafMatrix *matrix) {
+mafProxyInterface *testDataBoundaryAlgorithmCustom::calculateBoundary(mafProxyInterface *data, mafMatrix4x4 *matrix) {
     Q_UNUSED(data);
     Q_UNUSED(matrix);
 
@@ -62,7 +62,7 @@ mafProxyInterface *testDataBoundaryAlgorithmCustom::calculateBoundary(mafProxyIn
     return NULL;
 }
 
-mafCore::mafProxyInterface *testDataBoundaryAlgorithmCustom::calculateBoundary(double bounds[6], mafMatrix *matrix){
+mafCore::mafProxyInterface *testDataBoundaryAlgorithmCustom::calculateBoundary(double bounds[6], mafMatrix4x4 *matrix){
     Q_UNUSED(bounds);
     Q_UNUSED(matrix);
 

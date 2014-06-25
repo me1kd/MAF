@@ -147,8 +147,8 @@ void mafCodecRawASCIITest::decodeTest() {
         QVERIFY(m_List.at(i).toString().compare(obj->tagList()->at(i).toString()) == 0);
     }
 
-    mafDEL(obj);
-    mafDEL(m);
+	mafDEL(m); // LEAK OR CRASH IN VS2013
+	mafDEL(obj);
 }
 
 

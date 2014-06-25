@@ -11,7 +11,7 @@
 
 #include <mafTestSuite.h>
 #include <mafResourcesDefinitions.h>
-#include <mafMatrix.h>
+#include <mafMatrix4x4.h>
 
 using namespace mafCore;
 using namespace mafEventBus;

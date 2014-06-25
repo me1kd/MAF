@@ -13,10 +13,6 @@
 ## Find the external packages.
 ## #################################################################
 
-include(${MAF_SOURCE_DIR}/CMakeExternals/Find_qxmlrpc.cmake)
-include(${MAF_SOURCE_DIR}/CMakeExternals/Find_QtSOAP.cmake)
-include(${MAF_SOURCE_DIR}/CMakeExternals/Find_OpenCV.cmake)
-
 ## #################################################################
 ## Init Project
 ## #################################################################

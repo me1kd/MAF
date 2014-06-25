@@ -43,6 +43,7 @@ private Q_SLOTS:
     /// Cleanup tes variables memory allocation.
     void cleanupTestCase() {
         mafDEL(m_CSVReader);
+		mafMessageHandler::instance()->shutdown();
     }
 
     /// mafCodecRawASCII allocation test case.

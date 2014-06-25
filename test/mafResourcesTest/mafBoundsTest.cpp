@@ -11,7 +11,7 @@
 
 #include <mafTestSuite.h>
 #include <mafBounds.h>
-#include <mafMatrix.h>
+#include <mafMatrix4x4.h>
 
 using namespace mafResources;
 
@@ -178,11 +178,11 @@ void mafBoundsTest::transformBoundsTest() {
     mafBounds *b0 = new mafBounds(b, mafCodeLocation);
 
     // Create a transformation matrix.
-    mafMatrix m;
-    m.setIdentity();
-    m.setElement(0, 3, 3);
-    m.setElement(1, 3, 2);
-    m.setElement(2, 3, 1);
+    mafMatrix4x4 m;
+    m.setToIdentity();
+    m.m[0][3] = 3.;
+	m.m[1][3] = 2.;
+    m.m[2][3] = 1.;
 
     // Transform the bounds using the matrix.
     b0->transformBounds(&m);
@@ -203,12 +203,12 @@ void mafBoundsTest::transformBoundsTest() {
     double bCube[6] = {-.5, .5, -.5, .5, -.5, .5};
     mafBounds *boundsCube = new mafBounds(bCube, mafCodeLocation);
 
-    mafMatrix *transformMatrix = new mafMatrix();
-    transformMatrix->setIdentity();
-    transformMatrix->setElement(0,0,0.707);
-    transformMatrix->setElement(0,1,-.707);
-    transformMatrix->setElement(1,0,.707);
-    transformMatrix->setElement(1,1,.707);
+    mafMatrix4x4 *transformMatrix = new mafMatrix4x4();
+    transformMatrix->setToIdentity();
+    transformMatrix->m[0][0] = 0.707;
+    transformMatrix->m[0][1] = -.707;
+    transformMatrix->m[1][0] = .707;
+    transformMatrix->m[1][1] = .707;
 
     boundsCube->transformBounds(transformMatrix);
     double x_min = boundsCube->xMin();

@@ -26,6 +26,7 @@ namespace mafResources {
  This class defines the 3D bounds used by VMEs.
  */
 class MAFRESOURCESSHARED_EXPORT mafBounds : public mafCore::mafReferenceCounted {
+	Q_OBJECT
     /// typedef macro.
     mafSuperclassMacro(mafCore::mafReferenceCounted);
 

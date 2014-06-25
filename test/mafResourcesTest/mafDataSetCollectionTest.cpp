@@ -12,7 +12,7 @@
 #include <mafTestSuite.h>
 #include <mafResourcesRegistration.h>
 #include <mafProxy.h>
-#include <mafMatrix.h>
+#include <mafMatrix4x4.h>
 #include <mafDataSetCollection.h>
 #include <mafDataSet.h>
 
@@ -182,9 +182,9 @@ void mafDataSetCollectionTest::collectionSynchronizePoseTest() {
     // reset the modify flag
     m_PoseObserver->resetModifyFlag();
 
-    mafMatrix m;
-    m.setIdentity();
-    m.setElement(0, 1, 2.5);
+    mafMatrix4x4 m;
+    m.setToIdentity();
+    m.m[0][1] = 2.5;
 
     // Assign a pose matrix (collection notify the changes)
     m_Collection->setPose(m);
@@ -194,7 +194,7 @@ void mafDataSetCollectionTest::collectionSynchronizePoseTest() {
     // reset again the modify flag
     m_PoseObserver->resetModifyFlag();
 
-    m.setIdentity();
+    m.setToIdentity();
     m_Collection->synchronizeItemWithPose(m);
     
     res = m_PoseObserver->isModified();
@@ -203,12 +203,12 @@ void mafDataSetCollectionTest::collectionSynchronizePoseTest() {
 
 void mafDataSetCollectionTest::collectionInsertItemTest() {
     // Create a test matrix to add to the collection.
-    mafMatrix *newMatrix = new mafMatrix();
-    newMatrix->setIdentity();
+    mafMatrix4x4 *newMatrix = new mafMatrix4x4();
+    newMatrix->setToIdentity();
     
-    newMatrix->setElement(0, 3, 5.0);
-    newMatrix->setElement(1, 3, 1.3);
-    newMatrix->setElement(2, 3, 4.1);
+    newMatrix->m[0][3] = 5.0;
+	newMatrix->m[1][3] = 1.3;
+	newMatrix->m[2][3] = 4.1;
 
     mafDataSet *item = mafNEW(mafResources::mafDataSet);
     item->setPoseMatrix(newMatrix);
@@ -217,15 +217,15 @@ void mafDataSetCollectionTest::collectionInsertItemTest() {
     //! <snippet>
     bool result_insert = m_Collection->insertItem(item, 1.5);
     //! </snippet>
-    cv::Mat mat;
+
     
     QVERIFY(result_insert);
 
     //! <snippet>
-    mafMatrix *m = m_Collection->poseMatrix(1.5);
+    mafMatrix4x4 *m = m_Collection->poseMatrix(1.5);
     //! </snippet>
     
-    QVERIFY(m->element(1,2) == newMatrix->element(1,2));
+    QVERIFY(m->m[1][2] == newMatrix->m[1][2]);
     
     mafDEL(item);
 
@@ -276,12 +276,13 @@ void mafDataSetCollectionTest::collectionDataSetTest() {
 
 void mafDataSetCollectionTest::collectionRemoveItemTest() {
     // Create a test matrix to add to the collection.
-    mafMatrix *newMatrix = new mafMatrix();
-    newMatrix->setIdentity();
+    mafMatrix4x4 *newMatrix = new mafMatrix4x4();
+    newMatrix->setToIdentity();
     
-    newMatrix->setElement(0, 3, 5.0);
-    newMatrix->setElement(1, 3, 1.3);
-    newMatrix->setElement(2, 3, 4.1);
+    newMatrix->m[0][3] = 5.0;
+	newMatrix->m[1][3] = 1.3;
+	newMatrix->m[2][3] = 4.1;
+    
 
     mafDataSet *item = mafNEW(mafResources::mafDataSet);
     item->setPoseMatrix(newMatrix);

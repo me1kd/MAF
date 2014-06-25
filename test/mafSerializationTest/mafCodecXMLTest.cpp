@@ -101,7 +101,7 @@ void mafCodecXMLTest::encodeTest() {
 
     QVERIFY(s > 0);
 
-    qDebug() << "\n" << buffer.data();
+    //qDebug() << "\n" << buffer.data();
 
     mafDEL(m2);
     mafDEL(m1);
@@ -140,8 +140,9 @@ void mafCodecXMLTest::decodeTest() {
         QVERIFY(m_List.at(i).toString().compare(obj->tagList()->at(i).toString()) == 0);
 
     }
+	mafDEL(m); // LEAK OR CRASH IN VS2013
     mafDEL(obj);
-    mafDEL(m);
+    
 }
 
 MAF_REGISTER_TEST(mafCodecXMLTest);
