@@ -337,18 +337,20 @@ class mafOperationManagerTest : public QObject {
 private Q_SLOTS:
     /// Initialize test variables
     void initTestCase() {
+		
         mafRegisterLocalSignal("maf.local.resources.vme.add.test", this, "vmeAddSignalTest(mafCore::mafObjectBase *)")
         mafRegisterLocalCallback("maf.local.resources.vme.add.test", this, "vmeAddTest(mafCore::mafObjectBase *)")
         mafMessageHandler::instance()->installMessageHandler();
-        m_EventBus = mafEventBusManager::instance();
 
+        m_EventBus = mafEventBusManager::instance();
         m_VMEManager = mafVMEManager::instance();
 
         //Request hierarchy
-        mafHierarchyPointer hierarchy;
+        mafHierarchyPointer hierarchy = NULL;
+		
         QGenericReturnArgument ret_val = mafEventReturnArgument(mafCore::mafHierarchyPointer, hierarchy);
         mafEventBus::mafEventBusManager::instance()->notifyEvent("maf.local.resources.hierarchy.request", mafEventTypeLocal, NULL, &ret_val);
-
+		DEBUG_VAR(hierarchy)
         //Select root
         mafObject *root;
         ret_val = mafEventReturnArgument(mafCore::mafObject *, root);

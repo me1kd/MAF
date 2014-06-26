@@ -119,12 +119,12 @@ void mafVMEManager::vmeSelect(mafObjectBase *vme) {
 }
 
 void mafVMEManager::vmeAdd(mafObjectBase *vme) {
+	
     if(NULL == vme) {
         QByteArray ba = mafTr("Trying to add an object that not represent a mafVME.").toLatin1();
         qWarning("%s", ba.data());
         return;
     }
-
     // VME has been added.
     connect(vme, SIGNAL(destroyed()), this, SLOT(vmeDestroyed()), Qt::DirectConnection);
     if(m_VMEHierarchy) {
@@ -182,25 +182,25 @@ void mafVMEManager::vmeDestroyed() {
 //}
 
 mafCore::mafHierarchyPointer mafVMEManager::requestVMEHierarchy() {
+	
     if ( m_VMEHierarchy == NULL ) {
          m_VMEHierarchy = mafNEW(mafCore::mafHierarchy);
     }
-
+	
     if (m_Root == NULL) {
         //Create a new root.
         m_Root = mafNEW(mafResources::mafVME);
         m_Root->setObjectName("root");
         m_Root->setProperty("iconType", "mafRoot");
-
+		
         //Add root to hierarchy
         mafEventArgumentsList argList;
         argList.append(mafEventArgument(mafCore::mafObjectBase *, m_Root));
         mafEventBusManager::instance()->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
-
         //Select root
         mafEventBusManager::instance()->notifyEvent("maf.local.resources.vme.select", mafEventTypeLocal, &argList);
      }
-
+	 
      return m_VMEHierarchy;
 }
 
