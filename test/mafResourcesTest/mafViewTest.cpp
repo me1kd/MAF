@@ -43,7 +43,6 @@ private Q_SLOTS:
     void initTestCase() {
         mafMessageHandler::instance()->installMessageHandler();
         
-
         m_EventBus = mafEventBusManager::instance();
         m_VMEManager = mafVMEManager::instance();
 
@@ -105,7 +104,7 @@ void mafViewTest::mafViewAddRemoveSceneNodeTest() {
     
     //add VME
     mafEventArgumentsList argList;
-    argList.append(mafEventArgument(mafCore::mafObjectBase *, vme));
+    argList.append(mafEventArgument(mafResources::mafVME *, vme));
     mafEventBusManager::instance()->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
 
     // remove VME => authomatic will be removed the corresponding scene node
@@ -126,7 +125,7 @@ void mafViewTest::mafViewShowSceneNodeTest() {
     // add vme and show (can not show, this is a base class)
     //add VME
     mafEventArgumentsList argList;
-    argList.append(mafEventArgument(mafCore::mafObjectBase *, vme));
+    argList.append(mafEventArgument(mafResources::mafVME *, vme));
     mafEventBusManager::instance()->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
 
     // search the scene node associated with the vme added.
