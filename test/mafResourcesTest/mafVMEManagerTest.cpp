@@ -79,7 +79,7 @@ private:
     mafVMEManager *m_VMEManager;
     mafEventBusManager *m_EventBus;
     mafHierarchy *m_Hierarchy; ///< Test var.
-    mafObjectBase *m_SelectedVME;
+    mafResources::mafVME *m_SelectedVME;
 };
 
 void mafVMEManagerTest::mafVMEManagerAllocationTest() {
@@ -91,15 +91,15 @@ void mafVMEManagerTest::vmeManagingTest() {
     mafCore::mafObjectBase *vme2 = mafNEWFromString("mafResources::mafVME");
 
     mafEventArgumentsList argList;
-    argList.append(mafEventArgument(mafCore::mafObjectBase *, vme1));
+    argList.append(mafEventArgument(mafResources::mafVME *, (mafResources::mafVME*)vme1));
     m_EventBus->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
 
     argList.clear();
-    argList.append(mafEventArgument(mafCore::mafObjectBase *, vme2));
+    argList.append(mafEventArgument(mafResources::mafVME *, (mafResources::mafVME*)vme2));
     m_EventBus->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
 
-    mafCore::mafObjectBase *sel_vme;
-    QGenericReturnArgument ret_val = mafEventReturnArgument(mafCore::mafObjectBase *, sel_vme);
+    mafResources::mafVME *sel_vme;
+    QGenericReturnArgument ret_val = mafEventReturnArgument(mafResources::mafVME *, sel_vme);
     m_EventBus->notifyEvent("maf.local.resources.vme.selected", mafEventTypeLocal, NULL, &ret_val);
 
     QVERIFY(sel_vme != NULL); // root is selected
@@ -133,13 +133,13 @@ void mafVMEManagerTest::absolutePoseMatrixTest() {
     dataVME2->release();
     
     mafEventArgumentsList argList;
-    mafCore::mafObjectBase *send = vme1;
-    argList.append(mafEventArgument(mafCore::mafObjectBase *, send));
+    mafResources::mafVME *send = vme1;
+    argList.append(mafEventArgument(mafResources::mafVME *, send));
     m_EventBus->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
 
     argList.clear();
     send = vme2;
-    argList.append(mafEventArgument(mafCore::mafObjectBase *, send));
+    argList.append(mafEventArgument(mafResources::mafVME *, send));
     m_EventBus->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
 
     m_EventBus->notifyEvent("maf.local.resources.vme.select", mafEventTypeLocal,  &argList);
@@ -159,7 +159,7 @@ void mafVMEManagerTest::absolutePoseMatrixTest() {
     
     argList.clear();
     send = vme3;
-    argList.append(mafEventArgument(mafCore::mafObjectBase *, send));
+    argList.append(mafEventArgument(mafResources::mafVME *, send));
     m_EventBus->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
 
     //   root 
@@ -173,7 +173,7 @@ void mafVMEManagerTest::absolutePoseMatrixTest() {
     
     mafMatrix4x4Pointer absMatrix = NULL;
     argList.clear();
-    argList.append(mafEventArgument(mafCore::mafObjectBase *, send));
+    argList.append(mafEventArgument(mafResources::mafVME *, send));
     QGenericReturnArgument ret_val = mafEventReturnArgument(mafResources::mafMatrix4x4Pointer, absMatrix);
     m_EventBus->notifyEvent("maf.local.resources.vme.absolutePoseMatrix", mafEventTypeLocal, &argList, &ret_val);
     
@@ -194,7 +194,7 @@ void mafVMEManagerTest::benchmarkarkedAbsoluteMatrixTest() {
     QBENCHMARK {
         mafMatrix4x4Pointer absMatrix = NULL;
         mafEventArgumentsList argList;
-        argList.append(mafEventArgument(mafCore::mafObjectBase *, m_SelectedVME));
+        argList.append(mafEventArgument(mafResources::mafVME *, m_SelectedVME));
         QGenericReturnArgument ret_val = mafEventReturnArgument(mafResources::mafMatrix4x4Pointer, absMatrix);
         
         m_EventBus->notifyEvent("maf.local.resources.vme.absolutePoseMatrix", mafEventTypeLocal, &argList, &ret_val);
@@ -229,7 +229,7 @@ void mafVMEManagerTest::unbalancedTreeRandomCreation(unsigned int numberOfElemen
         dataVME->release();
         
         mafEventArgumentsList argList;
-        argList.append(mafEventArgument(mafCore::mafObjectBase *, vme));
+        argList.append(mafEventArgument(mafResources::mafVME *, vme));
         m_EventBus->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
         vme->release();
         m_EventBus->notifyEvent("maf.local.resources.vme.select", mafEventTypeLocal,  &argList); //select the last added
