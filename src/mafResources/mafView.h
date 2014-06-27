@@ -76,7 +76,7 @@ public:
     QVariant renderWidget() const;
 
     /// return mafSceneNode containing vme.
-    mafSceneNode *sceneNodeFromVme(mafObjectBase *vme);
+    mafSceneNode *sceneNodeFromVme(mafResources::mafVME *vme);
     
     /// clear and delete the SceneGraphs.
     virtual void clearScene();
@@ -111,7 +111,7 @@ protected:
     void notityVisualPipe();
 
     /// factory method for creating SceneNode.
-    virtual mafSceneNode *createSceneNode(mafVME *vme);
+    virtual mafSceneNode *createSceneNode(mafResources::mafVME *vme);
 
     QObject *m_RenderWidget; ///< Rendering widget for the view.
     bool m_Selected; ///< Flag for active view.
@@ -135,7 +135,7 @@ Q_SIGNALS:
     
 public Q_SLOTS:
     /// Wrap the new VME into a mafSceneNode.
-    void vmeAdd(mafCore::mafObjectBase *vme);
+    void vmeAdd(mafResources::mafVME *vme);
 
     /// Update view.
     virtual void updateView();
@@ -154,8 +154,11 @@ private Q_SLOTS:
     /// Called when the scene node has been destroyed.
     void sceneNodeDestroy();
 
-    /// Allow to keep track of the selected SceneNode.
-    void vmeSelect(mafCore::mafObjectBase *vme);
+    /// Allow to keep track of the selected vme.
+    void vmeSelect(mafResources::mafVME *vme);
+
+	/// Allow to keep track of the selected SceneNode.
+	void sceneNodeSelect(mafResources::mafSceneNode *sceneNode);
 };
 
 /////////////////////////////////////////////////////////////

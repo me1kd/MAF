@@ -430,8 +430,8 @@ const mafCore::mafObjectBase *mafOperationManagerTest::startOperation(QString op
     argList.append(mafEventArgument(QString, opType));
     m_EventBus->notifyEvent("maf.local.resources.operation.start", mafEventTypeLocal, &argList);
 
-    const mafCore::mafObjectBase *op = NULL;
-    QGenericReturnArgument ret_val = mafEventReturnArgument(const mafCore::mafObjectBase*, op);
+    const mafResources::mafOperation *op = NULL;
+    QGenericReturnArgument ret_val = mafEventReturnArgument(const mafResources::mafOperation*, op);
     m_EventBus->notifyEvent("maf.local.resources.operation.currentRunning", mafEventTypeLocal, NULL, &ret_val);
     return op;
 }
@@ -448,6 +448,7 @@ const mafExecutionPool *mafOperationManagerTest::retrievePool() {
  }
 
 void mafOperationManagerTest::mafOperationManagerAllocationTest() {
+	DEBUG_LINE
     QVERIFY(m_OperationManager != NULL);
 
     m_ExecutionPool = this->retrievePool();
@@ -455,6 +456,7 @@ void mafOperationManagerTest::mafOperationManagerAllocationTest() {
 
     int poolSize = m_ExecutionPool->size();
     QVERIFY(poolSize == 0);
+	DEBUG_LINE
 }
 
 

@@ -50,19 +50,19 @@ public:
 
 Q_SIGNALS:
     /// Return the current selected vme.
-    mafCore::mafObjectBase *selectedVMESignal() const;
+    mafResources::mafVME *selectedVMESignal() const;
 
     /// Signal emitted when a new VME has to be attached to the hierarchy tree.
-    void attachVMEToHierarchy(mafCore::mafObjectBase *vme);
+    void attachVMEToHierarchy(mafResources::mafVME *vme);
 
     /// Signal emitted when a VME has to be removed from the hierarchy tree.
-    void detachVMEFromHierarchy(mafCore::mafObjectBase *vme);
+    void detachVMEFromHierarchy(mafResources::mafVME *vme);
 
     /// Signal emitted when a VME has to be removed from the hierarchy tree.
-    void reparentVMESignal(mafCore::mafObjectBase *vme, mafCore::mafObjectBase *vmeParent);
+    void reparentVMESignal(mafResources::mafVME *vme, mafResources::mafVME *vmeParent);
 
     /// Signal emitted when a VME has been selected.
-    void selectVME(mafCore::mafObjectBase *vme);
+    void selectVME(mafResources::mafVME *vme);
 
     /// Request hierarchy of VMEs.
     mafCore::mafHierarchyPointer requestVMEHierarchySignal();
@@ -71,26 +71,26 @@ Q_SIGNALS:
     mafCore::mafHierarchyPointer newVMEHierarchySignal();
 
     /// Signal for returning the root
-    mafCore::mafObject *rootSignal() const;
+    mafResources::mafVME *rootSignal() const;
     
     /// Signal for calculating absolute pose matrix of a VME
-    mafResources::mafMatrix4x4Pointer absolutePoseMatrixSignal(mafCore::mafObjectBase *vme);
+    mafResources::mafMatrix4x4Pointer absolutePoseMatrixSignal(mafResources::mafVME *vme);
 
 private Q_SLOTS:
     /// Return the current selected vme.
-    mafCore::mafObjectBase *selectedVME() const;
+    mafResources::mafVME *selectedVME() const;
 
     /// Allow to keep track of the selected VME.
-    void vmeSelect(mafCore::mafObjectBase *vme);
+    void vmeSelect(mafResources::mafVME* vme);
 
     /// Add new VME to the system. Each manager than can manage it according to its functionalities.
-    void vmeAdd(mafCore::mafObjectBase *vme);
+    void vmeAdd(mafResources::mafVME *vme);
 
     /// Remove the VME from the system. Each manager then can behave as it can to remove the resource from ite manage.
-    void vmeRemove(mafCore::mafObjectBase *vme);
+    void vmeRemove(mafResources::mafVME *vme);
 
     /// Reparent a VME to another.
-    void vmeReparent(mafCore::mafObjectBase *vme, mafCore::mafObjectBase *vmeParent);
+    void vmeReparent(mafResources::mafVME *vme, mafResources::mafVME *vmeParent);
 
     /// Method called when a VME has been destroyed (by someone else).
     void vmeDestroyed();
@@ -102,10 +102,10 @@ private Q_SLOTS:
     mafCore::mafHierarchyPointer newVMEHierarchy();
     
     /// Return a current root
-    mafCore::mafObject *root() const;
+    mafResources::mafVME *root() const;
     
     /// Return absolute pose matrix of a VME.
-    mafResources::mafMatrix4x4Pointer absolutePoseMatrix(mafCore::mafObjectBase *vme);
+    mafResources::mafMatrix4x4Pointer absolutePoseMatrix(mafResources::mafVME *vme);
 
 protected:
     /// Object destructor
@@ -121,8 +121,8 @@ private:
     /// Remove the VME from the managed VME tree.
 //    void removeVME(mafVME *vme);
 
-    mafCore::mafObject *m_SelectedVME; ///< Keep track of the selected VME.
-    mafCore::mafObject *m_Root; ///< Root of the tree.
+    mafResources::mafVME *m_SelectedVME; ///< Keep track of the selected VME.
+    mafResources::mafVME *m_Root; ///< Root of the tree.
     mafCore::mafHierarchy *m_VMEHierarchy; ///< Hierarchy indicizing the mafVME.
 };
 
@@ -130,15 +130,15 @@ private:
 // Inline methods
 /////////////////////////////////////////////////////////////
 
-inline mafCore::mafObjectBase *mafVMEManager::selectedVME() const {
-    return (mafCore::mafObjectBase *)m_SelectedVME;
+inline mafResources::mafVME *mafVMEManager::selectedVME() const {
+    return m_SelectedVME;
 }
 
 inline mafCore::mafHierarchy *mafVMEManager::hierarchy() const {
     return m_VMEHierarchy;
 }
     
-inline mafCore::mafObject *mafVMEManager::root() const {
+inline mafResources::mafVME *mafVMEManager::root() const {
     return m_Root;
 }
 

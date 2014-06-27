@@ -63,7 +63,7 @@ void mafViewCompound::showSceneNode(mafSceneNode *node, bool show) {
     // ask the sub-views to visualize the corresponding node
     mafView *subView;
     Q_FOREACH(subView, m_ViewList) {
-        subView->showSceneNode(subView->sceneNodeFromVme((mafCore::mafObjectBase *)node->vme()), show);
+        subView->showSceneNode(subView->sceneNodeFromVme((mafResources::mafVME *)node->vme()), show);
     }
     // Create the compound visual pipe and update the visibility flag of the node.
     if(sceneGraph() != NULL) {

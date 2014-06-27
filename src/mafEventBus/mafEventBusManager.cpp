@@ -241,7 +241,7 @@ bool mafEventBusManager::removeEventProperty(const mafEvent &props) const {
 }
 
 void mafEventBusManager::notifyEvent(const QString topic, mafEventType ev_type, mafEventArgumentsList *argList, QGenericReturnArgument *returnArg, bool synch /*= true*/) const {
-    QMutex mutex;
+	QMutex mutex;
     QMutexLocker locker(&mutex);
     if(m_EnableEventLogging) {
         if(m_LogEventTopic == "*" || m_LogEventTopic == topic) {
@@ -261,7 +261,7 @@ void mafEventBusManager::notifyEvent(const QString topic, mafEventType ev_type, 
 }
 
 void mafEventBusManager::notifyEvent(const mafEvent &event_dictionary, mafEventArgumentsList *argList, QGenericReturnArgument *returnArg) const {
-    QMutex mutex;
+	QMutex mutex;
     QMutexLocker locker(&mutex);
     //event dispatched in remote channel
     if(event_dictionary[TYPE].toInt() == mafEventTypeLocal) {

@@ -66,7 +66,7 @@ Q_SIGNALS:
     /**
         @param operation Instance of the started operation.
     */
-    void operationDidStart(mafCore::mafObjectBase *operation);
+    void operationDidStart(mafResources::mafOperation *operation);
 
     /// Signal connected to the setOperationParameters slot.
     void setOperationParametersSignal(const QVariantMap &parameters);
@@ -93,13 +93,13 @@ Q_SIGNALS:
     int undoStackSizeSignal() const;
 
     /// Signal connected with currentOperation slot.
-    const mafCore::mafObjectBase *currentOperationSignal() const;
+    const mafResources::mafOperation *currentOperationSignal() const;
 
     /// Signal connected with the executionPool slot.
     const mafExecutionPool *executionPoolSignal();
     
     /// Signal connected to canSelectVME slot.
-    bool canSelectVMESignal(mafCore::mafObjectBase *vme);
+    bool canSelectVMESignal(mafResources::mafVME *vme);
 
 private Q_SLOTS:
     /// Start operation and set that operation as current one
@@ -159,13 +159,13 @@ private Q_SLOTS:
     int undoStackSize() const;
 
     /// Return current operation
-    const mafCore::mafObjectBase *currentOperation() const;
+    const mafResources::mafOperation *currentOperation() const;
 
     /// Return the execution pool containing the runngin operations in background.
     const mafExecutionPool *executionPool() const;
 
     /// return if the vme can be selected or not (checking if a non threadable operation is running or if the vme is not locked).
-    bool canSelectVME(mafCore::mafObjectBase *vme);
+    bool canSelectVME(mafResources::mafVME *vme);
     
 protected:
     /// Object destructor
@@ -192,8 +192,8 @@ private:
 
     mutable QMutex m_Mutex;
     QList<mafOperation *> m_UndoStack;    ///< Undo stack which is a linked list of operations
-    mafOperation *m_CurrentOperation;       ///< Current operation handled by th manager
-    mafOperation *m_LastUndoneOperation;       ///< Last undone operation 
+    mafResources::mafOperation *m_CurrentOperation;       ///< Current operation handled by th manager
+    mafResources::mafOperation *m_LastUndoneOperation;       ///< Last undone operation 
 
     mafExecutionPool m_ExecutionPool; ///< Pool of running operations.
     mafCore::mafId m_ExecWithParameters; ///< Id associated with the EXECUTE_WITH_PARAMETERS event.
@@ -203,8 +203,8 @@ private:
 // Inline methods
 /////////////////////////////////////////////////////////////
 
-inline const mafCore::mafObjectBase *mafOperationManager::currentOperation() const {
-    return (mafCore::mafObjectBase *)m_CurrentOperation;
+inline const mafResources::mafOperation *mafOperationManager::currentOperation() const {
+    return m_CurrentOperation;
 }
 
 inline int mafOperationManager::undoStackSize() const {
