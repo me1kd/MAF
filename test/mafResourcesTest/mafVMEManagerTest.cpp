@@ -87,21 +87,17 @@ void mafVMEManagerTest::mafVMEManagerAllocationTest() {
 }
 
 void mafVMEManagerTest::vmeManagingTest() {
-    mafCore::mafObjectBase *vme1 = mafNEWFromString("mafResources::mafVME");
-    mafCore::mafObjectBase *vme2 = mafNEWFromString("mafResources::mafVME");
-
+    mafResources::mafVME *vme1 =  mafNEW(mafResources::mafVME);
+    mafResources::mafVME *vme2 =  mafNEW(mafResources::mafVME);
     mafEventArgumentsList argList;
-    argList.append(mafEventArgument(mafResources::mafVME *, (mafResources::mafVME*)vme1));
+    argList.append(mafEventArgument(mafResources::mafVME *, vme1));
     m_EventBus->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
-
     argList.clear();
-    argList.append(mafEventArgument(mafResources::mafVME *, (mafResources::mafVME*)vme2));
+    argList.append(mafEventArgument(mafResources::mafVME *, vme2));
     m_EventBus->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
-
     mafResources::mafVME *sel_vme;
     QGenericReturnArgument ret_val = mafEventReturnArgument(mafResources::mafVME *, sel_vme);
     m_EventBus->notifyEvent("maf.local.resources.vme.selected", mafEventTypeLocal, NULL, &ret_val);
-
     QVERIFY(sel_vme != NULL); // root is selected
 
     mafDEL(vme1);
