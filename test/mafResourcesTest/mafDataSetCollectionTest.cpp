@@ -233,6 +233,7 @@ void mafDataSetCollectionTest::collectionInsertItemTest() {
 }
 
 void mafDataSetCollectionTest::collectionDataSetTest() {
+
     // Create the container for the external data type.
     mafProxy<testCustomExternalData> container;
     container = new testCustomExternalData();
@@ -272,6 +273,8 @@ void mafDataSetCollectionTest::collectionDataSetTest() {
     delete extData1;
     testCustomAnotherExternalData *extData2 = another_container.externalData();
     delete extData2;
+
+	mafDEL(data);
 }
 
 void mafDataSetCollectionTest::collectionRemoveItemTest() {
