@@ -20,7 +20,14 @@
 #include "mafOperationWidget.h"
 #include "mafViewCompoundConfigurator.h"
 
+#include <QMainWindow>
+#include <QApplication>
+#include <QMenu>
+#include <QMenuBar>
+#include <QLayout>
+#include <QFileDialog>
 #include <QToolTip>
+#include <QToolBar>
 
 #include <mafObjectBase.h>
 

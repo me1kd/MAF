@@ -17,7 +17,6 @@
 #include <mafVME.h>
 
 #include <mafGUIRegistration.h>
-#include <QtGui>
 #include <mafTreeWidget.h>
 #include <mafTreeModel.h>
 

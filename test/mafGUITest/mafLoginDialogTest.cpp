@@ -13,7 +13,6 @@
 #include <mafCoreSingletons.h>
 
 #include <mafGUIRegistration.h>
-#include <QtGui>
 #include <mafLoginDialog.h>
 
 using namespace mafCore;

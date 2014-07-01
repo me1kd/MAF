@@ -13,6 +13,8 @@
 #include <mafCoreSingletons.h>
 #include <mafGUIRegistration.h>
 #include <mafGUIManager.h>
+#include <QMainWindow>
+#include <QMenu>
 
 using namespace mafCore;
 using namespace mafGUI;

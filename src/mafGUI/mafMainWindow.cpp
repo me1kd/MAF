@@ -13,9 +13,12 @@
 #include "ui_mafMainWindow.h"
 
 #include <mafEventBusManager.h>
-
 #include "mafGUIApplicationSettingsDialog.h"
+
+#include <QSplitter>
 #include <QToolButton>
+#include <QMessageBox>
+
 
 using namespace mafCore;
 using namespace mafGUI;

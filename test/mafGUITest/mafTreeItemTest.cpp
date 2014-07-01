@@ -13,7 +13,6 @@
 #include <mafCoreSingletons.h>
 
 #include <mafGUIRegistration.h>
-#include <QtGui>
 #include <mafTreeItem.h>
 
 using namespace mafCore;

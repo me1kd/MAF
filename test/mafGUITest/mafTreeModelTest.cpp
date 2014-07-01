@@ -16,7 +16,6 @@
 #include <mafVME.h>
 
 #include <mafGUIRegistration.h>
-#include <QtGui>
 #include <mafTreeModel.h>
 
 using namespace mafCore;

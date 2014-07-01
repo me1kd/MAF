@@ -15,13 +15,19 @@ set(IS_TEST 0)
 
 string(REGEX MATCH "(^mafQA$)|(.*Test$) | " IS_TEST ${PROJECT_NAME})
 
+set(uis_hdrs)
+  
+  qt5_wrap_ui( uis_hdrs ${ui_file_list} )
+  
+  #qt5_add_resources(UI_RESOURCES bsed.qrc)
+
 # mafResource -> QGui for QMatrix4x4
 # mafGUI -> uitools
 # maf*Test -> Test
 if(IS_TEST)
-    qt5_use_modules(${PROJECT_NAME} Widgets Sql Xml Gui Concurrent uitools Test)
+    qt5_use_modules(${PROJECT_NAME} core Widgets Sql Xml Gui Concurrent uitools Test)
 else(IS_TEST)
-    qt5_use_modules(${PROJECT_NAME} Widgets Sql Xml Gui Concurrent uitools)
+    qt5_use_modules(${PROJECT_NAME} core Widgets Sql Xml Gui Concurrent uitools)
 endif(IS_TEST)
 
 SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}" )

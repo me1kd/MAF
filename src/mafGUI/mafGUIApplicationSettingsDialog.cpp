@@ -12,7 +12,10 @@
 #include "mafGUIApplicationSettingsDialog.h"
 #include "mafGUIApplicationSettingsPage.h"
 
-#include <QtGui>
+#include <QListWidget>
+#include <QStackedWidget>
+#include <QPushButton>
+#include <QHBoxLayout>
 #include <QString>
 
 using namespace mafGUI;

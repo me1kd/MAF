@@ -56,9 +56,7 @@ MACRO(mafMacroInitProject test)
     set(include_file_list ${include_file_list} ${decorator_file_header_list})
   endif(BUILD_WRAP)
 
-  
-  # Set your list of sources here.
-
+   
   SET(PROJECT_SRCS
 	${implementation_file_list}
 	${implementation_file_list_vtkMAF}
@@ -68,6 +66,7 @@ MACRO(mafMacroInitProject test)
 
 	${templete_file_list2}
 	${ui_file_list}
+    ${uis_hdrs}
 	${resource_file_list}
 
   )
@@ -122,6 +121,9 @@ MACRO(mafMacroInitProject test)
       CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}Config.h.in ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.h)
       INCLUDE_DIRECTORIES("${CMAKE_CURRENT_BINARY_DIR}")
   endif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}Config.h.in")
+  
+  
+  
   
   #here put if need for include in all projects
   INCLUDE_DIRECTORIES("${MAF_INTERNAL_BUILD_DIR}/src/mafCore")

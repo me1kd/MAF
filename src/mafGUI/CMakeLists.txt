@@ -36,7 +36,7 @@ mafMacroWrapTargetFiles()
 #endif(${BUILD_SHARED_LIBS})  
 
 
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${PROJECT_LIBS})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${PROJECT_LIBS} Qt5::UiTools)
 
 ## #################################################################
 ## copy mnu file
