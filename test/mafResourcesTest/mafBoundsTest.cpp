@@ -180,9 +180,9 @@ void mafBoundsTest::transformBoundsTest() {
     // Create a transformation matrix.
     mafMatrix4x4 m;
     m.setToIdentity();
-    m.m[0][3] = 3.;
-	m.m[1][3] = 2.;
-    m.m[2][3] = 1.;
+    m(0,3) = 3.;
+	m(1,3) = 2.;
+    m(2,3) = 1.;
 
     // Transform the bounds using the matrix.
     b0->transformBounds(&m);
@@ -205,10 +205,10 @@ void mafBoundsTest::transformBoundsTest() {
 
     mafMatrix4x4 *transformMatrix = new mafMatrix4x4();
     transformMatrix->setToIdentity();
-    transformMatrix->m[0][0] = 0.707;
-    transformMatrix->m[0][1] = -.707;
-    transformMatrix->m[1][0] = .707;
-    transformMatrix->m[1][1] = .707;
+    (*transformMatrix)(0,0) = 0.707;
+    (*transformMatrix)(0,1) = -.707;
+    (*transformMatrix)(1,0) = .707;
+    (*transformMatrix)(1,1) = .707;
 
     boundsCube->transformBounds(transformMatrix);
     double x_min = boundsCube->xMin();

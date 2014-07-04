@@ -350,7 +350,6 @@ private Q_SLOTS:
 		
         QGenericReturnArgument ret_val = mafEventReturnArgument(mafCore::mafHierarchyPointer, hierarchy);
         mafEventBus::mafEventBusManager::instance()->notifyEvent("maf.local.resources.hierarchy.request", mafEventTypeLocal, NULL, &ret_val);
-		DEBUG_VAR(hierarchy)
         //Select root
         mafObject *root;
         ret_val = mafEventReturnArgument(mafCore::mafObject *, root);
@@ -448,7 +447,7 @@ const mafExecutionPool *mafOperationManagerTest::retrievePool() {
  }
 
 void mafOperationManagerTest::mafOperationManagerAllocationTest() {
-	DEBUG_LINE
+	
     QVERIFY(m_OperationManager != NULL);
 
     m_ExecutionPool = this->retrievePool();
@@ -456,7 +455,7 @@ void mafOperationManagerTest::mafOperationManagerAllocationTest() {
 
     int poolSize = m_ExecutionPool->size();
     QVERIFY(poolSize == 0);
-	DEBUG_LINE
+	
 }
 
 

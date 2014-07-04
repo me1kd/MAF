@@ -119,10 +119,10 @@ void mafVMEManagerTest::absolutePoseMatrixTest() {
     mafDataSet *dataVME2 = mafNEW(mafResources::mafDataSet);
     
     mafMatrix4x4 first;
-    first.m[0][0] = 2.0; first.m[0][1] = 2.0; first.m[0][2] = 0.0; first.m[0][3] = 2.0;
-    first.m[1][0] = 2.0; first.m[1][1] = 2.0; first.m[1][2] = 2.0; first.m[1][3] = 2.0;
-    first.m[2][0] = 0.0; first.m[2][1] = 2.0; first.m[2][2] = 2.0; first.m[2][3] = 2.0;
-    first.m[3][0] = 2.0; first.m[3][1] = 0.0; first.m[3][2] = 2.0; first.m[3][3] = 2.0;
+    first(0,0) = 2.0; first(0,1) = 2.0; first(0,2) = 0.0; first(0,3) = 2.0;
+    first(1,0) = 2.0; first(1,1) = 2.0; first(1,2) = 2.0; first(1,3) = 2.0;
+    first(2,0) = 0.0; first(2,1) = 2.0; first(2,2) = 2.0; first(2,3) = 2.0;
+    first(3,0) = 2.0; first(3,1) = 0.0; first(3,2) = 2.0; first(3,3) = 2.0;
     
     dataVME2->setPoseMatrix(&first);
     vme2->dataSetCollection()->insertItem(dataVME2);
@@ -144,10 +144,10 @@ void mafVMEManagerTest::absolutePoseMatrixTest() {
     mafDataSet *dataVME3 = mafNEW(mafResources::mafDataSet);
     
     mafMatrix4x4 second;	
-	second.m[0][0] = 0.0;  second.m[0][1] = 0.5;  second.m[0][2] = -0.5; second.m[0][3] = 0.0;
-	second.m[1][0] = 0.0;  second.m[1][1] = 0.5;  second.m[1][2] = 0.0;  second.m[1][3] = -0.5;
-	second.m[2][0] = -0.5; second.m[2][1] = 0.5;  second.m[2][2] = 0.0;  second.m[2][3] = 0.0;
-	second.m[3][0] = 0.5;  second.m[3][1] = -1.0; second.m[3][2] = 0.5;  second.m[3][3] = 0.5;
+	second(0,0) = 0.0;  second(0,1) = 0.5;  second(0,2) = -0.5; second(0,3) = 0.0;
+	second(1,0) = 0.0;  second(1,1) = 0.5;  second(1,2) = 0.0;  second(1,3) = -0.5;
+	second(2,0) = -0.5; second(2,1) = 0.5;  second(2,2) = 0.0;  second(2,3) = 0.0;
+	second(3,0) = 0.5;  second(3,1) = -1.0; second(3,2) = 0.5;  second(3,3) = 0.5;
     
     dataVME3->setPoseMatrix(&second);
     vme3->dataSetCollection()->insertItem(dataVME3);
@@ -212,10 +212,10 @@ void mafVMEManagerTest::unbalancedTreeRandomCreation(unsigned int numberOfElemen
         
         mafMatrix4x4 first;
 
-		first.m[0][0] = 2.0; first.m[0][1] = 2.0; first.m[0][2] = 0.0; first.m[0][3] = 2.0;
-		first.m[1][0] = 2.0; first.m[1][1] = 2.0; first.m[1][2] = 2.0; first.m[1][3] = 2.0;
-		first.m[2][0] = 0.0; first.m[2][1] = 2.0; first.m[2][2] = 2.0; first.m[2][3] = 2.0;
-		first.m[3][0] = 2.0; first.m[3][1] = 0.0; first.m[3][2] = 2.0; first.m[3][3] = 2.0;
+		first(0,0) = 2.0; first(0,1) = 2.0; first(0,2) = 0.0; first(0,3) = 2.0;
+		first(1,0) = 2.0; first(1,1) = 2.0; first(1,2) = 2.0; first(1,3) = 2.0;
+		first(2,0) = 0.0; first(2,1) = 2.0; first(2,2) = 2.0; first(2,3) = 2.0;
+		first(3,0) = 2.0; first(3,1) = 0.0; first(3,2) = 2.0; first(3,3) = 2.0;
 
 
         //first.setToIdentity();

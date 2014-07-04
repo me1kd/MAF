@@ -184,7 +184,7 @@ void mafDataSetCollectionTest::collectionSynchronizePoseTest() {
 
     mafMatrix4x4 m;
     m.setToIdentity();
-    m.m[0][1] = 2.5;
+    m(0,1) = 2.5;
 
     // Assign a pose matrix (collection notify the changes)
     m_Collection->setPose(m);
@@ -206,9 +206,9 @@ void mafDataSetCollectionTest::collectionInsertItemTest() {
     mafMatrix4x4 *newMatrix = new mafMatrix4x4();
     newMatrix->setToIdentity();
     
-    newMatrix->m[0][3] = 5.0;
-	newMatrix->m[1][3] = 1.3;
-	newMatrix->m[2][3] = 4.1;
+    (*newMatrix)(0,3) = 5.0;
+	(*newMatrix)(1,3) = 1.3;
+	(*newMatrix)(2,3) = 4.1;
 
     mafDataSet *item = mafNEW(mafResources::mafDataSet);
     item->setPoseMatrix(newMatrix);
@@ -225,7 +225,7 @@ void mafDataSetCollectionTest::collectionInsertItemTest() {
     mafMatrix4x4 *m = m_Collection->poseMatrix(1.5);
     //! </snippet>
     
-    QVERIFY(m->m[1][2] == newMatrix->m[1][2]);
+    QVERIFY((*m)(1,2) == (*newMatrix)(1,2));
     
     mafDEL(item);
 
@@ -282,9 +282,9 @@ void mafDataSetCollectionTest::collectionRemoveItemTest() {
     mafMatrix4x4 *newMatrix = new mafMatrix4x4();
     newMatrix->setToIdentity();
     
-    newMatrix->m[0][3] = 5.0;
-	newMatrix->m[1][3] = 1.3;
-	newMatrix->m[2][3] = 4.1;
+    (*newMatrix)(0,3) = 5.0;
+	(*newMatrix)(1,3) = 1.3;
+	(*newMatrix)(2,3) = 4.1;
     
 
     mafDataSet *item = mafNEW(mafResources::mafDataSet);
