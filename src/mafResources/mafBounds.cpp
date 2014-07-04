@@ -187,64 +187,64 @@ void mafBounds::transformBounds(mafMatrix4x4 *matrix) {
     QGenericMatrix<4,8, double> boundsMatrix;
 
     
-    boundsMatrix.m[0][0] = m_XMin;
-    boundsMatrix.m[1][0] =  m_YMin;
-    boundsMatrix.m[2][0] =  m_ZMin;
-    boundsMatrix.m[3][0] =  1.;
+    boundsMatrix(0,0) = m_XMin;
+    boundsMatrix(1,0) =  m_YMin;
+    boundsMatrix(2,0) =  m_ZMin;
+    boundsMatrix(3,0) =  1.;
 
     
-    boundsMatrix.m[0][1] = m_XMax;
-    boundsMatrix.m[1][1] = m_YMin;
-    boundsMatrix.m[2][1] = m_ZMin;
-    boundsMatrix.m[3][1] = 1.;
+    boundsMatrix(0,1) = m_XMax;
+    boundsMatrix(1,1) = m_YMin;
+    boundsMatrix(2,1) = m_ZMin;
+    boundsMatrix(3,1) = 1.;
     
 
-    boundsMatrix.m[0][2] = m_XMax;
-    boundsMatrix.m[1][2] = m_YMax;
-    boundsMatrix.m[2][2] = m_ZMin;
-    boundsMatrix.m[3][2] = 1.;
+    boundsMatrix(0,2) = m_XMax;
+    boundsMatrix(1,2) = m_YMax;
+    boundsMatrix(2,2) = m_ZMin;
+    boundsMatrix(3,2) = 1.;
 
 
-    boundsMatrix.m[0][3] = m_XMin;
-    boundsMatrix.m[1][3] = m_YMax;
-    boundsMatrix.m[2][3] = m_ZMin;
-    boundsMatrix.m[3][3] = 1.;
+    boundsMatrix(0,3) = m_XMin;
+    boundsMatrix(1,3) = m_YMax;
+    boundsMatrix(2,3) = m_ZMin;
+    boundsMatrix(3,3) = 1.;
 
-    boundsMatrix.m[0][4] = m_XMin;
-    boundsMatrix.m[1][4] = m_YMin;
-    boundsMatrix.m[2][4] = m_ZMax;
-    boundsMatrix.m[3][4] = 1.;
+    boundsMatrix(0,4) = m_XMin;
+    boundsMatrix(1,4) = m_YMin;
+    boundsMatrix(2,4) = m_ZMax;
+    boundsMatrix(3,4) = 1.;
 
-    boundsMatrix.m[0][5] = m_XMax;
-    boundsMatrix.m[1][5] = m_YMin;
-    boundsMatrix.m[2][5] = m_ZMax;
-    boundsMatrix.m[3][5] = 1.;
+    boundsMatrix(0,5) = m_XMax;
+    boundsMatrix(1,5) = m_YMin;
+    boundsMatrix(2,5) = m_ZMax;
+    boundsMatrix(3,5) = 1.;
 
-    boundsMatrix.m[0][6] = m_XMax;
-    boundsMatrix.m[1][6] = m_YMax;
-    boundsMatrix.m[2][6] = m_ZMax;
-    boundsMatrix.m[3][6] = 1.;
+    boundsMatrix(0,6) = m_XMax;
+    boundsMatrix(1,6) = m_YMax;
+    boundsMatrix(2,6) = m_ZMax;
+    boundsMatrix(3,6) = 1.;
     
-    boundsMatrix.m[0][7] = m_XMin;
-    boundsMatrix.m[1][7] = m_YMax;
-    boundsMatrix.m[2][7] = m_ZMax;
-    boundsMatrix.m[3][7] = 1.;
+    boundsMatrix(0,7) = m_XMin;
+    boundsMatrix(1,7) = m_YMax;
+    boundsMatrix(2,7) = m_ZMax;
+    boundsMatrix(3,7) = 1.;
 
 
     QGenericMatrix<4,8, qreal> transformedBounds = boundsMatrix * (*matrix); // check this! before was inverted but generic multiplication 
 
-    m_XMax = m_XMin = transformedBounds.m[0][0];
-    m_YMax = m_YMin = transformedBounds.m[1][0];
-    m_ZMax = m_ZMin = transformedBounds.m[2][0];
+    m_XMax = m_XMin = transformedBounds(0,0);
+    m_YMax = m_YMin = transformedBounds(1,0);
+    m_ZMax = m_ZMin = transformedBounds(2,0);
     double x, y, z;
     for (int i = 1; i < 8; ++i) {
-        x = transformedBounds.m[0][i];
+        x = transformedBounds(0,i);
         m_XMin = x < m_XMin ? x : m_XMin;
         m_XMax = x > m_XMax ? x : m_XMax;
-        y = transformedBounds.m[1][i];
+        y = transformedBounds(1,i);
         m_YMin = y < m_YMin ? y : m_YMin;
         m_YMax = y > m_YMax ? y : m_YMax;
-        z = transformedBounds.m[2][i];
+        z = transformedBounds(2,i);
         m_ZMin = z < m_ZMin ? z : m_ZMin;
         m_ZMax = z > m_ZMax ? z : m_ZMax;
     }

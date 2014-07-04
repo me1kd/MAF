@@ -25,9 +25,9 @@ set(uis_hdrs)
 # mafGUI -> uitools
 # maf*Test -> Test
 if(IS_TEST)
-    qt5_use_modules(${PROJECT_NAME} core Widgets Sql Xml Gui Concurrent uitools Test)
+    qt5_use_modules(${PROJECT_NAME} Core Widgets Sql Xml Gui Concurrent UiTools Test)
 else(IS_TEST)
-    qt5_use_modules(${PROJECT_NAME} core Widgets Sql Xml Gui Concurrent uitools)
+    qt5_use_modules(${PROJECT_NAME} Core Widgets Sql Xml Gui Concurrent UiTools)
 endif(IS_TEST)
 
 SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}" )

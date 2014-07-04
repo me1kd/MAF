@@ -213,9 +213,9 @@ void mafOperationManager::executeOperation() {
             m_ExecutionPool << worker;
             // Start the work.
             qDebug() << "Starting worker...";
-			DEBUG_LINE
+			
             worker->start();
-			DEBUG_LINE
+			
         } else {
             connect(m_CurrentOperation, SIGNAL(executionCanceled()), this, SLOT(stopOperation()));
             connect(m_CurrentOperation, SIGNAL(executionEnded()), this, SLOT(executionEnded()));

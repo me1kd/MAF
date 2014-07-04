@@ -110,13 +110,13 @@ void mafDataSetCollection::orientations(double ori[3], double t) {
     double sx, sy;
 
     // Extract the rotation sub-matrix and calculate the angles considering the Yaw-Pitch-Roll convention.
-    nx = m->m[0][0];
-    ny = m->m[1][0];
-    nz = m->m[2][0];
-    ax = m->m[0][2];
-    ay = m->m[1][2];
-    sx = m->m[0][1];
-    sy = m->m[1][1];
+    nx = (*m)(0,0);
+    ny = (*m)(1,0);
+    nz = (*m)(2,0);
+    ax = (*m)(0,2);
+    ay = (*m)(1,2);
+    sx = (*m)(0,1);
+    sy = (*m)(1,1);
 
     ori[Z_AXIS] = atan2(ny, nx);
     ori[Y_AXIS] = atan2(-nz, cos(ori[Z_AXIS])*nx + sin(ori[Z_AXIS])*ny);
@@ -151,7 +151,7 @@ void mafDataSetCollection::position(double pos[3], double t) {
 
     // Extract the position vector from the matrix and write it into the array.
     for(int i = 0; i < 3; ++i) {
-        pos[i] = m->m[i][3];
+        pos[i] = (*m)(i,3);
     }
 }
 
@@ -191,9 +191,9 @@ mafMatrix4x4 *mafDataSetCollection::poseMatrix(double t) {
 
 void mafDataSetCollection::writePosition(double x, double y, double z, mafMatrix4x4 *m) {
     // Write the position vector into the given matrix.
-    m->m[0][3] = x;
-    m->m[1][3] = y;
-    m->m[2][3] = z;
+    (*m)(0,3) = x;
+    (*m)(1,3) = y;
+    (*m)(2,3) = z;
 }
 
 void mafDataSetCollection::writeOrientation(double rx, double ry, double rz, mafMatrix4x4 *m) {
@@ -210,25 +210,25 @@ void mafDataSetCollection::writeOrientation(double rx, double ry, double rz, maf
     ry_rad = degreesToRadiant(ry);
     rz_rad = degreesToRadiant(rz);
 
-    Rz.m[0][0] = cos(rz_rad);
-    Rz.m[1][1] = cos(rz_rad);
-    Rz.m[0][1] = -sin(rz_rad);
-    Rz.m[1][0] = sin(rz_rad);
+    Rz(0,0) = cos(rz_rad);
+    Rz(1,1) = cos(rz_rad);
+    Rz(0,1) = -sin(rz_rad);
+    Rz(1,0) = sin(rz_rad);
 
-    Ry.m[0][0] = cos(ry_rad);
-    Ry.m[2][2] = cos(ry_rad);
-    Ry.m[0][2] = sin(ry_rad);
-    Ry.m[2][0] = -sin(ry_rad);
+    Ry(0,0) = cos(ry_rad);
+    Ry(2,2) = cos(ry_rad);
+    Ry(0,2) = sin(ry_rad);
+    Ry(2,0) = -sin(ry_rad);
 
-    Rx.m[1][1] = cos(rx_rad);
-    Rx.m[2][2] = cos(rx_rad);
-    Rx.m[1][2] = -sin(rx_rad);
-    Rx.m[2][1] = sin(rx_rad);
+    Rx(1,1) = cos(rx_rad);
+    Rx(2,2) = cos(rx_rad);
+    Rx(1,2) = -sin(rx_rad);
+    Rx(2,1) = sin(rx_rad);
 
     // Store the old position for the matrix m
     double pos[3];
     for(int i = 0; i < 3; ++i) {
-        pos[i] = m->m[i][3];
+        pos[i] = (*m)(i,3);
     }
 
     // Copy into 'm' the result of the matrix multiplication.

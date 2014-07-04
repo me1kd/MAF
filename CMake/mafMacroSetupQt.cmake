@@ -16,7 +16,7 @@ MACRO(mafMacroSetupQt)
 
   SET(minimum_required_qt_version "5.0")
 
-  find_package(Qt5 COMPONENTS core Widgets Sql Xml Gui Concurrent uitools Test)
+  find_package(Qt5 COMPONENTS Core Widgets Sql Xml Gui Concurrent UiTools Test)
   set(CMAKE_AUTOMOC ON)
   set(CMAKE_INCLUDE_CURRENT_DIR ON)
   

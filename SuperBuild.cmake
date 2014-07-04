@@ -29,7 +29,7 @@ option(MAF_USE_GIT_PROTOCOL "If behind a firewall turn this off to use http inst
 ### Qt - Let's check if a valid version of Qt is available
 #############################################################################################
 
-FIND_PACKAGE(Qt5 COMPONENTS core)
+FIND_PACKAGE(Qt5 COMPONENTS Core)
 IF(Qt5_FOUND)
   IF("${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}" VERSION_LESS "${minimum_required_qt_version}")
     MESSAGE(FATAL_ERROR "error: MAF requires Qt >= ${minimum_required_qt_version} -- you cannot use Qt ${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}.")

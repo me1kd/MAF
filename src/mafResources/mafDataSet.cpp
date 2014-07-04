@@ -52,7 +52,7 @@ QString mafDataSet::poseMatrixString() {
     for ( ; r < 4; ++r) {
         int c = 0;
         for ( ; c < 4 ; ++c ) {
-            matrixString.append(QString::number(m_Matrix->m[r][c]));
+            matrixString.append(QString::number((*m_Matrix)(r,c)));
             if (r != 3 || c != 3) {
                 matrixString.append(" ");
             }
@@ -149,7 +149,7 @@ void mafDataSet::setPoseMatrixString(const QString matrixString) {
         int c = 0;
         for ( ; c < 4 ; ++c) {
             double val = list[counter].toDouble();
-            matrix->m[r][c] = val;
+            (*matrix)(r,c) = val;
             ++counter;
         }
     }
