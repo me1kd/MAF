@@ -9,11 +9,9 @@
  *
  */
 
-#include <mafTestSuite.h>
+#include "mafTimeSpaceTestList.h"
 #include <QEventLoop>
 
-#include "mafTimeManager.h"
-#include "mafEventBusManager.h"
 #include <mafCoreSingletons.h>
 #include "mafTimer.h"
 #include <mafObject.h>
@@ -90,55 +88,18 @@ void testObjectCustomListener::updateObject() {
 }
 //-------------------------------------------------------------------------
 
-
-/**
- Class name: mafTimeManagerTest
- This class implements the test suite for mafTimeManager.
- */
-
- //! <title>
-//mafTimeManager
-//! </title>
-//! <description>
-//This singletone provides the facade class for time managing.
-//! </description>
-
-class mafTimeManagerTest: public QObject {
-    Q_OBJECT
-
-private Q_SLOTS:
-    /// Initialize test variables
-    void initTestCase() {
-        m_TimerId = -1;
-        m_EventBus = mafEventBusManager::instance();
-        m_ObjectTest = mafNEW(testObjectCustomListener);
-        m_TimeManager = mafTimeManager::instance();
-    }
-
-    /// Cleanup tes variables memory allocation.
-    void cleanupTestCase() {
-        mafDEL(m_ObjectTest);
-        m_TimeManager->shutdown();
-        m_EventBus->shutdown();
-    }
-
-    /// Test library loading
-    void mafTimeSpaceLibraryLoading();
-    /// mafTimeManager allocation test case.
-    void mafTimeManagerAllocationTest();
-    /// timer creation test case.
-    void createTimerTest();
-    /// timer start test case.
-    void startTimerTest();
-    /// timer start on different thread test case.
-    //void startTimerOnThreadTest();
-
-private:
-    mafEventBusManager *m_EventBus; ///< Event Bus manager instance.
-    mafTimeManager *m_TimeManager; ///< Test var
-    testObjectCustomListener *m_ObjectTest; ///< Test object that observe the timer events.
-    mafId m_TimerId; ///< Test var that store the created timer's id.
-};
+void mafTimeManagerTest::initTestCase() {
+    m_TimerId = -1;
+    m_EventBus = mafEventBusManager::instance();
+    m_ObjectTest = mafNEW(testObjectCustomListener);
+    m_TimeManager = mafTimeManager::instance();
+}
+    
+void mafTimeManagerTest::cleanupTestCase() {
+    mafDEL(m_ObjectTest);
+    m_TimeManager->shutdown();
+    m_EventBus->shutdown();
+}
 
 void mafTimeManagerTest::mafTimeSpaceLibraryLoading() {
     bool module_initialized(false);
@@ -210,5 +171,5 @@ void mafTimeManagerTest::startTimerTest() {
     qDebug() << "var value = " << m_ObjectTest->var();
 }*/
 
-MAF_REGISTER_TEST(mafTimeManagerTest);
+
 #include "mafTimeManagerTest.moc"
