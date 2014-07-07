@@ -10,6 +10,7 @@
  */
 
 #include "mafTestRegistry.h"
+#include <typeinfo>
 
 using namespace mafQA;
 
