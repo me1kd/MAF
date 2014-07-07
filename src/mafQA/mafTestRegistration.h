@@ -48,7 +48,9 @@ namespace mafQA {
             /** The constructor also register also the test passed as typename into the test suite registry. */
             mafTestRegistration() {
                 m_TestToRegister = new T();
-                mafTestRegistry::instance()->registerTest(m_TestToRegister);
+				if(mafTestRegistry::instance()->isRegistered(m_TestToRegister) == false) {
+                    mafTestRegistry::instance()->registerTest(m_TestToRegister);
+				}
 			}
 
             ///!brief Registration class destructor
