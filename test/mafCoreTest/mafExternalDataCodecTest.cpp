@@ -2,15 +2,14 @@
  *  mafExternalDataCodecTest.cpp
  *  mafSerializationTest
  *
- *  Created by Paolo Quadrani on 22/09/09.
+ *  Created by Paolo Quadrani - Daniele Giunchi on 22/09/09.
  *  Copyright 2011 SCS-B3C. All rights reserved.
  *
  *  See License at: http://tiny.cc/QXJ4D
  *
  */
 
-#include <mafTestSuite.h>
-#include <mafExternalDataCodec.h>
+#include "mafCoreTestList.h"
 
 using namespace mafCore;
 
@@ -61,36 +60,14 @@ char * testExternalDataCodecCustom::encode(bool binary) {
 }
 //------------------------------------------------------------------------------------------
 
-/**
- Class name: mafExternalDataCodecTest
- This class implements the test suite for mafExternalDataCodec.
- */
-class mafExternalDataCodecTest: public QObject {
-    Q_OBJECT
+void mafExternalDataCodecTest::initTestCase() {
+    m_ExternalDataCodec = mafNEW(testExternalDataCodecCustom);
+}
 
-private Q_SLOTS:
-    /// Initialize test variables
-    void initTestCase() {
-        m_ExternalDataCodec = mafNEW(testExternalDataCodecCustom);
-    }
-
-    /// Cleanup test variables memory allocation.
-    void cleanupTestCase() {
-        mafDEL(m_ExternalDataCodec);
-    }
-
-    /// mafCodec allocation test case.
-    void mafCodecAllocationTest();
-    /// test the encode method.
-    void encodeTest();
-    /// test the decode method.
-    void decodeTest();
-
-private:
-    testExternalDataCodecCustom *m_ExternalDataCodec; ///< Test var
-    QDataStream m_StreamExternal; ///< Test buffer data.
-    QDataStream m_StreamInExternal; ///< Test buffer data.
-};
+/// Cleanup test variables memory allocation.
+void mafExternalDataCodecTest::cleanupTestCase() {
+    mafDEL(m_ExternalDataCodec);
+}
 
 void mafExternalDataCodecTest::mafCodecAllocationTest() {
     QVERIFY(m_ExternalDataCodec != NULL);
@@ -115,7 +92,6 @@ void mafExternalDataCodecTest::decodeTest() {
     QCOMPARE(res, stringReturned);
 }
 
-MAF_REGISTER_TEST(mafExternalDataCodecTest);
 #include "mafExternalDataCodecTest.moc"
 
 

@@ -2,7 +2,7 @@
  *  mafTimerTest.h
  *  mafTimeSpaceTest
  *
- *  Created by Daniele Giunchi on 22/09/09.
+ *  Created by Daniele Giunchi on 08/07/14.
  *  Copyright 2011 SCS-B3C. All rights reserved.
  *
  *  See License at: http://tiny.cc/QXJ4D
