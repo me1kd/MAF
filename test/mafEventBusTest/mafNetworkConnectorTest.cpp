@@ -9,8 +9,7 @@
  *
  */
 
-#include <mafTestSuite.h>
-#include <mafNetworkConnector.h>
+#include "mafEventBusTestList.h"
 
 using namespace mafEventBus;
 
@@ -91,44 +90,13 @@ QString testNetworkConnectorCustom::connectorStatus() {
 
 //------------------------------------------------------------------------------------------
 
-/**
- Class name: mafNetworkConnectorTest
- This class implements the test suite for mafNetworkConnector.
- */
+void mafNetworkConnectorTest::initTestCase() {
+    m_NetworkConnector = new testNetworkConnectorCustom();
+}
 
- //! <title>
-//mafNetworkConnector
-//! </title>
-//! <description>
-//mafNetworkConnector is the interface class for client/server objects that
-//works over network.
-//! </description>
-
-
-class mafNetworkConnectorTest : public QObject {
-    Q_OBJECT
-
-private Q_SLOTS:
-    /// Initialize test variables
-    void initTestCase() {
-        m_NetworkConnector = new testNetworkConnectorCustom();
-    }
-
-    /// Cleanup test variables memory allocation.
-    void cleanupTestCase() {
-        if(m_NetworkConnector) delete m_NetworkConnector;
-    }
-
-    /// mafNetworkConnector allocation test case.
-    void mafNetworkConnectorAllocationTest();
-    /// Test the creation of client and server.
-    void mafNetworkConnectorCreateClientAndServerTest();
-    /// test the function that retrive protocol type
-    void retrieveProtocolTest();
-
-private:
-    mafNetworkConnector *m_NetworkConnector; ///< Test var.
-};
+void mafNetworkConnectorTest::cleanupTestCase() {
+    if(m_NetworkConnector) delete m_NetworkConnector;
+}
 
 void mafNetworkConnectorTest::mafNetworkConnectorAllocationTest() {
     QVERIFY(m_NetworkConnector != NULL);
@@ -153,7 +121,5 @@ void mafNetworkConnectorTest::retrieveProtocolTest() {
     QCOMPARE(check, res);
 }
 
-
-MAF_REGISTER_TEST(mafNetworkConnectorTest);
 #include "mafNetworkConnectorTest.moc"
 
