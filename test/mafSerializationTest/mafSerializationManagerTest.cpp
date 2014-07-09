@@ -1,18 +1,15 @@
 /*
- *  mafTimerTest.cpp
- *  mafTimeSpaceTest
+ *  mafSerializationManagerTest.cpp
+ *  mafSerializationTest
  *
- *  Created by Paolo Quadrani on 22/09/09.
+ *  Created by Paolo Quadrani - Daniele Giunchi on 22/09/09.
  *  Copyright 2009 SCS-B3C. All rights reserved.
  *
  *  See Licence at: http://tiny.cc/QXJ4D
  *
  */
 
-#include <mafTestSuite.h>
-#include "mafSerializationManager.h"
-#include <mafEventBusManager.h>
-#include <mafCoreSingletons.h>
+#include "mafSerializationTestList.h"
 
 #if defined(_WIN32) || defined(WIN32)
     #define SERIALIZATION_LIBRARY_NAME "mafSerialization.dll"
@@ -67,54 +64,20 @@ void testCustomManager::createdMemento(mafCore::mafMemento *m) {
     mafDEL(m);
 }
 
-/**
- Class name: mafSerializationManagerTest
- This class implements the test suite for mafSerializationManager.
- */
+void mafSerializationManagerTest::initTestCase() {
+    // Create before the instance of the Serialization manager, which will register signals.
+    mafMessageHandler::instance()->installMessageHandler();
+    m_SerializationManager = mafSerializationManager::instance();
+    mafEventBusManager::instance();
+    m_CustomManager = mafNEW(testCustomManager);
+}
 
-//! <title>
-//mafSerializationManager
-//! </title>
-//! <description>
-// This singletone provides the facade class for the object serialization mechanism.
-//! </description>
-
-class mafSerializationManagerTest: public QObject {
-    Q_OBJECT
-
-private Q_SLOTS:
-    /// Initialize test variables
-    void initTestCase() {
-        // Create before the instance of the Serialization manager, which will register signals.
-        mafMessageHandler::instance()->installMessageHandler();
-        m_SerializationManager = mafSerializationManager::instance();
-        mafEventBusManager::instance();
-        m_CustomManager = mafNEW(testCustomManager);
-    }
-
-    /// Cleanup tes variables memory allocation.
-    void cleanupTestCase() {
-        mafDEL(m_CustomManager);
-        m_SerializationManager->shutdown();
-        mafEventBusManager::instance()->shutdown();
-        mafMessageHandler::instance()->shutdown();
-    }
-
-    /// Test library loading
-    void mafSerializationLibraryLoading();
-    /// mafSerializationManager allocation test case.
-    void mafSerializationManagerAllocationTest();
-
-    /// mafSerializationManager save test case.
-    void mafSerializationManagerSaveTest();
-    /// mafSerializationManager load test case.
-    void mafSerializationManagerLoadTest();
-
-private:
-    mafSerializationManager *m_SerializationManager; ///< Test var
-    QString m_TestURL; ///< Test URL for file.
-    testCustomManager *m_CustomManager; ///< Manager test var
-};
+void mafSerializationManagerTest::cleanupTestCase() {
+    mafDEL(m_CustomManager);
+    m_SerializationManager->shutdown();
+    mafEventBusManager::instance()->shutdown();
+    mafMessageHandler::instance()->shutdown();
+}
 
 void mafSerializationManagerTest::mafSerializationLibraryLoading() {
     bool module_initialized(false);
@@ -232,5 +195,4 @@ void mafSerializationManagerTest::mafSerializationManagerLoadTest() {
     QFile::remove(m_TestURL);
 }
 
-MAF_REGISTER_TEST(mafSerializationManagerTest);
 #include "mafSerializationManagerTest.moc"
