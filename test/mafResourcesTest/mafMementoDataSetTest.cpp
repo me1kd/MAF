@@ -2,21 +2,14 @@
  *  mafMementoDataSetTest.cpp
  *  mafResourcesTest
  *
- *  Created by Roberto Mucci on 24/05/10.
+ *  Created by Roberto Mucci - Daniele Giunchi on 24/05/10.
  *  Copyright 2011 SCS-B3C. All rights reserved.
  *
  *  See License at: http://tiny.cc/QXJ4D
  *
  */
 
-#include <mafTestSuite.h>
-#include <mafCoreSingletons.h>
-#include <mafResourcesRegistration.h>
-#include <mafDataSet.h>
-#include <mafProxy.h>
-#include <mafExternalDataCodec.h>
-#include <mafProxy.h>
-#include <mafProxyInterface.h>
+#include "mafResourcesTestList.h"
 
 #if defined(_WIN32) || defined(WIN32)
 #define SERIALIZATION_LIBRARY_NAME "mafSerialization.dll"
@@ -108,45 +101,25 @@ char *testExternalDataCodecCustom::encode(bool binary) {
     return output_string;
 
 }
-//------------------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------------------
 
-/**
- Class name: mafMementoDataSetTest
- This class implements the test suite for mafMementoDataSet.
- */
-class mafMementoDataSetTest : public QObject {
-    Q_OBJECT
+void mafMementoDataSetTest::initTestCase() {
+  // Create before the instance of the Serialization manager, which will register signals.
+  bool res(false);
+  res = mafInitializeModule(SERIALIZATION_LIBRARY_NAME);
+  QVERIFY(res);
 
-private Q_SLOTS:
-    /// Initialize test variables
-    void initTestCase() {
-      // Create before the instance of the Serialization manager, which will register signals.
-      bool res(false);
-      res = mafInitializeModule(SERIALIZATION_LIBRARY_NAME);
-      QVERIFY(res);
+  mafMessageHandler::instance()->installMessageHandler();
+  mafResourcesRegistration::registerResourcesObjects();
+  mafRegisterObject(testExternalDataCodecCustom);
+  m_DataSet = mafNEW(mafResources::mafDataSet);
+}
 
-      mafMessageHandler::instance()->installMessageHandler();
-      mafResourcesRegistration::registerResourcesObjects();
-      mafRegisterObject(testExternalDataCodecCustom);
-      m_DataSet = mafNEW(mafResources::mafDataSet);
-    }
-
-    /// Cleanup test variables memory allocation.
-    void cleanupTestCase() {
-        mafDEL(m_DataSet);
-        mafMessageHandler::instance()->shutdown();
-    }
-
-    /// mafMementoDataSet allocation test case.
-    void mafMementoDataSetDefaultAllocationTest();
-    /// mafMementoDataSet allocation test case.
-    void mafMementoDataSetCustomAllocationTest();
-
-private:
-    mafDataSet *m_DataSet; ///< Test var.
-};
+void mafMementoDataSetTest::cleanupTestCase() {
+    mafDEL(m_DataSet);
+    mafMessageHandler::instance()->shutdown();
+}
 
 void mafMementoDataSetTest::mafMementoDataSetDefaultAllocationTest() {
     QVERIFY(m_DataSet != NULL);
@@ -198,5 +171,4 @@ void mafMementoDataSetTest::mafMementoDataSetCustomAllocationTest() {
     mafDEL(memento);
 }
 
-MAF_REGISTER_TEST(mafMementoDataSetTest);
 #include "mafMementoDataSetTest.moc"

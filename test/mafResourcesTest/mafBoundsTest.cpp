@@ -2,83 +2,33 @@
  *  mafBoundsTest.cpp
  *  mafResourcesTest
  *
- *  Created by Paolo Quadrani on 13/12/11.
+ *  Created by Paolo Quadrani - Daniele Giunchi on 13/12/11.
  *  Copyright 2012 SCS-B3C. All rights reserved.
  *
  *  See License at: http://tiny.cc/QXJ4D
  *
  */
 
-#include <mafTestSuite.h>
-#include <mafBounds.h>
-#include <mafMatrix4x4.h>
+#include "mafResourcesTestList.h"
 
 using namespace mafResources;
 
-/**
- Class name: mafBoundsTest
- This class implements the test suite for mafBounds.
- */
-
-//! <title>
-//mafBounds
-//! </title>
-//! <description>
-//mafBounds defines the MAF3 base object for 3D bounds.
-//! </description>
-
-class mafBoundsTest : public QObject {
-    Q_OBJECT
-
-private Q_SLOTS:
-    /// Initialize test variables
-    void initTestCase() {
-        m_ObjTestVar = new mafResources::mafBounds();
-        
-        double a[6] = {-2,2,-2,2,-2,2};
-        double b[6] = {-1,3,-1,3,-1,3};
-        m_ObjTestA = new mafResources::mafBounds(a); 
-        m_ObjTestB = new mafResources::mafBounds(b);
-
-    }
-
-    /// Cleanup test variables memory allocation.
-    void cleanupTestCase() {
-        m_ObjTestVar->release();
-        
-        m_ObjTestA->release();
-        m_ObjTestB->release();
-    }
-
-    /// Test the constructors
-    void objectAllocationTest();
-
-    /// Test the bound values.
-    void boundsTest();
+void mafBoundsTest::initTestCase() {
+    m_ObjTestVar = new mafResources::mafBounds();
     
-    /// test is two mafBounds objects are equal.
-    void equalTest();
-    
-    /// unite test.
-    void uniteBoundsTest();
-    
-    /// intersection test.
-    void intersectBoundsTest();
-    
-    /// point inside/outside bounds test
-    void pointInsideOutsideBounds();
-    
-    /// unite without a pivot variable
-    void autoUniteTest();
+    double a[6] = {-2,2,-2,2,-2,2};
+    double b[6] = {-1,3,-1,3,-1,3};
+    m_ObjTestA = new mafResources::mafBounds(a); 
+    m_ObjTestB = new mafResources::mafBounds(b);
 
-    /// Transform test.
-    void transformBoundsTest();
+}
+
+void mafBoundsTest::cleanupTestCase() {
+    m_ObjTestVar->release();
     
-private:
-    mafBounds *m_ObjTestVar; ///< Test variable
-    mafBounds *m_ObjTestA; ///< Test variable
-    mafBounds *m_ObjTestB; ///< Test variable
-};
+    m_ObjTestA->release();
+    m_ObjTestB->release();
+}
 
 void mafBoundsTest::objectAllocationTest() {
     m_ObjTestVar->retain();
@@ -223,5 +173,4 @@ void mafBoundsTest::transformBoundsTest() {
     transformMatrix = NULL;
 }
 
-MAF_REGISTER_TEST(mafBoundsTest);
 #include "mafBoundsTest.moc"

@@ -2,17 +2,14 @@
  *  mafDataBoundaryAlgorithmTest.cpp
  *  mafResourcesTest
  *
- *  Created by Paolo Quadrani on 22/09/09.
+ *  Created by Paolo Quadrani - Daniele Giunchi on 22/09/09.
  *  Copyright 2009 SCS-B3C. All rights reserved.
  *
  *  See Licence at: http://tiny.cc/QXJ4D
  *
  */
 
-#include <mafTestSuite.h>
-#include <mafResourcesRegistration.h>
-#include <mafCoreSingletons.h>
-#include <mafDataBoundaryAlgorithm.h>
+#include "mafResourcesTestList.h"
 
 using namespace mafCore;
 using namespace mafResources;
@@ -75,34 +72,15 @@ void testDataBoundaryAlgorithmCustom::bounds(double bounds[6]) {
 }
 //------------------------------------------------------------------------------------------
 
-/**
- Class name: mafDataBoundaryAlgorithmTest
- This class implements the test suite for mafInterpolator.
- */
-class mafDataBoundaryAlgorithmTest: public QObject {
-    Q_OBJECT
+void mafDataBoundaryAlgorithmTest::initTestCase() {
+    mafMessageHandler::instance()->installMessageHandler();
+    m_BoundaryAlgorithm = mafNEW(testDataBoundaryAlgorithmCustom);
+}
 
-private Q_SLOTS:
-    /// Initialize test variables
-    void initTestCase() {
-        mafMessageHandler::instance()->installMessageHandler();
-        m_BoundaryAlgorithm = mafNEW(testDataBoundaryAlgorithmCustom);
-    }
-
-    /// Cleanup test variables memory allocation.
-    void cleanupTestCase() {
-        mafDEL(m_BoundaryAlgorithm);
-         mafMessageHandler::instance()->shutdown();
-    }
-
-    /// testDataBoundaryAlgorithmCustom allocation test case.
-    void mafBoundaryAlgorithmAllocationTest();
-    /// Test the boundary algorithm strategy.
-    void mafBoundaryAlgorithmStrategyTest();
-
-private:
-    testDataBoundaryAlgorithmCustom *m_BoundaryAlgorithm; ///< Test var.
-};
+void mafDataBoundaryAlgorithmTest::cleanupTestCase() {
+    mafDEL(m_BoundaryAlgorithm);
+     mafMessageHandler::instance()->shutdown();
+}
 
 void mafDataBoundaryAlgorithmTest::mafBoundaryAlgorithmAllocationTest() {
     QVERIFY(m_BoundaryAlgorithm != NULL);
@@ -114,6 +92,4 @@ void mafDataBoundaryAlgorithmTest::mafBoundaryAlgorithmStrategyTest() {
     QCOMPARE(m_BoundaryAlgorithm->boundaryItem(), res);
 }
 
-
-MAF_REGISTER_TEST(mafDataBoundaryAlgorithmTest);
 #include "mafDataBoundaryAlgorithmTest.moc"

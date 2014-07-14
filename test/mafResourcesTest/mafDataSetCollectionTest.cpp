@@ -2,19 +2,14 @@
  *  mafDataSetCollectionTest.cpp
  *  mafResourcesTest
  *
- *  Created by Paolo Quadrani on 22/09/09.
+ *  Created by Paolo Quadrani - Daniele Giunchi on 22/09/09.
  *  Copyright 2011 SCS-B3C. All rights reserved.
  *
  *  See License at: http://tiny.cc/QXJ4D
  *
  */
 
-#include <mafTestSuite.h>
-#include <mafResourcesRegistration.h>
-#include <mafProxy.h>
-#include <mafMatrix4x4.h>
-#include <mafDataSetCollection.h>
-#include <mafDataSet.h>
+#include "mafResourcesTestList.h"
 
 using namespace mafCore;
 using namespace mafResources;
@@ -96,57 +91,23 @@ private:
 
 
 
-/**
- Class name: mafDataSetCollectionTest
- This class implements the test suite for mafDataSetCollection.
- */
+void mafDataSetCollectionTest::initTestCase() {
+    mafMessageHandler::instance()->installMessageHandler();
+    mafResourcesRegistration::registerResourcesObjects();
+    //! <snippet>
+    m_Collection = mafNEW(mafResources::mafDataSetCollection);
+    //! </snippet>
 
- //! <title>
-//mafDataSetCollection
-//! </title>
-//! <description>
-//mafDataSetCollection is the class representing the time varying data for MAF3.
-//! </description>
-class mafDataSetCollectionTest : public QObject {
-    Q_OBJECT
+    m_PoseObserver = new testPoseObserver;
+    connect(m_Collection, SIGNAL(modifiedObject()), m_PoseObserver, SLOT(turnOnModifyFlag()), Qt::DirectConnection);
+}
 
-private Q_SLOTS:
-    /// Initialize test variables
-    void initTestCase() {
-        mafMessageHandler::instance()->installMessageHandler();
-        mafResourcesRegistration::registerResourcesObjects();
-        //! <snippet>
-        m_Collection = mafNEW(mafResources::mafDataSetCollection);
-        //! </snippet>
 
-        m_PoseObserver = new testPoseObserver;
-        connect(m_Collection, SIGNAL(modifiedObject()), m_PoseObserver, SLOT(turnOnModifyFlag()), Qt::DirectConnection);
-    }
-
-    /// Cleanup test variables memory allocation.
-    void cleanupTestCase() {
-        mafDEL(m_Collection);
-        delete m_PoseObserver;
-        mafMessageHandler::instance()->shutdown();
-    }
-
-    /// mafDataSetCollection allocation test case.
-    void collectionAllocationTest();
-    /// Test orientation and pose for mafDataSetCollection
-    void collectionPoseMatrixTest();
-    /// Test the pose matrix synchronization
-    void collectionSynchronizePoseTest();
-    /// Test new item insertion
-    void collectionInsertItemTest();
-    /// Test the setDataSet method
-    void collectionDataSetTest();
-    /// Test the remove item from the collection
-    void collectionRemoveItemTest();
-
-private:
-    mafDataSetCollection *m_Collection; ///< Test var.
-    testPoseObserver *m_PoseObserver; ///< Modify dataset collection's pose observer;
-};
+void mafDataSetCollectionTest::cleanupTestCase() {
+    mafDEL(m_Collection);
+    delete m_PoseObserver;
+    mafMessageHandler::instance()->shutdown();
+}
 
 void mafDataSetCollectionTest::collectionAllocationTest() {
     QVERIFY(m_Collection != NULL);
@@ -314,5 +275,4 @@ void mafDataSetCollectionTest::collectionRemoveItemTest() {
     delete newMatrix;
 }
 
-MAF_REGISTER_TEST(mafDataSetCollectionTest);
 #include "mafDataSetCollectionTest.moc"

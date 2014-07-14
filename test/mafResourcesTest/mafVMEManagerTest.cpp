@@ -2,85 +2,48 @@
  *  mafViewManagerTest.cpp
  *  mafResourcesTest
  *
- *  Created by Paolo Quadrani on 22/09/09.
+ *  Created by Paolo Quadrani - Daniele Giunchi on 14/07/14.
  *  Copyright 2011 SCS-B3C. All rights reserved.
  *
  *  See License at: http://tiny.cc/QXJ4D
  *
  */
 
-#include <mafTestSuite.h>
-#include <mafCoreSingletons.h>
-#include <mafResourcesRegistration.h>
-#include <mafEventBusManager.h>
-#include <mafVMEManager.h>
-#include <mafMatrix4x4.h>
-#include <mafVME.h>
-#include <mafDataSet.h>
+#include "mafResourcesTestList.h"
 
 using namespace mafCore;
 using namespace mafEventBus;
 using namespace mafResources;
 
-/**
- Class name: mafVMEManagerTest
- This class implements the test suite for mafVMEManager.
- */
-class mafVMEManagerTest : public QObject {
-    Q_OBJECT
+void mafVMEManagerTest::initTestCase() {
+    mafMessageHandler::instance()->installMessageHandler();
+    // Register all the objects into the factory for the mafResources module.
+    mafResourcesRegistration::registerResourcesObjects();
+    m_EventBus = mafEventBusManager::instance();
+    m_VMEManager = mafVMEManager::instance();
 
-/// create a huge vme tree for benchmark.
-void unbalancedTreeRandomCreation(unsigned int numberOfElements); 
+    //Request hierarchy
+    mafHierarchyPointer hierarchy;
+    QGenericReturnArgument ret_val = mafEventReturnArgument(mafCore::mafHierarchyPointer, hierarchy);
+    mafEventBus::mafEventBusManager::instance()->notifyEvent("maf.local.resources.hierarchy.request", mafEventTypeLocal, NULL, &ret_val);
+
+    //Select root
+    mafObject *root;
+    ret_val = mafEventReturnArgument(mafCore::mafObject *, root);
+    mafEventBus::mafEventBusManager::instance()->notifyEvent("maf.local.resources.hierarchy.root", mafEventTypeLocal, NULL, &ret_val);
+}
+
+/// Cleanup test variables memory allocation.
+void mafVMEManagerTest::cleanupTestCase() {
+    m_VMEManager->shutdown();
+
+    //restore vme manager status
+    m_EventBus->notifyEvent("maf.local.resources.hierarchy.new", mafEventTypeLocal);
     
-private Q_SLOTS:
-    /// Initialize test variables
-    void initTestCase() {
-        mafMessageHandler::instance()->installMessageHandler();
-        // Register all the objects into the factory for the mafResources module.
-        mafResourcesRegistration::registerResourcesObjects();
-        m_EventBus = mafEventBusManager::instance();
-        m_VMEManager = mafVMEManager::instance();
-
-        //Request hierarchy
-        mafHierarchyPointer hierarchy;
-        QGenericReturnArgument ret_val = mafEventReturnArgument(mafCore::mafHierarchyPointer, hierarchy);
-        mafEventBus::mafEventBusManager::instance()->notifyEvent("maf.local.resources.hierarchy.request", mafEventTypeLocal, NULL, &ret_val);
-
-        //Select root
-        mafObject *root;
-        ret_val = mafEventReturnArgument(mafCore::mafObject *, root);
-        mafEventBus::mafEventBusManager::instance()->notifyEvent("maf.local.resources.hierarchy.root", mafEventTypeLocal, NULL, &ret_val);
-    }
-
-    /// Cleanup test variables memory allocation.
-    void cleanupTestCase() {
-        m_VMEManager->shutdown();
-
-        //restore vme manager status
-        m_EventBus->notifyEvent("maf.local.resources.hierarchy.new", mafEventTypeLocal);
-        
-        // Shutdown event bus singleton and core singletons.
-        m_EventBus->shutdown();
-        mafMessageHandler::instance()->shutdown();
-    }
-    
-    /// mafVMEManager allocation test case.
-    void mafVMEManagerAllocationTest();
-    /// VME managing test.
-    void vmeManagingTest();
-    /// create hierarchy Test
-    void createHierarchyTest();
-    /// absolute pose matrix Test
-    void absolutePoseMatrixTest();
-    /// benchmarking the absolute matrix
-    void benchmarkarkedAbsoluteMatrixTest();
-
-private:
-    mafVMEManager *m_VMEManager;
-    mafEventBusManager *m_EventBus;
-    mafHierarchy *m_Hierarchy; ///< Test var.
-    mafResources::mafVME *m_SelectedVME;
-};
+    // Shutdown event bus singleton and core singletons.
+    m_EventBus->shutdown();
+    mafMessageHandler::instance()->shutdown();
+}
 
 void mafVMEManagerTest::mafVMEManagerAllocationTest() {
     QVERIFY(m_VMEManager != NULL);
@@ -235,6 +198,5 @@ void mafVMEManagerTest::unbalancedTreeRandomCreation(unsigned int numberOfElemen
     }
 }
 
-MAF_REGISTER_TEST(mafVMEManagerTest);
 #include "mafVMEManagerTest.moc"
 
