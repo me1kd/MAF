@@ -23,8 +23,8 @@ endforeach(file ${inputList})
 
 ENDMACRO()
 
-MACRO(mafMacroInitProject test)
 
+MACRO(InternalPreInitialize)
   # Extract current directory name to use as project name
 
   file(GLOB CUR_FILE "CMakeLists.txt")
@@ -58,16 +58,16 @@ MACRO(mafMacroInitProject test)
 
    
   SET(PROJECT_SRCS
-	${implementation_file_list}
-	${implementation_file_list_vtkMAF}
+  ${implementation_file_list}
+  ${implementation_file_list_vtkMAF}
 
-	${input_include_file_list}
-	${templete_file_list1}
+  ${input_include_file_list}
+  ${templete_file_list1}
 
-	${templete_file_list2}
-	${ui_file_list}
+  ${templete_file_list2}
+  ${ui_file_list}
     ${uis_hdrs}
-	${resource_file_list}
+  ${resource_file_list}
 
   )
   
@@ -81,12 +81,10 @@ MACRO(mafMacroInitProject test)
   
   ## Add the project binary dir as include dir for the .moc files.
   INCLUDE_DIRECTORIES("${PROJECT_BINARY_DIR}")
+ENDMACRO()
 
-  
-  if(${test})
-    
-  else(${test})
-    if(BUILD_QA)
+MACRO(InternalInitialize)
+  if(BUILD_QA)
     if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
       
       find_program( CODECOV_GCOV gcov )
@@ -99,15 +97,12 @@ MACRO(mafMacroInitProject test)
             message("gcov not present.")
     ENDIF(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     endif(BUILD_QA)
-  
-    
-    
-  endif(${test})
+ENDMACRO()
+
+MACRO(InternalPostInitialize)
   SET(PROJECT_SRCS 
     ${PROJECT_SRCS}
     )
- 
-
   if(UNIX)
     if(BUILD_QA AND valgrind_FOUND)
       add_definitions( -g -O0 )
@@ -122,9 +117,6 @@ MACRO(mafMacroInitProject test)
       INCLUDE_DIRECTORIES("${CMAKE_CURRENT_BINARY_DIR}")
   endif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}Config.h.in")
   
-  
-  
-  
   #here put if need for include in all projects
   INCLUDE_DIRECTORIES("${MAF_INTERNAL_BUILD_DIR}/src/mafCore")
   
@@ -132,5 +124,45 @@ MACRO(mafMacroInitProject test)
   mafMacroGetTargetLibraries(dependency_libraries)
   
   SET(PROJECT_LIBS ${dependency_libraries})
+ENDMACRO()
+
+MACRO(InitializeApplication)
+  InternalPreInitialize()
+  InternalInitialize()
+  InternalPostInitialize()
+ENDMACRO()
+
+MACRO(InitializeLibrary)
+  InternalPreInitialize()
+  InternalInitialize()
+  InternalPostInitialize()
+ENDMACRO()
+
+MACRO(InitializeTest)
+  InternalPreInitialize()
+  #InternalInitialize()
+  InternalPostInitialize()
+ENDMACRO()
+
+MACRO(InitializePlugin)
+  InternalPreInitialize()
+  InternalInitialize()
+  InternalPostInitialize()
+ENDMACRO()
+
+
+MACRO(mafMacroInitProject type)
+  
+  if( ${type} STREQUAL "application" )
+      InitializeApplication()
+  elseif ( ${type} STREQUAL "library" )
+      InitializeLibrary()
+  elseif( ${type} STREQUAL "test")
+      InitializeTest()
+  elseif( ${type} STREQUAL "plugin")
+      InitializePlugin()
+  else() 
+      message(FATAL_ERROR "${type} not recognized. Select between application, library, plugin, test")
+  endif()
 
 ENDMACRO()

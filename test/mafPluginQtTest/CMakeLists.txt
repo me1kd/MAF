@@ -17,7 +17,7 @@
 ## Init Project
 ## #################################################################
 
-mafMacroInitProject(0)
+mafMacroInitProject("plugin")
 add_definitions(-DQT_PLUGIN)
 ## #################################################################
 ## Build rules
@@ -33,5 +33,5 @@ SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES SUFFIX ".mafplugin")
 ## Installation
 ## #################################################################
 
-mafMacroInstallProject(0)
+mafMacroBuildProject("test")
 

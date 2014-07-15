@@ -1,5 +1,5 @@
 #
-#  mafMacroInstallProject.cmake
+#  mafMacroBuildProject.cmake
 #  maf
 #
 #  Created by Daniele Giunchi - Paolo Quadrani on 10/09/10.
@@ -9,31 +9,12 @@
 #
 #
 
-MACRO(mafMacroInstallProject executable)
-
-set(IS_TEST 0)
-
-string(REGEX MATCH "(^mafQA$)|(.*Test$) | " IS_TEST ${PROJECT_NAME})
-
-set(uis_hdrs)
-  
-  qt5_wrap_ui( uis_hdrs ${ui_file_list} )
-  
-  #qt5_add_resources(UI_RESOURCES bsed.qrc)
-
-# mafResource -> QGui for QMatrix4x4
-# mafGUI -> uitools
-# maf*Test -> Test
-if(IS_TEST)
-    qt5_use_modules(${PROJECT_NAME} Core Widgets Sql Xml Gui Concurrent UiTools Test)
-else(IS_TEST)
+MACRO(BuildApplication)
     qt5_use_modules(${PROJECT_NAME} Core Widgets Sql Xml Gui Concurrent UiTools)
-endif(IS_TEST)
-
-SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}" )
-
-if(${executable})
-  IF (APPLE)
+    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}" )
+    set(uis_hdrs)
+    qt5_wrap_ui( uis_hdrs ${ui_file_list} )
+    IF (APPLE)
     set(lib_ext "dylib")
     
     set(TARGET_LOC)
@@ -77,6 +58,39 @@ if(${executable})
     endforeach(filelib ${file_list})
 
   ENDIF (APPLE)
-endif(${executable})
+ENDMACRO()
+
+MACRO(BuildLibrary)
+    qt5_use_modules(${PROJECT_NAME} Core Widgets Sql Xml Gui Concurrent UiTools)
+    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}" )
+    set(uis_hdrs)
+    qt5_wrap_ui( uis_hdrs ${ui_file_list} )
+ENDMACRO()
+
+MACRO(BuildTest)
+    qt5_use_modules(${PROJECT_NAME} Core Widgets Sql Xml Gui Concurrent UiTools Test)
+    SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}" )
+    set(uis_hdrs)
+    qt5_wrap_ui( uis_hdrs ${ui_file_list} )
+ENDMACRO()
+
+
+MACRO(BuildPlugin)
+    qt5_use_modules(${PROJECT_NAME} Core Widgets Sql Xml Gui Concurrent UiTools)
+ENDMACRO()
+
+MACRO(mafMacroBuildProject type)
   
+  if( ${type} STREQUAL "application" )
+      BuildApplication()
+  elseif ( ${type} STREQUAL "library" )
+      BuildLibrary()
+  elseif( ${type} STREQUAL "test")
+      BuildTest()
+  elseif( ${type} STREQUAL "plugin")
+      BuildPlugin()
+  else() 
+      message(FATAL_ERROR "${type} not recognized. Select between application, library, plugin, test")
+  endif()
+
 ENDMACRO()

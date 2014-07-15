@@ -17,7 +17,7 @@
 ## Init Project
 ## #################################################################
 
-mafMacroInitProject(0)
+mafMacroInitProject("application")
 
 ## #################################################################
 ## Build rules
@@ -31,4 +31,4 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${PROJECT_LIBS})
 ## Installation
 ## #################################################################
 
-mafMacroInstallProject(0)
+mafMacroBuildProject("application") #was 0

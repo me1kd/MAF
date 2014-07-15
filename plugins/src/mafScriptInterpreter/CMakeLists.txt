@@ -63,4 +63,4 @@ mafMacroWrapBuild()
 ## Installation
 ## #################################################################
 
-mafMacroInstallProject(0)
+mafMacroBuildProject("library")

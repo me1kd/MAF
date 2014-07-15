@@ -45,5 +45,5 @@ mafCopySharedLibrariesInInstallDir("${VTK_DIR}/bin")
 ## Installation
 ## #################################################################
 
-mafMacroInstallProject(0)
+mafMacroBuildProject("library")
 
