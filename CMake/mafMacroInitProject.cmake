@@ -8,6 +8,25 @@
 #  See Licence at: http://tiny.cc/QXJ4D
 #
 #
+
+################### PUBLIC INTERFACE
+MACRO(mafMacroInitProject type)
+  
+  if( ${type} STREQUAL "application" )
+      InitializeApplication()
+  elseif ( ${type} STREQUAL "library" )
+      InitializeLibrary()
+  elseif( ${type} STREQUAL "test")
+      InitializeTest()
+  elseif( ${type} STREQUAL "plugin")
+      InitializePlugin()
+  else() 
+      message(FATAL_ERROR "${type} not recognized. Select between application, library, plugin, test")
+  endif()
+
+ENDMACRO()
+
+################### PRIVATE IMPLEMENTATION (don't call from outside)
 MACRO(filterForMoc outputList inputList)
 set(${outputList})
 
@@ -151,18 +170,4 @@ MACRO(InitializePlugin)
 ENDMACRO()
 
 
-MACRO(mafMacroInitProject type)
-  
-  if( ${type} STREQUAL "application" )
-      InitializeApplication()
-  elseif ( ${type} STREQUAL "library" )
-      InitializeLibrary()
-  elseif( ${type} STREQUAL "test")
-      InitializeTest()
-  elseif( ${type} STREQUAL "plugin")
-      InitializePlugin()
-  else() 
-      message(FATAL_ERROR "${type} not recognized. Select between application, library, plugin, test")
-  endif()
 
-ENDMACRO()

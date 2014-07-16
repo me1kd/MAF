@@ -9,6 +9,24 @@
 #
 #
 
+################### PUBLIC INTERFACE
+MACRO(mafMacroBuildProject type)
+  
+  if( ${type} STREQUAL "application" )
+      BuildApplication()
+  elseif ( ${type} STREQUAL "library" )
+      BuildLibrary()
+  elseif( ${type} STREQUAL "test")
+      BuildTest()
+  elseif( ${type} STREQUAL "plugin")
+      BuildPlugin()
+  else() 
+      message(FATAL_ERROR "${type} not recognized. Select between application, library, plugin, test")
+  endif()
+
+ENDMACRO()
+
+################### PRIVATE IMPLEMENTATION (don't call from outside)
 MACRO(BuildApplication)
     qt5_use_modules(${PROJECT_NAME} Core Widgets Sql Xml Gui Concurrent UiTools)
     SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}" )
@@ -79,18 +97,4 @@ MACRO(BuildPlugin)
     qt5_use_modules(${PROJECT_NAME} Core Widgets Sql Xml Gui Concurrent UiTools)
 ENDMACRO()
 
-MACRO(mafMacroBuildProject type)
-  
-  if( ${type} STREQUAL "application" )
-      BuildApplication()
-  elseif ( ${type} STREQUAL "library" )
-      BuildLibrary()
-  elseif( ${type} STREQUAL "test")
-      BuildTest()
-  elseif( ${type} STREQUAL "plugin")
-      BuildPlugin()
-  else() 
-      message(FATAL_ERROR "${type} not recognized. Select between application, library, plugin, test")
-  endif()
 
-ENDMACRO()

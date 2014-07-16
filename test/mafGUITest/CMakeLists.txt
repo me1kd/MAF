@@ -20,8 +20,7 @@ mafMacroInitProject("test")
 ## #################################################################
 
 # Create the executable.
-ADD_EXECUTABLE(${PROJECT_NAME} ${PROJECT_SRCS})
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${PROJECT_LIBS})
+mafMacroConfigureProject("test")
 
 ## #################################################################
 ## copy ui files

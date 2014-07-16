@@ -19,9 +19,7 @@ mafMacroInitProject("plugin")
 ## Build rules
 ## #################################################################
 
-# Create the executable.
-ADD_LIBRARY(${PROJECT_NAME} SHARED ${PROJECT_SRCS})
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${PROJECT_LIBS})
+mafMacroConfigureProject("plugin")
 
 ## #################################################################
 ## Installation

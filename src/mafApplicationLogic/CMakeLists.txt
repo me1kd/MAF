@@ -29,15 +29,7 @@ mafMacroWrapTargetFiles()
 ## Build rules
 ## #################################################################
 
-# Create the library.
-#if(${BUILD_SHARED_LIBS})
-  ADD_LIBRARY(${PROJECT_NAME} SHARED ${PROJECT_SRCS})
-#else(${BUILD_SHARED_LIBS})
-#  ADD_LIBRARY(${PROJECT_NAME} STATIC ${PROJECT_SRCS})
-#endif(${BUILD_SHARED_LIBS})  
-
-
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${PROJECT_LIBS})
+mafMacroConfigureProject("library")
 
 ## #################################################################
 ## Wrapping Build rules
