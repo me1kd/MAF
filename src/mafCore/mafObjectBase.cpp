@@ -161,7 +161,7 @@ void mafObjectBase::connectObjectSlotsByName(QObject *signal_object) {
             while (mo->method(i + 1).attributes() & QMetaMethod::Cloned)
                   ++i;
         } else if (!(mo->method(i).attributes() & QMetaMethod::Cloned)) {
-            qWarning("QMetaObject::connectSlotsByName: No matching signal for %s", QString(slot));
+			qWarning() << mafTr("QMetaObject::connectSlotsByName: No matching signal for %1").arg(QString(slot));
         }
     }
 }
