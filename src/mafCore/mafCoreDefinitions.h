@@ -29,9 +29,29 @@ typedef QList<QGenericArgument> mafArgumentList;
 namespace mafCore {
 
 #define mafCodeLocation "\0" __FILE__ ":" QT_STRINGIFY(__LINE__)
-#define _DEBUG_MSG qDebug() << "[+] " __FILE__ " " __FUNCTION__ ":" QT_STRINGIFY(__LINE__)
-#define DEBUG_VAR(variable) _DEBUG_MSG << variable << "\n";
+
+#define _DEBUG_PRINT qDebug() <<
+#define _DEBUG_MSG "[+] " __FILE__ " " __FUNCTION__ ":" QT_STRINGIFY(__LINE__) " "
+#define DEBUG_VAR(variable) _DEBUG_PRINT _DEBUG_MSG << variable << "\n";
 #define DEBUG_LINE _DEBUG_MSG##"\n";
+#define DEBUG_SEPARATOR(separator) \
+	{ \
+	QString sep; \
+	for(int i=0;i<20;++i) { \
+	sep.append(#separator); \
+	} \
+	qDebug() << sep; \
+} 
+
+#define DEBUG_VAR_FILE(filename, var) { \
+	                                  QFile debugLog(filename); \
+									  if (!debugLog.open(QIODevice::Append | QIODevice::Text)) { } \
+									  else { \
+	                                         QTextStream out(&debugLog); \
+											 out << _DEBUG_MSG << #var << " -> "<< var << "\n"; \
+									         debugLog.close(); \
+                                           } \
+									  }
 
 typedef long mafId;
 typedef QtMessageHandler mafMsgHandlingFunction;

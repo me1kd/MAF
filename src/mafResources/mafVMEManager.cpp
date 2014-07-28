@@ -18,6 +18,9 @@ using namespace mafCore;
 using namespace mafResources;
 using namespace mafEventBus;
 
+#include <QMessageBox>
+#include <fstream>
+
 mafVMEManager* mafVMEManager::instance() {
     static mafVMEManager instanceVMEManager;
     return &instanceVMEManager;
@@ -37,22 +40,22 @@ mafVMEManager::~mafVMEManager() {
     shutdown();
     
     // Unregister callbacks...
-    mafUnregisterLocalCallback("maf.local.resources.vme.add", this, "vmeAdd(mafResources::mafVME *)")
-    mafUnregisterLocalCallback("maf.local.resources.vme.remove", this, "vmeRemove(mafResources::mafVME *)")
-    mafUnregisterLocalCallback("maf.local.resources.vme.reparent", this, "vmeReparent(mafResources::mafVME *, mafResources::mafVME *)")
-    mafUnregisterLocalCallback("maf.local.resources.vme.select", this, "vmeSelect(mafResources::mafVME*)")
+    mafUnregisterLocalCallback("maf.local.resources.vme.add", this, "vmeAdd(mafCore::mafObjectBase *)")
+    mafUnregisterLocalCallback("maf.local.resources.vme.remove", this, "vmeRemove(mafCore::mafObjectBase *)")
+    mafUnregisterLocalCallback("maf.local.resources.vme.reparent", this, "vmeReparent(mafCore::mafObjectBase *, mafCore::mafObjectBase *)")
+    mafUnregisterLocalCallback("maf.local.resources.vme.select", this, "vmeSelect(mafCore::mafObjectBase *)")
     mafUnregisterLocalCallback("maf.local.resources.vme.selected", this, "selectedVME()")
-    mafUnregisterLocalCallback("maf.local.resources.vme.absolutePoseMatrix", this, "absolutePoseMatrix(mafResources::mafVME *)")
+    mafUnregisterLocalCallback("maf.local.resources.vme.absolutePoseMatrix", this, "absolutePoseMatrix(mafCore::mafObjectBase *)")
     mafUnregisterLocalCallback("maf.local.resources.hierarchy.request", this, "requestVMEHierarchy()")
     mafUnregisterLocalCallback("maf.local.resources.hierarchy.new", this, "newVMEHierarchy()")
     
     // Unregister signals...
-    mafUnregisterLocalSignal("maf.local.resources.vme.add", this, "attachVMEToHierarchy(mafResources::mafVME *)")
-    mafUnregisterLocalSignal("maf.local.resources.vme.remove", this, "detachVMEFromHierarchy(mafResources::mafVME *)")
-    mafUnregisterLocalSignal("maf.local.resources.vme.reparent", this, "reparentVMESignal(mafResources::mafVME *, mafResources::mafVME *)")
-    mafUnregisterLocalSignal("maf.local.resources.vme.select", this, "selectVME(mafResources::mafVME *)")
+    mafUnregisterLocalSignal("maf.local.resources.vme.add", this, "attachVMEToHierarchy(mafCore::mafObjectBase *)")
+    mafUnregisterLocalSignal("maf.local.resources.vme.remove", this, "detachVMEFromHierarchy(mafCore::mafObjectBase *)")
+    mafUnregisterLocalSignal("maf.local.resources.vme.reparent", this, "reparentVMESignal(mafCore::mafObjectBase *, mafCore::mafObjectBase *)")
+    mafUnregisterLocalSignal("maf.local.resources.vme.select", this, "selectVME(mafCore::mafObjectBase *)")
     mafUnregisterLocalSignal("maf.local.resources.vme.selected", this, "selectedVMESignal()")
-    mafUnregisterLocalSignal("maf.local.resources.vme.absolutePoseMatrix", this, "absolutePoseMatrixSignal(mafResources::mafVME *)")
+    mafUnregisterLocalSignal("maf.local.resources.vme.absolutePoseMatrix", this, "absolutePoseMatrixSignal(mafCore::mafObjectBase *)")
     mafUnregisterLocalSignal("maf.local.resources.hierarchy.request", this, "requestVMEHierarchySignal()")
     mafUnregisterLocalSignal("maf.local.resources.hierarchy.new", this, "newVMEHierarchySignal()")
 
@@ -83,31 +86,31 @@ void mafVMEManager::initializeConnections() {
 
 
     // Register API signals.
-    mafRegisterLocalSignal("maf.local.resources.vme.add", this, "attachVMEToHierarchy(mafResources::mafVME *)")
-    mafRegisterLocalSignal("maf.local.resources.vme.remove", this, "detachVMEFromHierarchy(mafResources::mafVME *)")
-    mafRegisterLocalSignal("maf.local.resources.vme.reparent", this, "reparentVMESignal(mafResources::mafVME *, mafResources::mafVME *)")
-    mafRegisterLocalSignal("maf.local.resources.vme.select", this, "selectVME(mafResources::mafVME *)")
+    mafRegisterLocalSignal("maf.local.resources.vme.add", this, "attachVMEToHierarchy(mafCore::mafObjectBase *)")
+    mafRegisterLocalSignal("maf.local.resources.vme.remove", this, "detachVMEFromHierarchy(mafCore::mafObjectBase *)")
+    mafRegisterLocalSignal("maf.local.resources.vme.reparent", this, "reparentVMESignal(mafCore::mafObjectBase *, mafCore::mafObjectBase *)")
+    mafRegisterLocalSignal("maf.local.resources.vme.select", this, "selectVME(mafCore::mafObjectBase *)")
     mafRegisterLocalSignal("maf.local.resources.vme.selected", this, "selectedVMESignal()")
-    mafRegisterLocalSignal("maf.local.resources.vme.absolutePoseMatrix", this, "absolutePoseMatrixSignal(mafResources::mafVME *)")
+    mafRegisterLocalSignal("maf.local.resources.vme.absolutePoseMatrix", this, "absolutePoseMatrixSignal(mafCore::mafObjectBase *)")
     mafRegisterLocalSignal("maf.local.resources.hierarchy.request", this, "requestVMEHierarchySignal()")
     mafRegisterLocalSignal("maf.local.resources.hierarchy.new", this, "newVMEHierarchySignal()")
     mafRegisterLocalSignal("maf.local.resources.hierarchy.root", this, "rootSignal()")
 
     
     // Register private callbacks to the instance of the manager..
-    mafRegisterLocalCallback("maf.local.resources.vme.add", this, "vmeAdd(mafResources::mafVME *)")
-    mafRegisterLocalCallback("maf.local.resources.vme.remove", this, "vmeRemove(mafResources::mafVME *)")
-    mafRegisterLocalCallback("maf.local.resources.vme.reparent", this, "vmeReparent(mafResources::mafVME *, mafResources::mafVME *)")
-    mafRegisterLocalCallback("maf.local.resources.vme.select", this, "vmeSelect(mafResources::mafVME *)")
+    mafRegisterLocalCallback("maf.local.resources.vme.add", this, "vmeAdd(mafCore::mafObjectBase *)")
+    mafRegisterLocalCallback("maf.local.resources.vme.remove", this, "vmeRemove(mafCore::mafObjectBase *)")
+    mafRegisterLocalCallback("maf.local.resources.vme.reparent", this, "vmeReparent(mafCore::mafObjectBase *, mafCore::mafObjectBase *)")
+    mafRegisterLocalCallback("maf.local.resources.vme.select", this, "vmeSelect(mafCore::mafObjectBase *)")
     mafRegisterLocalCallback("maf.local.resources.vme.selected", this, "selectedVME()")
-    mafRegisterLocalCallback("maf.local.resources.vme.absolutePoseMatrix", this, "absolutePoseMatrix(mafResources::mafVME *)")
+    mafRegisterLocalCallback("maf.local.resources.vme.absolutePoseMatrix", this, "absolutePoseMatrix(mafCore::mafObjectBase *)")
     mafRegisterLocalCallback("maf.local.resources.hierarchy.request", this, "requestVMEHierarchy()")
     mafRegisterLocalCallback("maf.local.resources.hierarchy.new", this, "newVMEHierarchy()")
     mafRegisterLocalCallback("maf.local.resources.hierarchy.root", this, "root()")
 
 }
 
-void mafVMEManager::vmeSelect(mafResources::mafVME *vme) {
+void mafVMEManager::vmeSelect(mafCore::mafObjectBase *vme) {
     mafVME *vme_to_select = qobject_cast<mafResources::mafVME *>(vme);
     if(NULL == vme_to_select) {
         QByteArray ba = mafTr("Trying to select an object that not represent a mafVME.").toLatin1();
@@ -118,7 +121,7 @@ void mafVMEManager::vmeSelect(mafResources::mafVME *vme) {
     m_SelectedVME = vme_to_select;
 }
 
-void mafVMEManager::vmeAdd(mafResources::mafVME *vme) {
+void mafVMEManager::vmeAdd(mafCore::mafObjectBase *vme) {
     if(NULL == vme) {
         QByteArray ba = mafTr("Trying to add an object that not represent a mafVME.").toLatin1();
         qWarning("%s", ba.data());
@@ -132,7 +135,7 @@ void mafVMEManager::vmeAdd(mafResources::mafVME *vme) {
     }
 }
 
-void mafVMEManager::vmeRemove(mafResources::mafVME *vme) {
+void mafVMEManager::vmeRemove(mafCore::mafObjectBase *vme) {
     mafVME *vme_to_remove = qobject_cast<mafResources::mafVME *>(vme);
     if(NULL == vme_to_remove) {
         QByteArray ba = mafTr("Trying to remove an object that not represent a mafVME.").toLatin1();
@@ -144,13 +147,13 @@ void mafVMEManager::vmeRemove(mafResources::mafVME *vme) {
 
     // select root.
     mafEventArgumentsList argList;
-    argList.append(mafEventArgument(mafResources::mafVME*, m_Root));
+    argList.append(mafEventArgument( mafCore::mafObjectBase *, m_Root));
     mafEventBusManager::instance()->notifyEvent("maf.local.resources.vme.select", mafEventTypeLocal, &argList);
 
     m_VMEHierarchy->removeHierarchyNode(vme);
 }
 
-void mafVMEManager::vmeReparent(mafResources::mafVME *vme, mafResources::mafVME *vmeParent) {
+void mafVMEManager::vmeReparent(mafCore::mafObjectBase *vme, mafCore::mafObjectBase *vmeParent) {
   if (m_VMEHierarchy != NULL) {
     QString objName = vme->metaObject()->className();
     if (objName.contains("mafSceneNode")) {
@@ -185,7 +188,7 @@ mafCore::mafHierarchyPointer mafVMEManager::requestVMEHierarchy() {
     if ( m_VMEHierarchy == NULL ) {
          m_VMEHierarchy = mafNEW(mafCore::mafHierarchy);
     }
-
+	
     if (m_Root == NULL) {
         //Create a new root.
         m_Root = mafNEW(mafResources::mafVME);
@@ -194,11 +197,12 @@ mafCore::mafHierarchyPointer mafVMEManager::requestVMEHierarchy() {
 
         //Add root to hierarchy
         mafEventArgumentsList argList;
-        argList.append(mafEventArgument(mafResources::mafVME *, m_Root));
+        argList.append(mafEventArgument(mafCore::mafObjectBase *, m_Root));
         mafEventBusManager::instance()->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
-
+        
         //Select root
         mafEventBusManager::instance()->notifyEvent("maf.local.resources.vme.select", mafEventTypeLocal, &argList);
+		DEBUG_VAR_FILE("C:\\Projects\\MAF3.buildcmakeTESTCMAKE\\build\\bin\\Release\\debugLog.txt", m_Root)
      }
 
      return m_VMEHierarchy;
@@ -209,7 +213,7 @@ mafCore::mafHierarchyPointer mafVMEManager::newVMEHierarchy() {
     return requestVMEHierarchy();
 }
 
-mafMatrix4x4Pointer mafVMEManager::absolutePoseMatrix(mafResources::mafVME *vme) {
+mafMatrix4x4Pointer mafVMEManager::absolutePoseMatrix(mafCore::mafObjectBase *vme) {
     //calculate absolute matrix navigating hierarchy from leaf to root and compose the absolute pose matrix 
     //for vme.
     mafMatrix4x4 *matrix = qobject_cast<mafVME *>(vme)->dataSetCollection()->itemAtCurrentTime()->poseMatrix();

@@ -66,7 +66,7 @@ Q_SIGNALS:
     /**
         @param operation Instance of the started operation.
     */
-    void operationDidStart(mafResources::mafOperation *operation);
+    void operationDidStart(mafCore::mafObjectBase *operation);
 
     /// Signal connected to the setOperationParameters slot.
     void setOperationParametersSignal(const QVariantMap &parameters);
@@ -99,7 +99,7 @@ Q_SIGNALS:
     const mafExecutionPool *executionPoolSignal();
     
     /// Signal connected to canSelectVME slot.
-    bool canSelectVMESignal(mafResources::mafVME *vme);
+    bool canSelectVMESignal(mafCore::mafObjectBase *vme);
 
 private Q_SLOTS:
     /// Start operation and set that operation as current one
@@ -165,7 +165,7 @@ private Q_SLOTS:
     const mafExecutionPool *executionPool() const;
 
     /// return if the vme can be selected or not (checking if a non threadable operation is running or if the vme is not locked).
-    bool canSelectVME(mafResources::mafVME *vme);
+    bool canSelectVME(mafCore::mafObjectBase *vme);
     
 protected:
     /// Object destructor

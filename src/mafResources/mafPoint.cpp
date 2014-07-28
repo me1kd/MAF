@@ -51,13 +51,13 @@ void mafPoint::pos(double p[3]) {
 
 
 void mafPoint::transformPoint(mafMatrix4x4 *matrix) {
-    QGenericMatrix<4,1,qreal> p0;
+    QGenericMatrix<1,4,qreal> p0;
     p0(0,0) = m_X;
     p0(1,0) = m_Y;
     p0(2,0) = m_Z;
     p0(3,0) = 1.;
 
-    QGenericMatrix<4,1,qreal> pt0 = p0 * (*matrix); // inverted when changed matrix base class
+    QGenericMatrix<1,4,qreal> pt0 = (*matrix) * p0; // inverted when changed matrix base class
     m_X = pt0(0,0);
     m_Y = pt0(1,0);
     m_Z = pt0(2,0);

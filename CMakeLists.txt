@@ -223,7 +223,7 @@ configure_file(${MAF_SOURCE_DIR}/UseMAF.cmake.in
   ${MAF_BINARY_DIR}/UseMAF.cmake COPYONLY IMMEDIATE)
   
 if(MAF_SUPERBUILD)
-  include(SuperBuild.cmake)
+  include(${MAF_SOURCE_DIR}/SuperBuild.cmake)
   return()
 else(MAF_SUPERBUILD)
 endif(MAF_SUPERBUILD)

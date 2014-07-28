@@ -27,10 +27,6 @@
 
 #include "mafEventBus_global.h"
 
-#define _DEBUG_MSG qDebug() << "[+] " __FILE__ " " __FUNCTION__ ":" QT_STRINGIFY(__LINE__)
-#define DEBUG_VAR(variable) _DEBUG_MSG << variable << "\n";
-#define DEBUG_LINE _DEBUG_MSG##"\n";
-
 //defines
 #define mafTr QObject::tr
 

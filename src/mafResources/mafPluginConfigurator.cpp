@@ -63,6 +63,7 @@ bool mafPluginConfigurator::parseConfigurationFile(QString configFile) {
     int errorLine, errorColumn;
     QString errorMsg;
     QFile cfgFile(configFile);
+	qDebug() << configFile;
     if (!cfgFile.exists()) {
         qWarning() << configFile << " " << mafTr("doesn't exists. The default plug will be called.");
         return false;

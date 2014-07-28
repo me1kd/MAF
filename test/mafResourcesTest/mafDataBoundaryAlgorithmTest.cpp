@@ -79,7 +79,7 @@ void mafDataBoundaryAlgorithmTest::initTestCase() {
 
 void mafDataBoundaryAlgorithmTest::cleanupTestCase() {
     mafDEL(m_BoundaryAlgorithm);
-     mafMessageHandler::instance()->shutdown();
+    mafMessageHandler::instance()->shutdown();
 }
 
 void mafDataBoundaryAlgorithmTest::mafBoundaryAlgorithmAllocationTest() {

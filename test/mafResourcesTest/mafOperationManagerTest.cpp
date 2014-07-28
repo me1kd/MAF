@@ -372,8 +372,8 @@ const mafCore::mafObjectBase *mafOperationManagerTest::startOperation(QString op
     argList.append(mafEventArgument(QString, opType));
     m_EventBus->notifyEvent("maf.local.resources.operation.start", mafEventTypeLocal, &argList);
 
-    const mafResources::mafOperation *op = NULL;
-    QGenericReturnArgument ret_val = mafEventReturnArgument(const mafResources::mafOperation*, op);
+    mafCore::mafObjectBase *op = NULL;
+    QGenericReturnArgument ret_val = mafEventReturnArgument(mafCore::mafObjectBase*, op);
     m_EventBus->notifyEvent("maf.local.resources.operation.currentRunning", mafEventTypeLocal, NULL, &ret_val);
     return op;
 }

@@ -44,7 +44,12 @@ link_directories(
 #
 INCLUDE(ExternalProject)
 get_filename_component(CUR_ABSOLUTE_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
-include("${CUR_ABSOLUTE_DIR}/../MAFConfig.cmake")
+
+if(NOT DEFINED MAF_DIR)
+    include("${CUR_ABSOLUTE_DIR}/../MAFConfig.cmake")
+else(NOT DEFINED MAF_DIR)
+    include("${MAF_DIR}/MAFConfig.cmake")
+endif(NOT DEFINED MAF_DIR)
 
 # Add cmake module path.
 set(CMAKE_MODULE_PATH "${MAF_ROOT_DIR}/CMake")

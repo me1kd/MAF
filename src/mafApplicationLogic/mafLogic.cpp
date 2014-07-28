@@ -19,7 +19,8 @@
 
 #if defined(_WIN32) || defined(WIN32)
     #define SHARED_OBJECT_PREFIX ""
-    #define SHARED_OBJECT_SUFFIX ".dll"
+    //#define SHARED_OBJECT_SUFFIX ".dll"
+    #define SHARED_OBJECT_SUFFIX ""
 #else
     #define SHARED_OBJECT_PREFIX "lib"
     #ifdef __APPLE__
@@ -87,14 +88,17 @@ bool mafLogic::initialize() {
             QString soLibName(SHARED_OBJECT_PREFIX);
             soLibName.append(so);
             soLibName.append(SHARED_OBJECT_SUFFIX);
+			
             handler = mafInitializeModule(soLibName);
+			
+
             if(handler) {
                 m_LibraryHandlersHash.insert(soLibName, handler);
             } 
-            
+			
             result = result && (handler != NULL);
         }
-
+		
         requestNewHierarchy();
     }
     
@@ -110,9 +114,7 @@ mafCore::mafHierarchy *mafLogic::requestNewHierarchy() {
     // Initialize data hierarchy
     mafEvent ev("maf.local.resources.hierarchy.new");
     ev.setReturnValue(mafEventReturnArgument(mafCore::mafHierarchyPointer, m_Hierarchy));
-
     mafEventBusManager::instance()->notifyEvent(ev);
-   
     return m_Hierarchy;
 }
 

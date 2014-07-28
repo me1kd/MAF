@@ -105,32 +105,45 @@ void mafObjectBase::connectObjectSlotsByName(QObject *signal_object) {
         QMetaMethod method_slot = mo->method(i);
         if (method_slot.methodType() != QMetaMethod::Slot)
             continue;
-        const char *slot = mo->method(i).methodSignature();
-        if (slot[0] != 'o' || slot[1] != 'n' || slot[2] != '_')
+        QByteArray slot = mo->method(i).methodSignature();
+		
+        if (slot.at(0) != 'o' || slot.at(1) != 'n' || slot.at(2) != '_')
             continue;
         bool foundIt = false;
         for(int j = 0; j < list.count(); ++j) {
             const QObject *co = list.at(j);
             QByteArray objName = co->objectName().toLatin1();
             int len = objName.length();
-            if (!len || qstrncmp(slot + 3, objName.data(), len) || slot[len+3] != '_')
+
+// 			DEBUG_SEPARATOR(1)
+// 			DEBUG_VAR(QString(slot))
+//          DEBUG_VAR(QString(slot.mid(3,len)))
+// 			DEBUG_VAR(QString(objName))
+// 			DEBUG_VAR(slot.at(len+3))
+            if (len == 0 || QString(slot.mid(3,len)).compare(QString(objName)) != 0 /*slot.contains(objName) == 3*/ || slot.at(len+3) != '_')
                 continue;
+		    //DEBUG_SEPARATOR(2)
             int sigIndex = -1; //co->metaObject()->signalIndex(slot + len + 4);
             const QMetaObject *smo = co->metaObject();
             if (sigIndex < 0) { // search for compatible signals
-                int slotlen = qstrlen(slot + len + 4) - 1;
+                int slotlen = slot.size() + len + 4 - 1;
+				//DEBUG_VAR(co->metaObject()->methodCount())
                 for (int k = 0; k < co->metaObject()->methodCount(); ++k) {
                     QMetaMethod method = smo->method(k);
                     if (method.methodType() != QMetaMethod::Signal)
                         continue;
-
-                    if (!qstrncmp(method.methodSignature(), slot + len + 4, slotlen)) {
-                        const char *signal = method.methodSignature();
+// 					    DEBUG_SEPARATOR(3)
+// 						DEBUG_VAR(QString(slot.mid(len+4,slotlen)))
+// 						DEBUG_VAR(QString(method.methodSignature()))
+                    if (QString(slot.mid(len+4,slotlen)).compare(QString(method.methodSignature())) == 0) {
+						
+						QString signal(method.methodSignature());
                         QString event_sig = SIGNAL_SIGNATURE;
                         event_sig.append(signal);
 
                         QString observer_sig = CALLBACK_SIGNATURE;
-                        observer_sig.append(slot);
+						observer_sig.append(slot);
+
 
                         if(connect(co, event_sig.toLatin1(), this, observer_sig.toLatin1())) {
                             qDebug() << mafTr("CONNECTED slot %1 with signal %2").arg(slot, signal);

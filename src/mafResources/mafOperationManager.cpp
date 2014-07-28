@@ -51,12 +51,12 @@ mafOperationManager::~mafOperationManager() {
     mafUnregisterLocalCallback("maf.local.resources.operation.sizeUndoStack", this, "undoStackSize()")
     mafUnregisterLocalCallback("maf.local.resources.operation.currentRunning", this, "currentOperation()")
     mafUnregisterLocalCallback("maf.local.resources.operation.executionPool", this, "executionPool()")
-    mafUnregisterLocalCallback("maf.local.resources.operation.canSelectVME", this, "canSelectVME(mafResources::mafVME *)")    
+    mafUnregisterLocalCallback("maf.local.resources.operation.canSelectVME", this, "canSelectVME(mafCore::mafObjectBase *)")    
     
     
     // Unregister signals...
     mafUnregisterLocalSignal("maf.local.resources.operation.start", this, "startOperationSignal(const QString)")
-    mafUnregisterLocalSignal("maf.local.resources.operation.started", this, "operationDidStart(mafResources::mafOperation *)")
+    mafUnregisterLocalSignal("maf.local.resources.operation.started", this, "operationDidStart(mafCore::mafObjectBase *)")
     mafUnregisterLocalSignal("maf.local.resources.operation.setParameters", this, "setOperationParametersSignal(const QVariantMap )")
     mafUnregisterLocalSignal("maf.local.resources.operation.execute", this, "executeOperationSignal()")
     mafUnregisterLocalSignal("maf.local.resources.operation.executed", this, "executedOperationSignal(QVariantMap)")
@@ -67,7 +67,7 @@ mafOperationManager::~mafOperationManager() {
     mafUnregisterLocalSignal("maf.local.resources.operation.sizeUndoStack", this, "undoStackSizeSignal()")
     mafUnregisterLocalSignal("maf.local.resources.operation.currentRunning", this, "currentOperationSignal()")
     mafUnregisterLocalSignal("maf.local.resources.operation.executionPool", this, "executionPoolSignal()")
-    mafUnregisterLocalSignal("maf.local.resources.operation.canSelectVME", this, "canSelectVMESignal(mafResources::mafVME *)")
+    mafUnregisterLocalSignal("maf.local.resources.operation.canSelectVME", this, "canSelectVMESignal(mafCore::mafObjectBase *)")
     
     mafIdProvider *provider = mafIdProvider::instance();
     provider->removeId("maf.local.resources.operation.start");
@@ -104,7 +104,7 @@ void mafOperationManager::initializeConnections() {
 
     // Register API signals.
     mafRegisterLocalSignal("maf.local.resources.operation.start", this, "startOperationSignal(const QString)")
-    mafRegisterLocalSignal("maf.local.resources.operation.started", this, "operationDidStart(mafResources::mafOperation *)")
+    mafRegisterLocalSignal("maf.local.resources.operation.started", this, "operationDidStart(mafCore::mafObjectBase *)")
     mafRegisterLocalSignal("maf.local.resources.operation.setParameters", this, "setOperationParametersSignal(const QVariantMap)")
     mafRegisterLocalSignal("maf.local.resources.operation.execute", this, "executeOperationSignal()")
     mafRegisterLocalSignal("maf.local.resources.operation.executed", this, "executedOperationSignal(QVariantMap)")
@@ -115,7 +115,7 @@ void mafOperationManager::initializeConnections() {
     mafRegisterLocalSignal("maf.local.resources.operation.sizeUndoStack", this, "undoStackSizeSignal()")
     mafRegisterLocalSignal("maf.local.resources.operation.currentRunning", this, "currentOperationSignal()")
     mafRegisterLocalSignal("maf.local.resources.operation.executionPool", this, "executionPoolSignal()")
-    mafRegisterLocalSignal("maf.local.resources.operation.canSelectVME", this, "canSelectVME(mafResources::mafVME *)")
+    mafRegisterLocalSignal("maf.local.resources.operation.canSelectVME", this, "canSelectVME(mafCore::mafObjectBase *)")
 
     // Register private callbacks to the instance of the manager..
     mafRegisterLocalCallback("maf.local.resources.operation.start", this, "startOperation(const QString)")
@@ -128,7 +128,7 @@ void mafOperationManager::initializeConnections() {
     mafRegisterLocalCallback("maf.local.resources.operation.sizeUndoStack", this, "undoStackSize()")
     mafRegisterLocalCallback("maf.local.resources.operation.currentRunning", this, "currentOperation()")
     mafRegisterLocalCallback("maf.local.resources.operation.executionPool", this, "executionPool()")
-    mafRegisterLocalCallback("maf.local.resources.operation.canSelectVME", this, "canSelectVME(mafResources::mafVME *)")    
+    mafRegisterLocalCallback("maf.local.resources.operation.canSelectVME", this, "canSelectVME(mafCore::mafObjectBase *)")    
 }
 
 
@@ -156,10 +156,10 @@ void mafOperationManager::startOperation(const QString operation) {
     REQUIRE(!operation.isEmpty());
 
     //request of the selected vme
-    mafResources::mafVME *selectedObj = NULL;
-    QGenericReturnArgument ret_val = mafEventReturnArgument( mafResources::mafVME *, selectedObj);
+    mafCore::mafObjectBase *selectedObj = NULL;
+    QGenericReturnArgument ret_val = mafEventReturnArgument( mafCore::mafObjectBase *, selectedObj);
     mafEventBusManager::instance()->notifyEvent("maf.local.resources.vme.selected", mafEventTypeLocal, NULL, &ret_val);
-    
+    mafResource *resource = qobject_cast<mafResource *>(selectedObj);
     
     // Create the instance of the new operation to execute.
     m_CurrentOperation = (mafOperation *)mafNEWFromString(operation);
@@ -171,13 +171,13 @@ void mafOperationManager::startOperation(const QString operation) {
 
     m_CurrentOperation->setObjectName(m_CurrentOperation->metaObject()->className());
     // Assign as input the current selected VME.
-    m_CurrentOperation->setInput(selectedObj);
+    m_CurrentOperation->setInput(resource);
 
     m_CurrentOperation->initialize();
     
     // Notify the observers that the new operation has started.
     mafEventArgumentsList argList;
-    argList.append(mafEventArgument(mafResources::mafOperation*, m_CurrentOperation));
+    argList.append(mafEventArgument(mafCore::mafObjectBase *, m_CurrentOperation));
     mafEventBusManager::instance()->notifyEvent("maf.local.resources.operation.started", mafEventTypeLocal, &argList);
 }
 
@@ -381,7 +381,7 @@ void mafOperationManager::flushUndoStack() {
     m_UndoStack.clear();
 }
 
-bool mafOperationManager::canSelectVME(mafResources::mafVME *vme) {
+bool mafOperationManager::canSelectVME(mafCore::mafObjectBase *vme) {
     //single thread case
     bool isStarted = (m_CurrentOperation != NULL) && (m_CurrentOperation->status() == mafOperationStatusStarted);
     if(isStarted) {
@@ -393,5 +393,5 @@ bool mafOperationManager::canSelectVME(mafResources::mafVME *vme) {
     }
     
     // multi thread case
-    return vme->canRead();
+    return (qobject_cast<mafVME *>(vme))->canRead();
 }

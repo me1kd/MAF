@@ -184,9 +184,8 @@ void mafBounds::transformBounds(mafMatrix4x4 *matrix) {
 
     (*m_TransformationMatrix) = (*matrix) * (*m_TransformationMatrix);
     
-    QGenericMatrix<4,8, double> boundsMatrix;
-
-    
+    QGenericMatrix<8,4, double> boundsMatrix;
+ 
     boundsMatrix(0,0) = m_XMin;
     boundsMatrix(1,0) =  m_YMin;
     boundsMatrix(2,0) =  m_ZMin;
@@ -231,7 +230,7 @@ void mafBounds::transformBounds(mafMatrix4x4 *matrix) {
     boundsMatrix(3,7) = 1.;
 
 
-    QGenericMatrix<4,8, qreal> transformedBounds = boundsMatrix * (*matrix); // check this! before was inverted but generic multiplication 
+    QGenericMatrix<8,4, qreal> transformedBounds = (*matrix) * boundsMatrix; // check this! before was inverted but generic multiplication (reverted again...since generic matrix takes as first the number of columns!)
 
     m_XMax = m_XMin = transformedBounds(0,0);
     m_YMax = m_YMin = transformedBounds(1,0);

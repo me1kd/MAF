@@ -153,7 +153,7 @@ void mafVMEManagerTest::benchmarkarkedAbsoluteMatrixTest() {
     QBENCHMARK {
         mafMatrix4x4Pointer absMatrix = NULL;
         mafEventArgumentsList argList;
-        argList.append(mafEventArgument(mafResources::mafVME *, m_SelectedVME));
+        argList.append(mafEventArgument( mafCore::mafObjectBase *, m_SelectedVME));
         QGenericReturnArgument ret_val = mafEventReturnArgument(mafResources::mafMatrix4x4Pointer, absMatrix);
         
         m_EventBus->notifyEvent("maf.local.resources.vme.absolutePoseMatrix", mafEventTypeLocal, &argList, &ret_val);
@@ -188,7 +188,7 @@ void mafVMEManagerTest::unbalancedTreeRandomCreation(unsigned int numberOfElemen
         dataVME->release();
         
         mafEventArgumentsList argList;
-        argList.append(mafEventArgument(mafResources::mafVME *, vme));
+        argList.append(mafEventArgument( mafCore::mafObjectBase *, vme));
         m_EventBus->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
         vme->release();
         m_EventBus->notifyEvent("maf.local.resources.vme.select", mafEventTypeLocal,  &argList); //select the last added

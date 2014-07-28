@@ -14,6 +14,7 @@
 using namespace mafResources;
 
 void mafBoundsTest::initTestCase() {
+	mafMessageHandler::instance()->installMessageHandler();
     m_ObjTestVar = new mafResources::mafBounds();
     
     double a[6] = {-2,2,-2,2,-2,2};
@@ -28,6 +29,7 @@ void mafBoundsTest::cleanupTestCase() {
     
     m_ObjTestA->release();
     m_ObjTestB->release();
+	mafMessageHandler::instance()->shutdown();
 }
 
 void mafBoundsTest::objectAllocationTest() {

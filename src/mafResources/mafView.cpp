@@ -40,9 +40,9 @@ mafView::mafView(const QString code_location) : mafResource(code_location),
     connect(m_ToolHandler, SIGNAL(destroyed()), this, SLOT(resetToolHandler()));
 
     // Callbacks related to the VME creation
-    mafRegisterLocalCallback("maf.local.resources.vme.add", this, "vmeAdd(mafResources::mafVME *)")
+    mafRegisterLocalCallback("maf.local.resources.vme.add", this, "vmeAdd(mafCore::mafObjectBase *)")
     // Callback related to the VME selection
-    mafRegisterLocalCallback("maf.local.resources.vme.select", this, "vmeSelect(mafResources::mafVME *)")
+    mafRegisterLocalCallback("maf.local.resources.vme.select", this, "vmeSelect(mafCore::mafObjectBase *)")
 	mafRegisterLocalCallback("maf.local.resources.scenenode.select", this, "sceneNodeSelect(mafResources::mafSceneNode *)")
 }
 
@@ -58,9 +58,9 @@ void mafView::fillSceneGraph(mafCore::mafHierarchy *hierarchy) {
         QObject *vme = hierarchy->currentData();
         hierarchy->moveTreeIteratorToParent();
         QObject *vmeParent = hierarchy->currentData();
-        mafSceneNode *parentNode = this->sceneNodeFromVme(qobject_cast<mafResources::mafVME *>(vmeParent));
+        mafSceneNode *parentNode = this->sceneNodeFromVme(qobject_cast<mafCore::mafObjectBase *>(vmeParent));
         this->selectSceneNode(parentNode, parentNode->property("visibility").toBool());
-        this->vmeAdd(qobject_cast<mafResources::mafVME *>(vme));
+        this->vmeAdd(qobject_cast<mafCore::mafObjectBase *>(vme));
         hierarchy->moveTreeIteratorToNthChild(i);
         fillSceneGraph(hierarchy);
         hierarchy->moveTreeIteratorToParent();
@@ -103,19 +103,19 @@ void mafView::setupSceneGraph() {
     this->selectSceneNode(NULL, false);
     hierarchy->moveTreeIteratorToRootNode();
     QObject* rootNode = hierarchy->currentData();
-    this->vmeAdd(qobject_cast<mafResources::mafVME *>(rootNode));
+    this->vmeAdd(qobject_cast<mafCore::mafObjectBase *>(rootNode));
     //Fill the new scene graph, with all the created VME wrapped into the mafSceneNode each one.
     this->fillSceneGraph(hierarchy);
 
     //Set VME hierarchy iterator to the original position.
-    mafResources::mafVME *selectedVME;
-    ret_val = mafEventReturnArgument(mafResources::mafVME *, selectedVME);
+    mafCore::mafObjectBase *selectedVME = NULL;
+    ret_val = mafEventReturnArgument(mafCore::mafObjectBase *, selectedVME);
     mafEventBusManager::instance()->notifyEvent("maf.local.resources.vme.selected", mafEventTypeLocal, NULL, &ret_val);
-    mafSceneNode *selectedNode = this->sceneNodeFromVme(qobject_cast<mafResources::mafVME *>(selectedVME));
+    mafSceneNode *selectedNode = this->sceneNodeFromVme(qobject_cast<mafCore::mafObjectBase *>(selectedVME));
     this->selectSceneNode(selectedNode, selectedNode->property("visualizationStatus").toUInt() == mafVisualizationStatusVisible);
 }
 
-void mafView::vmeAdd(mafResources::mafVME *vme) {
+void mafView::vmeAdd(mafCore::mafObjectBase *vme) {
     mafVME *vme_to_add = qobject_cast<mafResources::mafVME *>(vme);
     if(vme_to_add != NULL) {
         
@@ -145,7 +145,7 @@ void mafView::vmeAdd(mafResources::mafVME *vme) {
     }
 }
 
-void mafView::vmeSelect(mafResources::mafVME *vme) {
+void mafView::vmeSelect(mafCore::mafObjectBase *vme) {
     mafSceneNode *node_to_select = sceneNodeFromVme(vme);
     
     if(NULL == node_to_select) {
@@ -254,7 +254,7 @@ void mafView::showSceneNode(mafSceneNode *node, bool show) {
     updateView();
 }
 
-mafSceneNode *mafView::sceneNodeFromVme(mafResources::mafVME *vme) {
+mafSceneNode *mafView::sceneNodeFromVme(mafCore::mafObjectBase *vme) {
     REQUIRE(vme);
     mafVME *asked_vme = qobject_cast<mafResources::mafVME *>(vme);
     return m_SceneNodeHash.value(asked_vme, NULL);
