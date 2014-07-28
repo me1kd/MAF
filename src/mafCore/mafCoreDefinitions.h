@@ -30,8 +30,14 @@ namespace mafCore {
 
 #define mafCodeLocation "\0" __FILE__ ":" QT_STRINGIFY(__LINE__)
 
+#ifdef __FUNCTION__
+#define __DBG_FUNCTION__ __FUNCTION__
+#else
+#define __DBG_FUNCTION__
+#endif
+
 #define _DEBUG_PRINT qDebug() <<
-#define _DEBUG_MSG "[+] " __FILE__ " " __FUNCTION__ ":" QT_STRINGIFY(__LINE__) " "
+#define _DEBUG_MSG "[+] " __FILE__ " " __DBG_FUNCTION__ ":" QT_STRINGIFY(__LINE__) " "
 #define DEBUG_VAR(variable) _DEBUG_PRINT _DEBUG_MSG << variable << "\n";
 #define DEBUG_LINE _DEBUG_MSG##"\n";
 #define DEBUG_SEPARATOR(separator) \
