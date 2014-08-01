@@ -59,7 +59,7 @@ private Q_SLOTS:
 
 public:
     /// Utility method to start operations. Return the operation started.
-    const mafCore::mafObjectBase *startOperation(QString opType);
+    mafCore::mafObjectBase *startOperation(QString opType);
 
     /// Utility method to retrieve the execution pool.
     const mafExecutionPool *retrievePool();

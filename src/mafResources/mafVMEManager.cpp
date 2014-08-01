@@ -202,7 +202,7 @@ mafCore::mafHierarchyPointer mafVMEManager::requestVMEHierarchy() {
         
         //Select root
         mafEventBusManager::instance()->notifyEvent("maf.local.resources.vme.select", mafEventTypeLocal, &argList);
-		DEBUG_VAR_FILE("C:\\Projects\\MAF3.buildcmakeTESTCMAKE\\build\\bin\\Release\\debugLog.txt", m_Root)
+		//DEBUG_VAR_FILE("C:\\Projects\\MAF3.buildcmakeTESTCMAKE\\build\\bin\\Release\\debugLog.txt", m_Root)
      }
 
      return m_VMEHierarchy;

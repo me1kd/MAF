@@ -41,6 +41,7 @@ public Q_SLOTS:
 
 testEndlessOperation::testEndlessOperation(const QString code_location) : mafOperation(code_location) {
     m_CanUnDo = false;
+	m_MultiThreaded = true;
     setObjectName("testEndlessOperation");
 }
 
@@ -92,6 +93,7 @@ private:
 
 testNotUndoOperation::testNotUndoOperation(const QString code_location) : mafOperation(code_location), m_Val(0) {
     m_CanUnDo = false;
+	m_MultiThreaded = true;
     setObjectName("NotUndoOperation");
 }
 
@@ -153,6 +155,7 @@ private:
 };
 
 testUndoOperation::testUndoOperation(const QString code_location) : mafOperation(code_location), m_Val(0) {
+	m_MultiThreaded = true;
     setObjectName("UndoOperation");
 }
 
@@ -367,13 +370,13 @@ void mafOperationManagerTest::cleanupTestCase() {
     mafMessageHandler::instance()->shutdown();
 }
 
-const mafCore::mafObjectBase *mafOperationManagerTest::startOperation(QString opType) {
+mafCore::mafObjectBase *mafOperationManagerTest::startOperation(QString opType) {
     mafEventArgumentsList argList;
     argList.append(mafEventArgument(QString, opType));
     m_EventBus->notifyEvent("maf.local.resources.operation.start", mafEventTypeLocal, &argList);
 
     mafCore::mafObjectBase *op = NULL;
-    QGenericReturnArgument ret_val = mafEventReturnArgument(mafCore::mafObjectBase*, op);
+    QGenericReturnArgument ret_val = mafEventReturnArgument(mafCore::mafObjectBase *, op);
     m_EventBus->notifyEvent("maf.local.resources.operation.currentRunning", mafEventTypeLocal, NULL, &ret_val);
     return op;
 }
@@ -403,7 +406,7 @@ void mafOperationManagerTest::mafOperationManagerAllocationTest() {
 
 
 void mafOperationManagerTest::cancelStartTest() {
-    const mafCore::mafObjectBase *op = this->startOperation("testEndlessOperation");
+    mafCore::mafObjectBase *op = this->startOperation("testEndlessOperation");
 
     // Cancel the operation's execution
     mafEventBusManager::instance()->notifyEvent("maf.local.resources.operation.stop", mafEventTypeLocal);

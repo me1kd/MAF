@@ -92,13 +92,13 @@ void mafVMEManagerTest::absolutePoseMatrixTest() {
     dataVME2->release();
     
     mafEventArgumentsList argList;
-    mafResources::mafVME *send = vme1;
-    argList.append(mafEventArgument(mafResources::mafVME *, send));
+    mafCore::mafObjectBase *send = vme1;
+    argList.append(mafEventArgument(mafCore::mafObjectBase *, send));
     m_EventBus->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
 
     argList.clear();
     send = vme2;
-    argList.append(mafEventArgument(mafResources::mafVME *, send));
+    argList.append(mafEventArgument(mafCore::mafObjectBase *, send));
     m_EventBus->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
 
     m_EventBus->notifyEvent("maf.local.resources.vme.select", mafEventTypeLocal,  &argList);
@@ -118,7 +118,7 @@ void mafVMEManagerTest::absolutePoseMatrixTest() {
     
     argList.clear();
     send = vme3;
-    argList.append(mafEventArgument(mafResources::mafVME *, send));
+    argList.append(mafEventArgument(mafCore::mafObjectBase *, send));
     m_EventBus->notifyEvent("maf.local.resources.vme.add", mafEventTypeLocal, &argList);
 
     //   root 
@@ -132,7 +132,7 @@ void mafVMEManagerTest::absolutePoseMatrixTest() {
     
     mafMatrix4x4Pointer absMatrix = NULL;
     argList.clear();
-    argList.append(mafEventArgument(mafResources::mafVME *, send));
+    argList.append(mafEventArgument(mafCore::mafObjectBase *, send));
     QGenericReturnArgument ret_val = mafEventReturnArgument(mafResources::mafMatrix4x4Pointer, absMatrix);
     m_EventBus->notifyEvent("maf.local.resources.vme.absolutePoseMatrix", mafEventTypeLocal, &argList, &ret_val);
     

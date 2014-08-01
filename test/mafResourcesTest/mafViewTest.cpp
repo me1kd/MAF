@@ -72,8 +72,6 @@ void mafViewTest::mafViewShowSceneNodeTest() {
     //try to show a node not added with a fake visual pipe.
     m_View->showSceneNode(node, true);
 
-    mafDEL(node);
-
     // add vme and show (can not show, this is a base class)
     //add VME
     mafEventArgumentsList argList;
@@ -90,6 +88,7 @@ void mafViewTest::mafViewShowSceneNodeTest() {
 
     // Remove the VME and its related classes.
     mafDEL(vme);
+	mafDEL(node);
 }
 
 void mafViewTest::mafViewPlugVisualPipeTest() {

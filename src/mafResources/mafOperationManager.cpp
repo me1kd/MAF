@@ -181,6 +181,10 @@ void mafOperationManager::startOperation(const QString operation) {
     mafEventBusManager::instance()->notifyEvent("maf.local.resources.operation.started", mafEventTypeLocal, &argList);
 }
 
+mafCore::mafObjectBase *mafOperationManager::currentOperation() {
+	return m_CurrentOperation;
+}
+
 void mafOperationManager::executeOperation() {
     if ( m_CurrentOperation != NULL ) {
         if (m_LastUndoneOperation != NULL) {
@@ -206,9 +210,10 @@ void mafOperationManager::executeOperation() {
             // Create a resource worker and pass to it the resource to be execute in a separate thread.
             mafOperationWorker *worker = new mafOperationWorker(m_CurrentOperation);
             // become observer wo be notified when the work is done.
-            connect(m_CurrentOperation, SIGNAL(executionCanceled()), worker, SIGNAL(workAborted()));
-            connect(worker, SIGNAL(workDone()), this, SLOT(executionEnded()));
-            connect(worker, SIGNAL(workAborted()), this, SLOT(stopOperation()));
+			bool result(false);
+            result = connect(m_CurrentOperation, SIGNAL(executionCanceled()), worker, SIGNAL(workAborted()));
+            result = connect(worker, SIGNAL(workDone()), this, SLOT(executionEnded()));
+            result = connect(worker, SIGNAL(workAborted()), this, SLOT(stopOperation()));
             // Put the worker into the pool.
             m_ExecutionPool << worker;
             // Start the work.
@@ -217,8 +222,9 @@ void mafOperationManager::executeOperation() {
             worker->start();
 			
         } else {
-            connect(m_CurrentOperation, SIGNAL(executionCanceled()), this, SLOT(stopOperation()));
-            connect(m_CurrentOperation, SIGNAL(executionEnded()), this, SLOT(executionEnded()));
+			bool result(false);
+            result = connect(m_CurrentOperation, SIGNAL(executionCanceled()), this, SLOT(stopOperation()));
+            result = connect(m_CurrentOperation, SIGNAL(executionEnded()), this, SLOT(executionEnded()));
             qDebug() << "Execute Operation ...";
             m_CurrentOperation->execute();
         }

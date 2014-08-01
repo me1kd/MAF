@@ -93,7 +93,7 @@ Q_SIGNALS:
     int undoStackSizeSignal() const;
 
     /// Signal connected with currentOperation slot.
-    const mafResources::mafOperation *currentOperationSignal() const;
+    mafCore::mafObjectBase *currentOperationSignal();
 
     /// Signal connected with the executionPool slot.
     const mafExecutionPool *executionPoolSignal();
@@ -159,7 +159,7 @@ private Q_SLOTS:
     int undoStackSize() const;
 
     /// Return current operation
-    const mafResources::mafOperation *currentOperation() const;
+    mafCore::mafObjectBase *currentOperation();
 
     /// Return the execution pool containing the runngin operations in background.
     const mafExecutionPool *executionPool() const;
@@ -202,10 +202,6 @@ private:
 /////////////////////////////////////////////////////////////
 // Inline methods
 /////////////////////////////////////////////////////////////
-
-inline const mafResources::mafOperation *mafOperationManager::currentOperation() const {
-    return m_CurrentOperation;
-}
 
 inline int mafOperationManager::undoStackSize() const {
     return m_UndoStack.size();
